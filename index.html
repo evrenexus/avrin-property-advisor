@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
+
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,33 +18,40 @@
 --accent2:#2aa88c;
 --danger:#e47a7a
 }
+
 *{box-sizing:border-box}
+
 body{
 margin:0;
 background:#070b10;
 color:var(--text);
 font-family:Tahoma,"Segoe UI",sans-serif
 }
+
 .app{
 min-height:100vh;
 background:linear-gradient(145deg,#0b1017,#0d141d 55%,#101a23);
 padding:28px 16px
 }
+
 .wrap{
 max-width:850px;
 margin:auto
 }
+
 .head{
 display:flex;
 align-items:center;
 justify-content:space-between;
 margin-bottom:18px
 }
+
 .brand{
 display:flex;
 gap:12px;
 align-items:center
 }
+
 .logo{
 width:42px;
 height:42px;
@@ -54,19 +62,23 @@ place-items:center;
 color:var(--accent);
 font-weight:800
 }
+
 .brand b{
 font-size:17px
 }
+
 .brand span{
 display:block;
 color:var(--muted);
 font-size:11px;
 margin-top:4px
 }
+
 .step{
 font-size:11px;
 color:var(--muted)
 }
+
 .bar{
 height:5px;
 background:#18232f;
@@ -74,6 +86,7 @@ border-radius:8px;
 overflow:hidden;
 margin-bottom:22px
 }
+
 .bar i{
 display:block;
 height:100%;
@@ -81,6 +94,7 @@ background:var(--accent);
 transition:.25s;
 width:14%
 }
+
 .card{
 background:rgba(17,25,35,.96);
 border:1px solid var(--line);
@@ -88,23 +102,27 @@ border-radius:20px;
 padding:26px;
 box-shadow:0 18px 50px #0006
 }
+
 .eyebrow{
 color:var(--accent);
 font-size:12px;
 margin-bottom:10px
 }
+
 .title{
 font-size:24px;
 font-weight:800;
 line-height:1.6;
 margin:0 0 8px
 }
+
 .desc{
 color:#b4c0cd;
 line-height:2;
 font-size:13px;
 margin:0 0 22px
 }
+
 .input{
 width:100%;
 background:#0c141d;
@@ -115,19 +133,23 @@ padding:14px;
 font-size:15px;
 outline:none
 }
+
 .input:focus{
 border-color:var(--accent)
 }
+
 .counter{
 font-size:11px;
 color:var(--muted);
 margin-top:7px
 }
+
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:11px
 }
+
 .choice{
 background:#0d151e;
 border:1px solid #2a394a;
@@ -139,44 +161,55 @@ cursor:pointer;
 font-size:14px;
 transition:.15s
 }
+
 .choice:hover,
 .choice.selected{
 border-color:var(--accent);
 background:#11251f
 }
+
 .choice small{
 display:block;
 color:var(--muted);
 font-size:10px;
 margin-top:5px
 }
+
 .actions{
 display:flex;
 gap:9px;
-margin-top:22px
+margin-top:22px;
+flex-wrap:wrap
 }
+
 .btn{
 border:0;
 border-radius:12px;
 padding:12px 18px;
 cursor:pointer;
-font-weight:700
+font-weight:700;
+text-decoration:none;
+display:inline-block
 }
+
 .primary{
 background:var(--accent);
 color:#07120f
 }
+
 .secondary{
 background:#1a2735;
 color:#d8e1e9;
 border:1px solid #304254
 }
+
 .summary{
 display:flex;
 flex-wrap:wrap;
 gap:7px;
 margin:16px 0
 }
+
 .tag{
 border:1px solid #2d4052;
 background:#0d151e;
@@ -185,6 +218,7 @@ border-radius:20px;
 padding:7px 10px;
 font-size:11px
 }
+
 .resultsHead{
 display:flex;
 align-items:flex-start;
@@ -192,19 +226,23 @@ justify-content:space-between;
 gap:15px;
 margin-bottom:15px
 }
+
 .resultsHead h2{
 margin:0;
 font-size:20px
 }
+
 .resultsHead p{
 color:var(--muted);
 font-size:11px;
 margin:7px 0 0
 }
+
 .list{
 display:grid;
 gap:10px
 }
+
 .listing{
 border:1px solid #29394a;
 background:#0c141d;
@@ -212,31 +250,37 @@ border-radius:15px;
 padding:16px;
 cursor:pointer
 }
+
 .listing:hover{
 border-color:#4c6977
 }
+
 .ltop{
 display:flex;
 justify-content:space-between;
 gap:12px
 }
+
 .ltitle{
 font-weight:800;
 line-height:1.7;
 font-size:14px
 }
+
 .price{
 color:var(--accent);
 font-weight:800;
 white-space:nowrap;
 font-size:13px
 }
+
 .meta{
 display:flex;
 flex-wrap:wrap;
 gap:6px;
 margin:10px 0
 }
+
 .meta span{
 font-size:10px;
 color:#aebdca;
@@ -244,19 +288,23 @@ background:#16212d;
 border-radius:8px;
 padding:6px 8px
 }
+
 .excerpt{
 color:#899aaa;
 font-size:11px;
 line-height:1.9
 }
+
 .source{
 color:#62778b;
 font-size:10px;
 margin-top:9px
 }
+
 .detail .back{
 margin-bottom:15px
 }
+
 .fulltext{
 white-space:pre-line;
 color:#b8c4cf;
@@ -268,30 +316,36 @@ border-radius:13px;
 padding:15px;
 margin-top:15px
 }
+
 .detailGrid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:8px;
 margin-top:15px
 }
+
 .detailItem{
 background:#101b26;
 border-radius:10px;
 padding:10px
 }
+
 .detailItem b{
 display:block;
 font-size:10px;
 color:#74889b;
 margin-bottom:5px
 }
+
 .detailItem span{
 font-size:12px
 }
+
 .loading{
 text-align:center;
 padding:50px 10px
 }
+
 .spinner{
 width:34px;
 height:34px;
@@ -301,9 +355,11 @@ border-radius:50%;
 animation:spin .8s linear infinite;
 margin:0 auto 16px
 }
+
 @keyframes spin{
 to{transform:rotate(360deg)}
 }
+
 .notice{
 background:#15231f;
 border:1px solid #2e5b50;
@@ -314,14 +370,46 @@ font-size:11px;
 line-height:1.8;
 margin-top:12px
 }
+
 @media(max-width:600px){
-.app{padding:18px 10px}
-.card{padding:19px}
-.grid{grid-template-columns:1fr}
-.title{font-size:20px}
-.ltop{display:block}
-.price{display:block;margin-top:7px}
-.detailGrid{grid-template-columns:1fr}
+
+.app{
+padding:18px 10px
+}
+
+.card{
+padding:19px
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+.title{
+font-size:20px
+}
+
+.ltop{
+display:block
+}
+
+.price{
+display:block;
+margin-top:7px
+}
+
+.detailGrid{
+grid-template-columns:1fr
+}
+
+.resultsHead{
+display:block
+}
+
+.resultsHead .btn{
+margin-top:12px
+}
+
 }
 </style>
 </head>
@@ -329,19 +417,25 @@ margin-top:12px
 <body>
 
 <main class="app">
+
 <div class="wrap">
 
 <header class="head">
 
 <div class="brand">
+
 <div class="logo">E</div>
+
 <div>
 <b>Evren Nexus</b>
 <span>دستیار مشاور املاک اورین نکسوس</span>
 </div>
+
 </div>
 
-<div class="step" id="stepText">مرحله ۱ از ۷</div>
+<div class="step" id="stepText">
+مرحله ۱ از ۷
+</div>
 
 </header>
 
@@ -352,7 +446,9 @@ margin-top:12px
 <section id="root"></section>
 
 </div>
+
 </main>
+
 
 <script>
 
@@ -402,6 +498,7 @@ const ages=[
 'بیشتر از ۲۰'
 ];
 
+
 let s={
 step:1,
 username:'',
@@ -416,8 +513,38 @@ age:''
 let editing=false;
 let results=[];
 
-const fa=n =>
-String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+
+function fa(n){
+
+return String(n).replace(
+/\d/g,
+d=>'۰۱۲۳۴۵۶۷۸۹'[d]
+);
+
+}
+
+
+function normalize(v){
+
+return String(v ?? '')
+.replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+.replace(/ي/g,'ی')
+.replace(/ك/g,'ک')
+.trim()
+.toLowerCase();
+
+}
+
+
+function number(v){
+
+const n=normalize(v)
+.replace(/,/g,'')
+.replace(/[^0-9.]/g,'');
+
+return n ? Number(n) : 0;
+
+}
 
 
 function render(){
@@ -430,7 +557,7 @@ s.step<=7
 document.getElementById('bar').style.width=
 (s.step<=7?s.step/7*100:100)+'%';
 
-let r=document.getElementById('root');
+const r=document.getElementById('root');
 
 if(s.step===1)
 return intro(r);
@@ -512,18 +639,25 @@ EVREN NEXUS · AVRIN
 </h1>
 
 <p class="desc">
-هدف من این است که با استفاده از اطلاعات بازار و تحلیل داده‌ها، به شما برای انتخاب مناسب‌ترین گزینه در خرید یا اجاره ملک کمک کنم.
+
+هدف من این است که با استفاده از اطلاعات بازار و تحلیل داده‌ها،
+به شما برای انتخاب مناسب‌ترین گزینه در خرید یا اجاره ملک کمک کنم.
+
 <br>
+
 این خدمات در حال حاضر رایگان ارائه می‌شود.
+
 <br><br>
+
 برای شروع، لطفاً یک نام کاربری برای خود انتخاب کنید.
 نام کاربری می‌تواند فارسی یا انگلیسی باشد و هیچ محدودیت تعداد کاراکتر ندارد.
+
 </p>
 
 <input
 id="u"
 class="input"
-value="${s.username}"
+value="${escapeHtml(s.username)}"
 placeholder="نام کاربری خود را وارد کنید"
 >
 
@@ -547,20 +681,25 @@ id="startBtn"
 
 `;
 
-document
-.getElementById('u')
-.addEventListener('input',function(){
+const input=document.getElementById('u');
+
+input.addEventListener(
+'input',
+function(){
 
 s.username=this.value;
 
 document.getElementById('count').textContent=
 this.value.length+' کاراکتر';
 
-});
+}
+);
 
-document
-.getElementById('startBtn')
-.addEventListener('click',nextUser);
+document.getElementById('startBtn')
+.addEventListener(
+'click',
+nextUser
+);
 
 }
 
@@ -582,7 +721,8 @@ ${desc}
 <div class="grid">
 `;
 
-items.forEach((item,i)=>{
+items.forEach(
+(item,i)=>{
 
 html+=`
 
@@ -596,7 +736,8 @@ ${item[0]}
 
 `;
 
-});
+}
+);
 
 html+=`
 
@@ -604,52 +745,101 @@ html+=`
 
 <div class="actions">
 
-${s.step>1
-?'<button type="button" class="btn secondary" id="backBtn">بازگشت</button>'
-:''}
+`;
 
-${editing
-?'<button type="button" class="btn secondary" id="resultsBtn">بازگشت به نتایج</button>'
-:''}
+if(s.step>1){
+
+html+=`
+
+<button
+type="button"
+class="btn secondary"
+id="backBtn"
+>
+بازگشت
+</button>
+
+`;
+
+}
+
+if(editing){
+
+html+=`
+
+<button
+type="button"
+class="btn secondary"
+id="resultsBtn"
+>
+بازگشت به نتایج
+</button>
+
+`;
+
+}
+
+html+=`
 
 </div>
 
 </div>
-
 `;
 
 r.innerHTML=html;
 
+
 r.querySelectorAll('[data-choice]')
 .forEach(btn=>{
 
-btn.addEventListener('click',()=>{
+btn.addEventListener(
+'click',
+function(){
+
+const index=Number(
+this.dataset.choice
+);
 
 pick(
 key,
-items[Number(btn.dataset.choice)][1]
+items[index][1]
+);
+
+}
 );
 
 });
 
-});
 
-const b=document.getElementById('backBtn');
-const q=document.getElementById('resultsBtn');
+const back=document.getElementById('backBtn');
 
-if(b)
-b.addEventListener('click',prevStep);
+if(back)
+back.addEventListener(
+'click',
+prevStep
+);
 
-if(q)
-q.addEventListener('click',showResults);
+
+const resultsBtn=document.getElementById('resultsBtn');
+
+if(resultsBtn)
+resultsBtn.addEventListener(
+'click',
+showResults
+);
 
 }
 
 
 function nextUser(){
 
-if(!s.username.trim())
-return alert('لطفاً یک نام کاربری وارد کنید.');
+if(!s.username.trim()){
+
+alert('لطفاً یک نام کاربری وارد کنید.');
+
+return;
+
+}
 
 s.username=s.username.trim();
 
@@ -666,23 +856,29 @@ s[k]=v;
 
 s.step++;
 
-if(s.step===8)
+if(s.step===8){
+
 searching();
-else
+
+}else{
+
 render();
+
+}
 
 }
 
 
 function prevStep(){
 
-if(s.step>1&&s.step<=7){
+if(s.step>1 && s.step<=7){
 
 s.step--;
 
 render();
 
 }
+
 else if(s.step===8){
 
 showResults();
@@ -692,14 +888,28 @@ showResults();
 }
 
 
+function escapeHtml(value){
+
+return String(value ?? '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#039;');
+
+}
+
+
 async function searching(){
 
-document.getElementById('stepText').textContent=
-'جست‌وجوی گزینه‌ها';
+document.getElementById('stepText')
+.textContent='جست‌وجوی گزینه‌ها';
 
-document.getElementById('bar').style.width='100%';
+document.getElementById('bar')
+.style.width='100%';
 
-document.getElementById('root').innerHTML=`
+document.getElementById('root')
+.innerHTML=`
 
 <div class="card loading">
 
@@ -720,10 +930,14 @@ document.getElementById('root').innerHTML=`
 try{
 
 const response=
-await fetch('./data/listings.json?'+Date.now());
+await fetch(
+'./data/listings.json?'+Date.now()
+);
 
 if(!response.ok)
-throw new Error('HTTP '+response.status);
+throw new Error(
+'HTTP '+response.status
+);
 
 const data=
 await response.json();
@@ -736,9 +950,11 @@ Array.isArray(data)?data:[]
 showResults();
 
 }
+
 catch(e){
 
-document.getElementById('root').innerHTML=`
+document.getElementById('root')
+.innerHTML=`
 
 <div class="card">
 
@@ -756,7 +972,7 @@ document.getElementById('root').innerHTML=`
 </p>
 
 <div class="notice">
-${e.message}
+${escapeHtml(e.message)}
 </div>
 
 <div class="actions">
@@ -775,186 +991,548 @@ id="retryBtn"
 
 `;
 
-document
-.getElementById('retryBtn')
-.addEventListener('click',searching);
+document.getElementById('retryBtn')
+.addEventListener(
+'click',
+searching
+);
 
 }
 
 }
 
+
+/* =========================
+   FILTER ENGINE
+========================= */
 
 function filterListings(data){
 
-const normalize=v=>
-String(v??'').trim().toLowerCase();
+const city=
+normalize(s.city);
 
-const city=normalize(s.city);
-const room=normalize(s.room);
-const type=normalize(s.type);
+const wantedType=
+normalize(s.type);
 
-const ageRanges={
-'نوساز کلید نخورده':[0,0],
-'۱–۵ سال':[1,5],
-'۵–۱۰ سال':[5,10],
-'۱۰–۲۰ سال':[10,20],
-'بیشتر از ۲۰':[20,9999]
-};
+const wantedRoom=
+normalize(s.room);
+
 
 const areaRanges={
+
 'زیر ۶۰':[0,59],
+
 '۶۰–۷۰':[60,70],
+
 '۷۰–۸۰':[70,80],
+
 '۸۰–۹۰':[80,90],
+
 '۹۰–۱۲۰':[90,120],
+
 '۱۲۰–۱۵۰':[120,150],
+
 'بزرگتر از ۱۵۰':[150,99999]
+
 };
 
+
+const ageRanges={
+
+'نوساز کلید نخورده':[0,0],
+
+'۱–۵ سال':[1,5],
+
+'۵–۱۰ سال':[5,10],
+
+'۱۰–۲۰ سال':[10,20],
+
+'بیشتر از ۲۰':[20,9999]
+
+};
+
+
 const [amin,amax]=
-areaRanges[s.area]||[0,99999];
+areaRanges[s.area] || [0,99999];
 
 const [ageMin,ageMax]=
-ageRanges[s.age]||[0,99999];
+ageRanges[s.age] || [0,99999];
+
+
+const roomWanted=
+s.room==='سوییت'
+?0
+:s.room==='تک خوابه'
+?1
+:s.room==='دو خوابه'
+?2
+:3;
+
+
+const typeWords={
+
+'مسکونی':[
+'مسکونی',
+'آپارتمان',
+'خانه',
+'منزل',
+'پنت هاوس',
+'واحد مسکونی'
+],
+
+'تجاری':[
+'تجاری',
+'مغازه',
+'فروشگاه',
+'سرقفلی',
+'واحد تجاری'
+],
+
+'اداری':[
+'اداری',
+'دفتر',
+'دفترکار',
+'واحد اداری'
+],
+
+'خدماتی':[
+'خدماتی'
+],
+
+'ورزشی':[
+'ورزشی',
+'باشگاه'
+],
+
+'آموزشی':[
+'آموزشی',
+'مدرسه',
+'آموزشگاه'
+],
+
+'بهداشتی و درمانی':[
+'پزشکی',
+'درمانی',
+'مطب',
+'کلینیک',
+'بیمارستان'
+],
+
+'زمین':[
+'زمین',
+'قطعه زمین',
+'زمین مسکونی',
+'زمین تجاری'
+],
+
+'ویلا':[
+'ویلا',
+'باغ ویلا',
+'باغ‌ویلا'
+]
+
+};
+
+
+function extractArea(x,text){
+
+const raw=
+x.area ??
+x.meterage ??
+x.size ??
+x.area_m2 ??
+x.meter ??
+x.metraj ??
+x['متراژ'] ??
+'';
+
+let n=number(raw);
+
+if(n>0)
+return n;
+
+
+const patterns=[
+
+/(\d{2,5})\s*(?:متر|متری|مترمربع|متر مربع)/i,
+
+/متراژ\s*[:：]?\s*(\d{2,5})/i,
+
+/(\d{2,5})\s*متر/i
+
+];
+
+for(const p of patterns){
+
+const m=text.match(p);
+
+if(m){
+
+const v=Number(m[1]);
+
+if(v>0)
+return v;
+
+}
+
+}
+
+return 0;
+
+}
+
+
+function extractRooms(x,text){
+
+const raw=
+x.rooms ??
+x.room ??
+x.bedrooms ??
+x.bedroom ??
+x['اتاق'] ??
+x['اتاق خواب'] ??
+'';
+
+let n=number(raw);
+
+if(n>0)
+return n;
+
+
+if(
+/سه\s*(خوابه|اتاق)/.test(text) ||
+/3\s*(خوابه|اتاق)/.test(text)
+)
+return 3;
+
+if(
+/دو\s*(خوابه|اتاق)/.test(text) ||
+/2\s*(خوابه|اتاق)/.test(text)
+)
+return 2;
+
+if(
+/تک\s*(خوابه|اتاق)/.test(text) ||
+/یک\s*(خوابه|اتاق)/.test(text) ||
+/1\s*(خوابه|اتاق)/.test(text)
+)
+return 1;
+
+if(
+/سوییت|سوئیت|استودیو/.test(text)
+)
+return 0;
+
+return 0;
+
+}
+
+
+function extractAge(x,text){
+
+const raw=
+x.age ??
+x.buildingAge ??
+x.building_age ??
+x['سن بنا'] ??
+x['عمر بنا'] ??
+'';
+
+let n=number(raw);
+
+if(n>=0 && raw!=='')
+return n;
+
+
+let m=
+text.match(
+/(?:سن بنا|عمر بنا|ساخت)\s*[:：]?\s*(\d{1,3})/
+);
+
+if(m)
+return Number(m[1]);
+
+
+m=text.match(
+/(\d{1,3})\s*سال(?:ه)?\s*(?:ساخت|بنا|سن)/
+);
+
+if(m)
+return Number(m[1]);
+
+
+if(
+/نوساز|کلید نخورده/.test(text)
+)
+return 0;
+
+
+return 0;
+
+}
+
 
 return data
-
 .map((x,i)=>{
 
 const title=
-x.title||
-x.name||
-x.heading||
+x.title ||
+x.name ||
+x.heading ||
+x.subject ||
+x.headline ||
 'آگهی ملک';
 
+
 const text=
-x.description||
-x.text||
-x.body||
-x.content||
+x.description ||
+x.text ||
+x.body ||
+x.content ||
+x.desc ||
+x.details ||
 '';
 
-const rawArea=
-x.area||
-x.meterage||
-x.size||
-x.area_m2||
-x['متراژ']||
-0;
-
-const areaNum=
-Number(
-String(rawArea).replace(/[^0-9.]/g,'')
-)||0;
-
-const rawAge=
-x.age||
-x.buildingAge||
-x['سن بنا']||
-0;
-
-const ageNum=
-Number(
-String(rawAge).replace(/[^0-9.]/g,'')
-)||0;
 
 const rawCity=
-x.city||
-x.cityName||
-x['شهر']||
+x.city ||
+x.cityName ||
+x.location?.city ||
+x['شهر'] ||
 '';
+
 
 const rawType=
-x.type||
-x.category||
-x.categoryName||
-x['نوع ملک']||
+x.type ||
+x.propertyType ||
+x.categoryName ||
+x.category ||
+x['نوع ملک'] ||
 '';
+
 
 const rawRoom=
-x.rooms||
-x.room||
-x.bedrooms||
-x['اتاق']||
+x.rooms ||
+x.room ||
+x.bedrooms ||
+x.bedroom ||
+x['اتاق'] ||
+x['اتاق خواب'] ||
 '';
 
+
+const all=
+normalize(
+title+' '+
+text+' '+
+rawCity+' '+
+rawType+' '+
+String(x.category||'')
+);
+
+
+const areaNum=
+extractArea(
+x,
+normalize(title+' '+text)
+);
+
+
+const ageNum=
+extractAge(
+x,
+normalize(title+' '+text)
+);
+
+
+const roomNum=
+extractRooms(
+x,
+normalize(title+' '+text)
+);
+
+
+const cityText=
+normalize(
+rawCity+' '+all
+);
+
+
+const cityOk=
+!city ||
+cityText.includes(city);
+
+
+const typeOk=
+!wantedType ||
+normalize(rawType).includes(wantedType) ||
+wantedType.includes(normalize(rawType)) ||
+(typeWords[s.type]||[])
+.some(
+k=>all.includes(normalize(k))
+);
+
+
+let roomOk=true;
+
+
+/*
+اگر اطلاعات تعداد اتاق در داده وجود داشته باشد،
+فیلتر اعمال می‌شود.
+اگر اطلاعات موجود نباشد، آگهی حذف نمی‌شود.
+*/
+
+if(roomNum>0){
+
+if(roomWanted===0){
+
+roomOk=
+/سوییت|سوئیت|استودیو/.test(all);
+
+}else if(roomWanted===3){
+
+roomOk=
+roomNum>=3;
+
+}else{
+
+roomOk=
+roomNum===roomWanted;
+
+}
+
+}
+
+
+let areaOk=true;
+
+
+/*
+اگر متراژ پیدا شده باشد،
+فیلتر متراژ اعمال می‌شود.
+اگر متراژ ناشناخته باشد،
+آگهی حذف نمی‌شود.
+*/
+
+if(areaNum>0){
+
+areaOk=
+areaNum>=amin &&
+areaNum<=amax;
+
+}
+
+
+let ageOk=true;
+
+
+/*
+اگر سن بنا پیدا شده باشد،
+فیلتر سن اعمال می‌شود.
+اگر سن بنا ناشناخته باشد،
+آگهی حذف نمی‌شود.
+*/
+
+if(ageNum>0 || s.age==='نوساز کلید نخورده'){
+
+ageOk=
+ageNum>=ageMin &&
+ageNum<=ageMax;
+
+}
+
+
 const link=
-x.url||
-x.link||
-x.webUrl||
-x.shareUrl||
+x.url ||
+x.link ||
+x.webUrl ||
+x.shareUrl ||
+x.share_url ||
+x.canonicalUrl ||
+x.adUrl ||
 '#';
 
+
 const price=
-x.price||
-x.priceText||
-x['قیمت']||
+x.price ||
+x.priceText ||
+x.total_price ||
+x.totalPrice ||
+x['قیمت'] ||
+x['قیمت کل'] ||
 'قیمت توافقی';
 
-return {
+
+return{
 
 ...x,
 
-id:x.id||x.token||i+1,
+id:
+x.id ||
+x.token ||
+x.key ||
+x.adId ||
+i+1,
 
-title,
+title:title,
 
-text,
-
-area:
-areaNum
-?fa(areaNum)+' متر'
-:'',
-
-areaNum,
-
-age:
-ageNum
-?fa(ageNum)+' سال'
-:'نامشخص',
-
-ageNum,
+text:text,
 
 city:rawCity,
 
 type:rawType,
 
-rooms:rawRoom,
+rooms:
+rawRoom ||
+(roomNum?String(roomNum):''),
+
+area:
+areaNum
+?fa(areaNum)+' متر'
+:'نامشخص',
+
+areaNum:
+
+areaNum,
+
+age:
+
+ageNum
+?fa(ageNum)+' سال'
+:'نامشخص',
+
+ageNum:
+
+ageNum,
+
+price:
 
 price,
 
-link
+link:
+
+link,
+
+_match:{
+cityOk,
+typeOk,
+roomOk,
+areaOk,
+ageOk
+}
 
 };
 
 })
 
 .filter(x=>
-!city||
-normalize(x.city).includes(city)||
-normalize(city).includes(normalize(x.city))
-)
 
-.filter(x=>
-!type||
-normalize(x.type).includes(type)||
-normalize(type).includes(normalize(x.type))
-)
+x._match.cityOk &&
+x._match.typeOk &&
+x._match.roomOk &&
+x._match.areaOk &&
+x._match.ageOk
 
-.filter(x=>
-!room||
-normalize(x.rooms).includes(room)||
-normalize(room).includes(normalize(x.rooms))
-)
-
-.filter(x=>
-x.areaNum>=amin&&
-x.areaNum<=amax
-)
-
-.filter(x=>
-x.ageNum>=ageMin&&
-x.ageNum<=ageMax
 )
 
 .slice(0,14);
@@ -962,23 +1540,39 @@ x.ageNum<=ageMax
 }
 
 
+/* =========================
+   RESULTS
+========================= */
+
 function tags(){
 
 return `
 
 <div class="summary">
 
-<span class="tag">${s.service}</span>
+<span class="tag">
+${escapeHtml(s.service)}
+</span>
 
-<span class="tag">${s.type}</span>
+<span class="tag">
+${escapeHtml(s.type)}
+</span>
 
-<span class="tag">${s.city}</span>
+<span class="tag">
+${escapeHtml(s.city)}
+</span>
 
-<span class="tag">${s.room}</span>
+<span class="tag">
+${escapeHtml(s.room)}
+</span>
 
-<span class="tag">${s.area} متر</span>
+<span class="tag">
+${escapeHtml(s.area)}
+</span>
 
-<span class="tag">${s.age}</span>
+<span class="tag">
+${escapeHtml(s.age)}
+</span>
 
 </div>
 
@@ -991,10 +1585,99 @@ function showResults(){
 
 s.step=8;
 
-document.getElementById('stepText').textContent=
-'نتایج جست‌وجو';
+document.getElementById('stepText')
+.textContent='نتایج جست‌وجو';
 
-document.getElementById('root').innerHTML=`
+document.getElementById('bar')
+.style.width='100%';
+
+
+let listHtml='';
+
+
+if(results.length){
+
+listHtml=
+results
+.map(
+(x,index)=>`
+
+<article
+class="listing"
+data-result="${index}"
+>
+
+<div class="ltop">
+
+<div class="ltitle">
+${escapeHtml(x.title)}
+</div>
+
+<div class="price">
+${escapeHtml(x.price)}
+</div>
+
+</div>
+
+<div class="meta">
+
+<span>
+${escapeHtml(x.area||'متراژ نامشخص')}
+</span>
+
+<span>
+${escapeHtml(x.rooms||'اتاق نامشخص')}
+</span>
+
+<span>
+${escapeHtml(x.age||'سن نامشخص')}
+</span>
+
+<span>
+${escapeHtml(x.city||s.city)}
+</span>
+
+</div>
+
+<div class="excerpt">
+${escapeHtml(
+String(x.text||'')
+.split('\n')[0]
+)}
+</div>
+
+<div class="source">
+منبع: آرشیو آگهی‌های اورین
+</div>
+
+</article>
+
+`
+)
+.join('');
+
+}else{
+
+listHtml=`
+
+<div class="notice">
+
+در آرشیو فعلی، آگهی‌ای با تمام معیارهای انتخاب‌شده پیدا نشد.
+
+<br>
+
+ممکن است بعضی از اطلاعات آگهی‌ها مانند متراژ، سن بنا یا تعداد اتاق
+در داده دریافتی ثبت نشده باشد.
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById('root')
+.innerHTML=`
 
 <div class="card">
 
@@ -1029,69 +1712,7 @@ id="editBtn"
 ${tags()}
 
 <div class="list">
-
-${
-results.length
-?
-results.map((x,i)=>`
-
-<article
-class="listing"
-data-result="${i}"
->
-
-<div class="ltop">
-
-<div class="ltitle">
-${x.title}
-</div>
-
-<div class="price">
-${x.price}
-</div>
-
-</div>
-
-<div class="meta">
-
-<span>
-${x.area||'متراژ نامشخص'}
-</span>
-
-<span>
-${x.rooms||'اتاق نامشخص'}
-</span>
-
-<span>
-${x.age||'سن نامشخص'}
-</span>
-
-<span>
-${x.city||s.city}
-</span>
-
-</div>
-
-<div class="excerpt">
-${String(x.text||'').split('\n')[0]}
-</div>
-
-<div class="source">
-منبع: آرشیو آگهی‌های اورین
-</div>
-
-</article>
-
-`).join('')
-
-:
-
-`<div class="notice">
-در آرشیو فعلی، آگهی‌ای با تمام معیارهای انتخاب‌شده پیدا نشد.
-</div>`
-
-}
-
+${listHtml}
 </div>
 
 <div class="actions">
@@ -1110,40 +1731,61 @@ id="contactBtn"
 
 `;
 
-document
-.getElementById('editBtn')
-.addEventListener('click',editSearch);
 
-document
-.getElementById('contactBtn')
-.addEventListener('click',showContact);
+document.getElementById('editBtn')
+.addEventListener(
+'click',
+editSearch
+);
+
+
+document.getElementById('contactBtn')
+.addEventListener(
+'click',
+showContact
+);
+
 
 document
 .querySelectorAll('[data-result]')
-.forEach(card=>{
+.forEach(
+el=>{
 
-card.addEventListener('click',()=>{
+el.addEventListener(
+'click',
+function(){
 
 detail(
-results[Number(card.dataset.result)]
+Number(this.dataset.result)
 );
 
-});
+}
+);
 
-});
+}
+);
 
 }
 
 
-function detail(x){
+/* =========================
+   DETAIL
+========================= */
+
+function detail(index){
+
+const x=results[index];
 
 if(!x)
 return;
 
-document.getElementById('stepText').textContent=
-'جزئیات آگهی';
 
-document.getElementById('root').innerHTML=`
+document.getElementById('stepText')
+.textContent='جزئیات آگهی';
+
+
+document.getElementById('root')
+.innerHTML=`
 
 <div class="card detail">
 
@@ -1160,15 +1802,16 @@ id="detailBack"
 </div>
 
 <h1 class="title">
-${x.title}
+${escapeHtml(x.title)}
 </h1>
 
 <div
 class="price"
 style="font-size:18px"
 >
-${x.price}
+${escapeHtml(x.price)}
 </div>
+
 
 <div class="detailGrid">
 
@@ -1180,35 +1823,43 @@ ${[
 ['سن بنا',x.age||'نامشخص'],
 ['وضعیت','آگهی واقعی']
 ]
-.map(a=>`
+.map(
+a=>`
 
 <div class="detailItem">
 
 <b>
-${a[0]}
+${escapeHtml(a[0])}
 </b>
 
 <span>
-${a[1]}
+${escapeHtml(a[1])}
 </span>
 
 </div>
 
-`).join('')}
+`
+)
+.join('')}
 
 </div>
+
 
 <div class="fulltext">
 
-${x.text||'توضیحات آگهی در داده دریافت‌شده موجود نیست.'}
+${escapeHtml(
+x.text ||
+'توضیحات آگهی در داده دریافت‌شده موجود نیست.'
+)}
 
 </div>
+
 
 <div class="actions">
 
 <a
 class="btn secondary"
-href="${x.link}"
+href="${escapeHtml(x.link)}"
 target="_blank"
 rel="noopener"
 >
@@ -1229,16 +1880,26 @@ id="detailEdit"
 
 `;
 
-document
-.getElementById('detailBack')
-.addEventListener('click',showResults);
 
-document
-.getElementById('detailEdit')
-.addEventListener('click',editSearch);
+document.getElementById('detailBack')
+.addEventListener(
+'click',
+showResults
+);
+
+
+document.getElementById('detailEdit')
+.addEventListener(
+'click',
+editSearch
+);
 
 }
 
+
+/* =========================
+   EDIT SEARCH
+========================= */
 
 function editSearch(){
 
@@ -1250,6 +1911,10 @@ render();
 
 }
 
+
+/* =========================
+   CONTACT
+========================= */
 
 function contactForm(){
 
@@ -1299,7 +1964,7 @@ placeholder="ایمیل (اختیاری)"
 <button
 type="button"
 class="btn primary"
-id="saveContact"
+id="finishBtn"
 >
 ثبت اطلاعات
 </button>
@@ -1307,7 +1972,7 @@ id="saveContact"
 <button
 type="button"
 class="btn secondary"
-id="cancelContact"
+id="contactBack"
 >
 بازگشت به نتایج
 </button>
@@ -1324,23 +1989,44 @@ id="cancelContact"
 function finishContact(){
 
 const name=
-document.getElementById('cname').value.trim();
+document.getElementById('cname')
+.value.trim();
 
 const phone=
-document.getElementById('cphone').value.trim();
+document.getElementById('cphone')
+.value.trim();
 
 const email=
-document.getElementById('cemail').value.trim();
+document.getElementById('cemail')
+.value.trim();
 
-if(!name)
-return alert('لطفاً نام خود را وارد کنید.');
 
-if(!phone&&!email)
-return alert('لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.');
+if(!name){
+
+alert(
+'لطفاً نام خود را وارد کنید.'
+);
+
+return;
+
+}
+
+
+if(!phone&&!email){
+
+alert(
+'لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.'
+);
+
+return;
+
+}
+
 
 s.contactName=name;
 s.contactPhone=phone;
 s.contactEmail=email;
+
 
 const lead={
 
@@ -1358,14 +2044,15 @@ area:s.area,
 
 age:s.age,
 
-name,
+name:name,
 
-phone,
+phone:phone,
 
-email,
+email:email,
 
 shownListings:
-results.map(x=>({
+results.map(
+x=>({
 
 id:x.id,
 
@@ -1375,24 +2062,29 @@ price:x.price,
 
 link:x.link
 
-})),
+})
+),
 
 createdAt:
 new Date().toISOString()
 
 };
 
+
 const leads=
 JSON.parse(
 localStorage.getItem('avrin_leads')||'[]'
 );
 
+
 leads.push(lead);
+
 
 localStorage.setItem(
 'avrin_leads',
 JSON.stringify(leads)
 );
+
 
 showResults();
 
@@ -1401,21 +2093,28 @@ showResults();
 
 function showContact(){
 
-document.getElementById('stepText').textContent=
-'اطلاعات تماس';
+document.getElementById('stepText')
+.textContent='اطلاعات تماس';
 
-document.getElementById('bar').style.width='100%';
+document.getElementById('bar')
+.style.width='100%';
 
-document.getElementById('root').innerHTML=
-contactForm();
+document.getElementById('root')
+.innerHTML=contactForm();
 
-document
-.getElementById('saveContact')
-.addEventListener('click',finishContact);
 
-document
-.getElementById('cancelContact')
-.addEventListener('click',showResults);
+document.getElementById('finishBtn')
+.addEventListener(
+'click',
+finishContact
+);
+
+
+document.getElementById('contactBack')
+.addEventListener(
+'click',
+showResults
+);
 
 }
 
