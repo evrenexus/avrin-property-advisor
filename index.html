@@ -1,1 +1,717 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مشاور هوشمند ملک اورین | Evren Nexus</title>
 
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#071019;
+    color:#edf4f7;
+    font-family:Tahoma,"Segoe UI",sans-serif;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:25px 15px 40px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border:1px solid #3c6670;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#42c6a5;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.brand-name{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.brand-sub{
+    display:block;
+    color:#8fa2b3;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.step{
+    color:#8fa2b3;
+    font-size:11px;
+}
+
+.progress{
+    height:5px;
+    background:#172532;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:22px;
+}
+
+.progress-bar{
+    height:100%;
+    width:14%;
+    background:#42c6a5;
+    transition:.3s;
+}
+
+.card{
+    background:#111c27;
+    border:1px solid #26394a;
+    border-radius:20px;
+    padding:27px;
+    box-shadow:0 15px 45px rgba(0,0,0,.3);
+}
+
+.eyebrow{
+    color:#42c6a5;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.title{
+    margin:0 0 10px;
+    font-size:23px;
+    line-height:1.7;
+}
+
+.description{
+    color:#b4c1cc;
+    font-size:13px;
+    line-height:2;
+    margin-bottom:22px;
+}
+
+.input{
+    width:100%;
+    background:#0a131c;
+    border:1px solid #334858;
+    border-radius:12px;
+    padding:14px;
+    color:white;
+    font-size:15px;
+    outline:none;
+}
+
+.input:focus{
+    border-color:#42c6a5;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+}
+
+.btn{
+    border:0;
+    border-radius:11px;
+    padding:12px 18px;
+    cursor:pointer;
+    font-weight:bold;
+    font-family:inherit;
+}
+
+.primary{
+    background:#42c6a5;
+    color:#06120f;
+}
+
+.secondary{
+    background:#1a2937;
+    color:#dce6ed;
+    border:1px solid #344858;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:11px;
+}
+
+.choice{
+    background:#0c151e;
+    border:1px solid #2a3d4e;
+    border-radius:13px;
+    color:#dce6ed;
+    padding:16px;
+    text-align:right;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:14px;
+    transition:.2s;
+}
+
+.choice:hover{
+    border-color:#42c6a5;
+    background:#10231f;
+}
+
+.choice.selected{
+    border-color:#42c6a5;
+    background:#102a24;
+}
+
+.back{
+    margin-left:auto;
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:18px 10px 30px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .title{
+        font-size:20px;
+    }
+
+    .header{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="logo">E</div>
+
+            <div>
+                <div class="brand-name">Evren Nexus</div>
+                <span class="brand-sub">مشاور ملک اورین</span>
+            </div>
+
+        </div>
+
+        <div class="step" id="stepText">
+            مرحله ۱ از ۷
+        </div>
+
+    </header>
+
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+
+    <section id="app"></section>
+
+</div>
+
+
+<script>
+
+const cities = [
+    "تهران",
+    "مشهد",
+    "تبریز",
+    "استانبول",
+    "ازمیر",
+    "آنتالیا"
+];
+
+const propertyTypes = [
+    "مسکونی",
+    "تجاری",
+    "اداری",
+    "خدماتی",
+    "ورزشی",
+    "آموزشی",
+    "بهداشتی و درمانی",
+    "زمین",
+    "ویلا"
+];
+
+const rooms = [
+    "سوییت",
+    "تک خوابه",
+    "دو خوابه",
+    "سه خوابه و بیشتر"
+];
+
+const areas = [
+    "زیر60",
+    "60-70",
+    "70-80",
+    "80-90",
+    "90-120",
+    "120-150",
+    "بزرگتر از 150"
+];
+
+const ages = [
+    "نوساز کلید نخورده",
+    "1-5 سال",
+    "5-10 سال",
+    "10-20 سال",
+    "بیشتر از 20"
+];
+
+
+let state = {
+
+    step:1,
+
+    username:"",
+
+    service:"",
+
+    propertyType:"",
+
+    city:"",
+
+    rooms:"",
+
+    area:"",
+
+    age:""
+
+};
+
+
+function updateProgress(){
+
+    const percent =
+        state.step <= 7
+        ? (state.step / 7) * 100
+        : 100;
+
+    document.getElementById("progressBar").style.width =
+        percent + "%";
+
+    document.getElementById("stepText").textContent =
+        state.step <= 7
+        ? "مرحله " + state.step + " از ۷"
+        : "";
+
+}
+
+
+function render(){
+
+    updateProgress();
+
+    if(state.step === 1){
+        renderUsername();
+    }
+
+    else if(state.step === 2){
+        renderService();
+    }
+
+    else if(state.step === 3){
+        renderPropertyType();
+    }
+
+    else if(state.step === 4){
+        renderCity();
+    }
+
+    else if(state.step === 5){
+        renderRooms();
+    }
+
+    else if(state.step === 6){
+        renderArea();
+    }
+
+    else if(state.step === 7){
+        renderAge();
+    }
+
+}
+
+
+function renderUsername(){
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="card">
+
+            <div class="eyebrow">
+                EVREN NEXUS · AVRIN
+            </div>
+
+            <h1 class="title">
+                سلام، من مشاور ملک اورین هستم.
+            </h1>
+
+            <p class="description">
+
+                هدف من این است که با استفاده از اطلاعات بازار
+                و تحلیل داده‌ها، به شما برای انتخاب مناسب‌ترین
+                گزینه در خرید یا اجاره ملک کمک کنم.
+
+                <br>
+
+                این خدمات در حال حاضر رایگان ارائه می‌شود.
+
+                <br><br>
+
+                برای شروع، لطفاً یک نام کاربری برای خود انتخاب کنید.
+                نام کاربری می‌تواند فارسی یا انگلیسی باشد.
+
+            </p>
+
+            <input
+                id="username"
+                class="input"
+                placeholder="نام کاربری خود را وارد کنید"
+                value="${state.username}"
+            >
+
+            <div class="buttons">
+
+                <button
+                    class="btn primary"
+                    onclick="startAdvisor()"
+                >
+                    شروع مشاوره
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function startAdvisor(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    if(!username){
+
+        alert("لطفاً یک نام کاربری وارد کنید.");
+
+        return;
+    }
+
+    state.username = username;
+
+    state.step = 2;
+
+    render();
+
+}
+
+
+function renderService(){
+
+    renderChoices(
+
+        "نوع خدمت",
+
+        "برای شروع، نوع خدمت مورد نظر خود را انتخاب نمایید:",
+
+        [
+            ["خرید ملک","خرید"],
+            ["اجاره ملک","اجاره"]
+        ],
+
+        "service"
+
+    );
+
+}
+
+
+function renderPropertyType(){
+
+    renderChoices(
+
+        "نوع ملک",
+
+        "نوع ملک مورد نظر خود را انتخاب نمایید:",
+
+        propertyTypes.map(item => [item,item]),
+
+        "propertyType"
+
+    );
+
+}
+
+
+function renderCity(){
+
+    const text =
+        state.service === "خرید"
+        ? "لطفا شهر مورد نظر خود برای خرید را انتخاب نمایید:"
+        : "لطفا شهر مورد نظر خود برای اجاره را انتخاب نمایید:";
+
+    renderChoices(
+
+        "شهر",
+
+        text,
+
+        cities.map(item => [item,item]),
+
+        "city"
+
+    );
+
+}
+
+
+function renderRooms(){
+
+    renderChoices(
+
+        "تعداد اتاق",
+
+        "تعداد اتاق خواب مورد نظر را انتخاب نمایید:",
+
+        rooms.map(item => [item,item]),
+
+        "rooms"
+
+    );
+
+}
+
+
+function renderArea(){
+
+    renderChoices(
+
+        "متراژ",
+
+        "متراژ مورد نظر خود را انتخاب نمایید:",
+
+        areas.map(item => [item,item]),
+
+        "area"
+
+    );
+
+}
+
+
+function renderAge(){
+
+    renderChoices(
+
+        "سن بنا",
+
+        "سن بنای مورد نظر را انتخاب نمایید:",
+
+        ages.map(item => [item,item]),
+
+        "age"
+
+    );
+
+}
+
+
+function renderChoices(
+    eyebrow,
+    title,
+    items,
+    stateKey
+){
+
+    let html = `
+
+        <div class="card">
+
+            <div class="eyebrow">
+                ${eyebrow}
+            </div>
+
+            <h1 class="title">
+                ${title}
+            </h1>
+
+            <div class="grid">
+
+    `;
+
+
+    items.forEach(item => {
+
+        const label = item[0];
+        const value = item[1];
+
+        const selected =
+            state[stateKey] === value
+            ? "selected"
+            : "";
+
+        html += `
+
+            <button
+                class="choice ${selected}"
+                onclick="selectOption('${stateKey}','${value}')"
+            >
+
+                ${label}
+
+            </button>
+
+        `;
+
+    });
+
+
+    html += `
+
+            </div>
+
+            <div class="buttons">
+
+                <button
+                    class="btn secondary"
+                    onclick="previousStep()"
+                >
+                    بازگشت
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById("app").innerHTML = html;
+
+}
+
+
+function selectOption(key,value){
+
+    state[key] = value;
+
+    state.step++;
+
+    if(state.step > 7){
+
+        showSearchMessage();
+
+        return;
+    }
+
+    render();
+
+}
+
+
+function previousStep(){
+
+    if(state.step > 1){
+
+        state.step--;
+
+        render();
+
+    }
+
+}
+
+
+function showSearchMessage(){
+
+    document.getElementById("stepText").textContent =
+        "آماده‌سازی نتایج";
+
+    document.getElementById("progressBar").style.width =
+        "100%";
+
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="card">
+
+            <div class="eyebrow">
+                AVRIN
+            </div>
+
+            <h1 class="title">
+                اطلاعات جست‌وجوی شما ثبت شد
+            </h1>
+
+            <p class="description">
+
+                اورین در مرحله بعد، بر اساس این اطلاعات
+                آگهی‌های واقعی را بررسی و گزینه‌های
+                منطبق را به شما نمایش خواهد داد.
+
+                <br><br>
+
+                در حال حاضر این بخش برای آزمایش
+                رابط کاربری آماده شده است.
+
+            </p>
+
+            <div class="buttons">
+
+                <button
+                    class="btn secondary"
+                    onclick="previousStep()"
+                >
+                    بازگشت
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
