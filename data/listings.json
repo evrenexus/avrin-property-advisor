@@ -1,600 +1,600 @@
 [{
-  "token": "gay1-Rqn",
-  "title": "واحد نقلی مرکز شهر - ط 3 - نزدیک مترو",
+  "token": "garadPtU",
+  "title": "۷۵ متر ۲ خواب (ابراهیمی جنوبی) نما تراورتن",
+  "price": 42000000,
+  "priceText": "اجاره: ۴۲,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "فردوس",
+  "subtitle": "آیدین در فردوس",
+  "condition": "ودیعه: ۱,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": "پله شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/UmFxEZiSbPv8u_OhiYfaUw/fae3e91a-1731-42b3-af5b-039dd0b0fe20.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/UmFxEZiSbPv8u_OhiYfaUw/fae3e91a-1731-42b3-af5b-039dd0b0fe20.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۷۵-متر-۲-خواب-(ابراهیمی-جنوبی)-نما-تراورتن/garadPtU",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_garadPtU_P"
+},
+{
+  "token": "gaeu2TjV",
+  "title": "50متر فول امکانات دریاچه چیتگر هتلینگ تهاتر",
+  "price": 2800000000,
+  "priceText": "۲,۸۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "دریاچه شهدای خلیج فارس",
+  "subtitle": "کارمند تعاونی مسکن  در دریاچه شهدای خلیج فارس",
+  "condition": null,
+  "tags": "پله شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/6GnVHM5rOxf51JQ2uJnEbA/617979a0-d3ce-429d-a83f-f78df63911f3.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/6GnVHM5rOxf51JQ2uJnEbA/617979a0-d3ce-429d-a83f-f78df63911f3.webp"
+  ],
+  "imageCount": 12,
+  "url": "https://divar.ir/v/50متر-فول-امکانات-دریاچه-چیتگر-هتلینگ-تهاتر/gaeu2TjV",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_gaeu2TjV_P"
+},
+{
+  "token": "ga6qFNhQ",
+  "title": "۶۴متر/تک‌واحدی/طبقه اول/فرصتی برای خانه‌دار شدن",
   "price": 5500000000,
   "priceText": "۵,۵۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "امام حسین",
-  "subtitle": "در امام حسین",
+  "district": "افسریه جنوبی",
+  "subtitle": "در افسریه جنوبی",
   "condition": null,
-  "tags": "پله شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/TdI4018UY0o71mgmzLgcWA/cb6f2a7b-b1c9-4c50-a77b-9db79d0d83ea.webp",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KgfyOVnRvVlpXynYfY2L3A/911111a7-49bb-46fc-9601-4efda466a35e.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/TdI4018UY0o71mgmzLgcWA/cb6f2a7b-b1c9-4c50-a77b-9db79d0d83ea.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KgfyOVnRvVlpXynYfY2L3A/911111a7-49bb-46fc-9601-4efda466a35e.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۶۴مترتک‌واحدیطبقه-اولفرصتی-برای-خانه‌دار-شدن/ga6qFNhQ",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6qFNhQ_N"
+},
+{
+  "token": "ga6eF1zc",
+  "title": "۶۰متر/تک واحد/صفا/بالکن/سرمایه‌گذاری",
+  "price": 8250000000,
+  "priceText": "۸,۲۵۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "صفا",
+  "subtitle": "آژانس گروه بزرگ ناروَن در صفا",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/w9mG5Wl3MWcjnwRhQ64xyg/92f64ab1-9ba0-40b6-a538-29638dd81591.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/w9mG5Wl3MWcjnwRhQ64xyg/92f64ab1-9ba0-40b6-a538-29638dd81591.webp"
   ],
   "imageCount": 3,
-  "url": "https://divar.ir/v/واحد-نقلی-مرکز-شهر---ط-3---نزدیک-مترو/gay1-Rqn",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gay1-Rqn_P"
+  "url": "https://divar.ir/v/۶۰مترتک-واحدصفابالکنسرمایه‌گذاری/ga6eF1zc",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6eF1zc_N"
 },
 {
-  "token": "ga62BGGB",
-  "title": "80متر *دو خواب تکواحدی*سه ساله *آکواریوم نور",
-  "price": 12800000000,
-  "priceText": "۱۲,۸۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6qFJgx",
+  "title": "شهرک چیتگر خیابان G1",
+  "price": 16400000000,
+  "priceText": "۱۶,۴۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "سلسبیل جنوبی",
-  "subtitle": "هلدینگ بزرگ سام در سلسبیل جنوبی",
-  "condition": null,
-  "tags": "پله شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/1KkbLZo3zyHqyZoehFq-ug/d3abd509-8a3b-4cdd-9065-2d8611b872ea.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/1KkbLZo3zyHqyZoehFq-ug/d3abd509-8a3b-4cdd-9065-2d8611b872ea.webp"
-  ],
-  "imageCount": 3,
-  "url": "https://divar.ir/v/80متر-*دو-خواب-تکواحدی*سه-ساله-*آکواریوم-نور/ga62BGGB",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga62BGGB_P"
-},
-{
-  "token": "gZ-hZRtx",
-  "title": "اجاره سوییت سوئیت اپارتمان و اتاق روزانه",
-  "price": 300000,
-  "priceText": "از ۳۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "شهید اسدی",
-  "subtitle": "در شهید اسدی",
-  "condition": "بدون اتاق, تا ۴ نفر",
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/afra/webp_thumbnail/iimz5V9XOZ01lZTKBGCbIA/70e4c21c-da42-4d32-bb3e-f11ec5510e67.jpg.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/afra/webp_thumbnail/iimz5V9XOZ01lZTKBGCbIA/70e4c21c-da42-4d32-bb3e-f11ec5510e67.jpg.webp"
-  ],
-  "imageCount": 10,
-  "url": "https://divar.ir/v/اجاره-سوییت-سوئیت-اپارتمان-و-اتاق-روزانه/gZ-hZRtx",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gZ-hZRtx_N"
-},
-{
-  "token": "gaMCTEVS",
-  "title": "سیدخندان-جلفا/95متردو خواب با 100متر حیاط اختصاصی",
-  "price": 26000000000,
-  "priceText": "۲۶,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "سهروردی",
-  "subtitle": "((مسکن بزرگ الماس سهروردی)) در سهروردی",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/sJTE0g-B2yMQRHebOsKRJg/72f0d7d5-6d3c-4369-9d7d-a12f3752e9e3.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/sJTE0g-B2yMQRHebOsKRJg/72f0d7d5-6d3c-4369-9d7d-a12f3752e9e3.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/سیدخندان-جلفا95متردو-خواب-با-100متر-حیاط-اختصاصی/gaMCTEVS",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gaMCTEVS_N"
-},
-{
-  "token": "gavWKpui",
-  "title": "اجاره سند تجاری+کدپستی / حتی قرارداد کوتاه مدت",
-  "price": 5000000,
-  "priceText": "اجاره: ۵,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "مسعودیه",
-  "subtitle": "در مسعودیه",
-  "condition": "ودیعه: رایگان",
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/4o_7yXQzGNq3YF6W-3pF_Q/ef2b9683-c940-48ff-a751-008bd9f98d08.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/4o_7yXQzGNq3YF6W-3pF_Q/ef2b9683-c940-48ff-a751-008bd9f98d08.webp"
-  ],
-  "imageCount": 13,
-  "url": "https://divar.ir/v/اجاره-سند-تجاری+کدپستی--حتی-قرارداد-کوتاه-مدت/gavWKpui",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gavWKpui_N"
-},
-{
-  "token": "ga6elCN_",
-  "title": "۲۶۵ متر اجودانیه",
-  "price": 350000000,
-  "priceText": "اجاره: ۳۵۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "کاشانک",
-  "subtitle": "لحظاتی پیش در کاشانک",
-  "condition": "ودیعه: ۳,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cGHaLy3_2StjbwQT1z6SvA/9abf8768-d9ff-46db-af22-dc2365d586d9.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cGHaLy3_2StjbwQT1z6SvA/9abf8768-d9ff-46db-af22-dc2365d586d9.webp"
-  ],
-  "imageCount": 10,
-  "url": "https://divar.ir/v/۲۶۵-متر-اجودانیه/ga6elCN_",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6elCN__N"
-},
-{
-  "token": "gan5S4dj",
-  "title": "فروش ۱۰۵ متر کلید نخورده شخصی ساز کوهک",
-  "price": 37740000000,
-  "priceText": "۳۷,۷۴۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "کوهک",
-  "subtitle": "املاک راشا در کوهک",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/7p_AAIB4u_6-btiFz5U-iQ/640ea1e6-b06c-4be4-8364-74a17b72a79d.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/7p_AAIB4u_6-btiFz5U-iQ/640ea1e6-b06c-4be4-8364-74a17b72a79d.webp"
-  ],
-  "imageCount": 5,
-  "url": "https://divar.ir/v/فروش-۱۰۵-متر-کلید-نخورده-شخصی-ساز-کوهک/gan5S4dj",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gan5S4dj_N"
-},
-{
-  "token": "ga6OBN_t",
-  "title": "۱۱۵متر ۲خواب خطی روبه ویو ابدی، برج باغ لوکس پونک",
-  "price": 40000000000,
-  "priceText": "۴۰,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "شهرک نفت",
-  "subtitle": "املاک نیاتوس در شهرک نفت",
+  "district": "شهرک چیتگر",
+  "subtitle": "در شهرک چیتگر",
   "condition": null,
   "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KLwLic2SGZco3Dk6zXeExQ/6e0e16ce-c91d-49c9-ac62-261bb81ed058.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/gPAn_Ollt6DilMJ_G31uFA/ef93c15a-6826-4b26-853c-32f803264fba.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KLwLic2SGZco3Dk6zXeExQ/6e0e16ce-c91d-49c9-ac62-261bb81ed058.webp"
-  ],
-  "imageCount": 11,
-  "url": "https://divar.ir/v/۱۱۵متر-۲خواب-خطی-روبه-ویو-ابدی،-برج-باغ-لوکس-پونک/ga6OBN_t",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6OBN_t_N"
-},
-{
-  "token": "ga6alWjf",
-  "title": "اپارتمان تکخاب پارک موتورداردموجودواماده بازدیداست",
-  "price": 1000000,
-  "priceText": "اجاره: ۱,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "شهید رجایی",
-  "subtitle": "لحظاتی پیش در شهید رجایی",
-  "condition": "ودیعه: ۶۰۰,۰۰۰,۰۰۰ تومان",
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/xBgkH2VohzhhUFEJ9cOp6A/125d4e48-3db3-4f91-8bd5-57c7c5dbcb07.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/xBgkH2VohzhhUFEJ9cOp6A/125d4e48-3db3-4f91-8bd5-57c7c5dbcb07.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/اپارتمان-تکخاب-پارک-موتورداردموجودواماده-بازدیداست/ga6alWjf",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6alWjf_N"
-},
-{
-  "token": "ga6iVChy",
-  "title": "193متر 3خواب/تکواحدی/نوساز سند آماده/اباذر",
-  "price": 78500000000,
-  "priceText": "۷۸,۵۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "اباذر",
-  "subtitle": "مشاور تخصصی منطقه ۲ و ۵ (امیرحسین حسینی) در اباذر",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hvhLKL8t6shHrBb4o2Saow/5b3a9ae0-ba13-4e61-8adc-9c3bc980037e.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hvhLKL8t6shHrBb4o2Saow/5b3a9ae0-ba13-4e61-8adc-9c3bc980037e.webp"
-  ],
-  "imageCount": 9,
-  "url": "https://divar.ir/v/193متر-3خوابتکواحدینوساز-سند-آمادهاباذر/ga6iVChy",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6iVChy_N"
-},
-{
-  "token": "ga6m1Jgk",
-  "title": "۱۸۰ متر مدرن کلید نخورده با ۱۰۰ متر حیاط اختصاصی",
-  "price": 200000000,
-  "priceText": "اجاره: ۲۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "امانیه",
-  "subtitle": "آژانس املاک ایران سرای فرشته در امانیه",
-  "condition": "ودیعه: ۵,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/Hg6ohAGdkLyfC7DiO6XEHQ/5cec8aeb-2fa8-4309-aee0-c98e3c052c04.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/Hg6ohAGdkLyfC7DiO6XEHQ/5cec8aeb-2fa8-4309-aee0-c98e3c052c04.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۱۸۰-متر-مدرن-کلید-نخورده-با-۱۰۰-متر-حیاط-اختصاصی/ga6m1Jgk",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6m1Jgk_N"
-},
-{
-  "token": "ga6aV0_V",
-  "title": "فلکه2صادقیه متروصادقیه واحدی شیک با مشاعات",
-  "price": 50000000000,
-  "priceText": "۵۰,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "صادقیه",
-  "subtitle": "آژانس مسکن فراز غرب در صادقیه",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/a8jfLZsqC8g4LzVfIl7FDg/888e99c6-791b-4309-8eaf-fcfe2111821d.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/a8jfLZsqC8g4LzVfIl7FDg/888e99c6-791b-4309-8eaf-fcfe2111821d.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/gPAn_Ollt6DilMJ_G31uFA/ef93c15a-6826-4b26-853c-32f803264fba.webp"
   ],
   "imageCount": 4,
-  "url": "https://divar.ir/v/فلکه2صادقیه-متروصادقیه-واحدی-شیک-با-مشاعات/ga6aV0_V",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6aV0_V_N"
+  "url": "https://divar.ir/v/شهرک-چیتگر-خیابان-G1/ga6qFJgx",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6qFJgx_N"
 },
 {
-  "token": "ga6a1tCI",
-  "title": "ورزی جنوبی ، ۳۲ متر مغازه ، ۶ متر تابلوخور",
-  "price": 34000000000,
-  "priceText": "۳۴,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6el4iv",
+  "title": "اپارتمان ۴۵ متری طبقه اول",
+  "price": null,
+  "priceText": "رهن کامل",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "شهرک پرواز",
-  "subtitle": "املاک میرزا در شهرک پرواز",
-  "condition": null,
+  "district": "راه آهن",
+  "subtitle": "لحظاتی پیش در راه آهن",
+  "condition": "ودیعه: ۶۰۰,۰۰۰,۰۰۰ تومان",
   "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hWpkM8eCBDhvll3MrKGygA/8e054deb-c6dc-4683-9bd5-3d2efcb8ae85.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/nmVFxun1D9FYFBGz88DP_Q/1e0f8572-99e6-4c26-b475-349abaaea2af.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hWpkM8eCBDhvll3MrKGygA/8e054deb-c6dc-4683-9bd5-3d2efcb8ae85.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/nmVFxun1D9FYFBGz88DP_Q/1e0f8572-99e6-4c26-b475-349abaaea2af.webp"
   ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/ورزی-جنوبی-،-۳۲-متر-مغازه-،-۶-متر-تابلوخور/ga6a1tCI",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6a1tCI_N"
+  "imageCount": 9,
+  "url": "https://divar.ir/v/اپارتمان-۴۵-متری-طبقه-اول/ga6el4iv",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6el4iv_N"
 },
 {
-  "token": "ga6aVAP0",
-  "title": "72متر2خواب/فول امکانات/خوش نقشه/به قیمت رسیده",
-  "price": 13300000000,
-  "priceText": "۱۳,۳۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6mF6Ku",
+  "title": "واحد اداری میدان هفت تیر",
+  "price": null,
+  "priceText": "رهن کامل",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "امجدیه (خاقانی)",
+  "subtitle": "لحظاتی پیش در امجدیه (خاقانی)",
+  "condition": "ودیعه: ۳,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/88z_NQ640J_B4hzD-DCIoA/77b58b15-4533-4a52-83cb-8f4a89e89211.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/88z_NQ640J_B4hzD-DCIoA/77b58b15-4533-4a52-83cb-8f4a89e89211.webp"
+  ],
+  "imageCount": 20,
+  "url": "https://divar.ir/v/واحد-اداری-میدان-هفت-تیر/ga6mF6Ku",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6mF6Ku_N"
+},
+{
+  "token": "gam2Gkb2",
+  "title": "۸۰ متر / ریحانی / فول امکانات",
+  "price": 25700000000,
+  "priceText": "۲۵,۷۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "شمس‌آباد",
+  "subtitle": "آژانس املاک بزرگ طاهری در شمس‌آباد",
+  "condition": null,
+  "tags": "نردبان شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LisHX43dpA3VV6bJD50JOg/1fa77200-115e-4ccd-b7ed-230ea52add1b.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LisHX43dpA3VV6bJD50JOg/1fa77200-115e-4ccd-b7ed-230ea52add1b.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۸۰-متر--ریحانی--فول-امکانات/gam2Gkb2",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_gam2Gkb2_N"
+},
+{
+  "token": "ga6WSwkY",
+  "title": "۸۶متر چهار باغ",
+  "price": 27500000000,
+  "priceText": "۲۷,۵۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "جنت‌آباد جنوبی",
+  "subtitle": "املاک نوید در جنت‌آباد جنوبی",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/VydwvbCPhHuPTqRmxmgiyQ/4f2e0fea-1abb-46f4-8f2e-f91682bc21b4.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/VydwvbCPhHuPTqRmxmgiyQ/4f2e0fea-1abb-46f4-8f2e-f91682bc21b4.webp"
+  ],
+  "imageCount": 5,
+  "url": "https://divar.ir/v/۸۶متر-چهار-باغ/ga6WSwkY",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6WSwkY_N"
+},
+{
+  "token": "ga6e1pU-",
+  "title": "مغازه 12متر",
+  "price": 3000000,
+  "priceText": "اجاره: ۳,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "تهران‌نو",
+  "subtitle": "لحظاتی پیش در تهران‌نو",
+  "condition": "ودیعه: ۸۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LboQ4sThltQLZKxcRIv9sA/36874326-932c-462a-804e-a4f143dd95da.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LboQ4sThltQLZKxcRIv9sA/36874326-932c-462a-804e-a4f143dd95da.webp"
+  ],
+  "imageCount": 8,
+  "url": "https://divar.ir/v/مغازه-12متر/ga6e1pU-",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6e1pU-_N"
+},
+{
+  "token": "ga6iS839",
+  "title": "۶۵ متری/تاپ لوکیشن",
+  "price": 6200000000,
+  "priceText": "۶,۲۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "باغ خزانه",
+  "subtitle": "املاک بزرگ طاها در باغ خزانه",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/Ww-VqvgwRiSRiWxtMAl77A/8fa81f92-f3e3-4d33-ae2a-2e0478bea96c.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/Ww-VqvgwRiSRiWxtMAl77A/8fa81f92-f3e3-4d33-ae2a-2e0478bea96c.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۶۵-متریتاپ-لوکیشن/ga6iS839",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6iS839_N"
+},
+{
+  "token": "gau-plbm",
+  "title": "45 متر/تک واحدی/پارکینگ‌دار/نزدیک اتوبان نواب",
+  "price": 6300000000,
+  "priceText": "۶,۳۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "بلورسازی",
+  "subtitle": "آژانس مجموعه املاک متین در بلورسازی",
+  "condition": null,
+  "tags": "نردبان شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/3ad6nFlgVRl6Q2V0h9KSxg/fdedc364-67ff-481f-ab43-b3d971453e29.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/3ad6nFlgVRl6Q2V0h9KSxg/fdedc364-67ff-481f-ab43-b3d971453e29.webp"
+  ],
+  "imageCount": 7,
+  "url": "https://divar.ir/v/45-مترتک-واحدیپارکینگ‌دارنزدیک-اتوبان-نواب/gau-plbm",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_gau-plbm_N"
+},
+{
+  "token": "ga6eVzoB",
+  "title": "پنچره قدی /۶۱متر لوکس/مشاعات دار (بدون مشابه)",
+  "price": 22000000000,
+  "priceText": "۲۲,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "فردوس",
+  "subtitle": "گروه مشاورین املاک هونام در فردوس",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/koUAD5NPtvOVn1hSYvarlA/0f82745b-1640-474f-bc0b-571c8224a382.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/koUAD5NPtvOVn1hSYvarlA/0f82745b-1640-474f-bc0b-571c8224a382.webp"
+  ],
+  "imageCount": 7,
+  "url": "https://divar.ir/v/پنچره-قدی-۶۱متر-لوکسمشاعات-دار-(بدون-مشابه)/ga6eVzoB",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6eVzoB_N"
+},
+{
+  "token": "ga6eF1Tf",
+  "title": "۷۸ متر / فول امکانات /نارمک شهدا",
+  "price": 24500000000,
+  "priceText": "۲۴,۵۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "علم و صنعت",
+  "subtitle": "گروه بزرگ شهرِ ملک در علم و صنعت",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/TBu7h42fQ5oHSaPlQ3983g/35b3f9cf-4506-4259-8b85-4c6d06c4e5fa.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/TBu7h42fQ5oHSaPlQ3983g/35b3f9cf-4506-4259-8b85-4c6d06c4e5fa.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۷۸-متر--فول-امکانات-نارمک-شهدا/ga6eF1Tf",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6eF1Tf_N"
+},
+{
+  "token": "ga5eFq1E",
+  "title": "شهرزیبا/۹۰ متری فول /خوش نقشه مربع/افتابگیر/",
+  "price": 18500000000,
+  "priceText": "۱۸,۵۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "شهر زیبا",
+  "subtitle": "املاک رحیمی در شهر زیبا",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cjWuI_yALS7Y4ucBy3NlnQ/ac9a2478-261b-442a-a35a-8cac30a3395d.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cjWuI_yALS7Y4ucBy3NlnQ/ac9a2478-261b-442a-a35a-8cac30a3395d.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/شهرزیبا۹۰-متری-فول-خوش-نقشه-مربعافتابگیر/ga5eFq1E",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga5eFq1E_N"
+},
+{
+  "token": "ga6iCNdC",
+  "title": "پاسداران ۱۸۵ متر ۳ خواب غرق در نور خوش نقشه",
+  "price": null,
+  "priceText": "رهن کامل",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "پاسداران",
+  "subtitle": "آژانس  املاک ایوان در پاسداران",
+  "condition": "ودیعه: ۹,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/0NqFOYVJ6FlTx-K9uJHcwQ/dd0c5252-bd6a-44f8-b7d1-41dee3692207.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/0NqFOYVJ6FlTx-K9uJHcwQ/dd0c5252-bd6a-44f8-b7d1-41dee3692207.webp"
+  ],
+  "imageCount": 7,
+  "url": "https://divar.ir/v/پاسداران-۱۸۵-متر-۳-خواب-غرق-در-نور-خوش-نقشه/ga6iCNdC",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6iCNdC_N"
+},
+{
+  "token": "ga6a1ubI",
+  "title": "اپارتمان ۶۵ متری طبقه اول /پارکینگ/انباری",
+  "price": null,
+  "priceText": "رهن کامل",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "باشگاه نفت",
+  "subtitle": "آژانس املاک مهدی عج در باشگاه نفت",
+  "condition": "ودیعه: ۱,۲۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/9UKNDRwvDr2ZqmtxyEokNw/6cfa39af-2565-476a-b008-2caea5b475f8.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/9UKNDRwvDr2ZqmtxyEokNw/6cfa39af-2565-476a-b008-2caea5b475f8.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/اپارتمان-۶۵-متری-طبقه-اول-پارکینگانباری/ga6a1ubI",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6a1ubI_N"
+},
+{
+  "token": "gauMMBCO",
+  "title": "اجاره سوئیت. هتل آپارتمان مبله مهر آباد /شبی ساعتی",
+  "price": 500000,
+  "priceText": "از ۵۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "تولید دارو",
+  "subtitle": "در تولید دارو",
+  "condition": "بدون اتاق, تا ۳ نفر",
+  "tags": "نردبان شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/P6zSamlW0tCF3tw06-4Vbw/1ec06645-5b98-4a79-8883-0fd97de563a6.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/P6zSamlW0tCF3tw06-4Vbw/1ec06645-5b98-4a79-8883-0fd97de563a6.webp"
+  ],
+  "imageCount": 8,
+  "url": "https://divar.ir/v/اجاره-سوئیت.-هتل-آپارتمان-مبله-مهر-آباد-شبی-ساعتی/gauMMBCO",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_gauMMBCO_N"
+},
+{
+  "token": "ga6eF0eR",
+  "title": "آپارتمان ۱۸۰ متری/۳خواب /تک واحدی/۲پارکینگه/",
+  "price": 45000000,
+  "priceText": "اجاره: ۴۵,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "پونک",
+  "subtitle": "دپارتمان املاک رويال هوم پونک در پونک",
+  "condition": "ودیعه: ۵,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/8BRzbiO4AfD-UZH8859Few/9798ce8c-7a2e-40b9-b16a-ec2a2b435629.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/8BRzbiO4AfD-UZH8859Few/9798ce8c-7a2e-40b9-b16a-ec2a2b435629.webp"
+  ],
+  "imageCount": 4,
+  "url": "https://divar.ir/v/آپارتمان-۱۸۰-متری۳خواب-تک-واحدی۲پارکینگه/ga6eF0eR",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6eF0eR_N"
+},
+{
+  "token": "ga6W1Hkl",
+  "title": "فروش ۱۵۰متر اداری اقامتی رینگ اول دریاچه (بام لند)",
+  "price": 55000000000,
+  "priceText": "۵۵,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "گلستان (شهرک راه آهن)",
+  "subtitle": "مدیریت فروش برج املاک آتی سان در گلستان (شهرک راه آهن)",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/225JapTWG6_zX-P6QwlgFg/80e34b54-b845-4681-a5e6-03ff0ffc57f4.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/225JapTWG6_zX-P6QwlgFg/80e34b54-b845-4681-a5e6-03ff0ffc57f4.webp"
+  ],
+  "imageCount": 6,
+  "url": "https://divar.ir/v/فروش-۱۵۰متر-اداری-اقامتی-رینگ-اول-دریاچه-(بام-لند)/ga6W1Hkl",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6W1Hkl_N"
+},
+{
+  "token": "ga6eFsyV",
+  "title": "فروش آپارتمان سند اداری نوساز",
+  "price": 70000000000,
+  "priceText": "۷۰,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "تهرانپارس غربی",
+  "subtitle": "لحظاتی پیش در تهرانپارس غربی",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/8XwbkNWNUt6NeoSad8HuuQ/bcf4b119-b867-4642-9189-305516995437.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/8XwbkNWNUt6NeoSad8HuuQ/bcf4b119-b867-4642-9189-305516995437.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/فروش-آپارتمان-سند-اداری-نوساز/ga6eFsyV",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6eFsyV_N"
+},
+{
+  "token": "ga6qVDMU",
+  "title": "۴۸متر فول بازسازی عروس دامادی طبقه دوم سندی هدایتی",
+  "price": 6100000000,
+  "priceText": "۶,۱۰۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "دولاب",
+  "subtitle": "آژانس گروه بزرگ ناروَن در دولاب",
+  "condition": null,
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LTy24f733og7QHR89HUWPQ/3cafca0b-2239-47c4-b45a-31b93c20bb84.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LTy24f733og7QHR89HUWPQ/3cafca0b-2239-47c4-b45a-31b93c20bb84.webp"
+  ],
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۴۸متر-فول-بازسازی-عروس-دامادی-طبقه-دوم-سندی-هدایتی/ga6qVDMU",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6qVDMU_N"
+},
+{
+  "token": "gaoWvYFP",
+  "title": "استادمعین/64 متر/آسانسور انباری/ 15 متر تراس",
+  "price": 10700000000,
+  "priceText": "۱۰,۷۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
   "district": "استاد معین",
-  "subtitle": "گروه مشاورین املاک عمارت در استاد معین",
+  "subtitle": "آژانس مجموعه املاک متین در استاد معین",
   "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/1ZeNaYBaOjUmerx8pMxtuw/4854924a-68dc-4d4b-81c5-d01454443dad.webp",
+  "tags": "نردبان شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/3PgD2bYiHgZFO8SZxuBvMQ/fe70d75c-d072-46ca-9d45-83ed86d43c0e.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/1ZeNaYBaOjUmerx8pMxtuw/4854924a-68dc-4d4b-81c5-d01454443dad.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/3PgD2bYiHgZFO8SZxuBvMQ/fe70d75c-d072-46ca-9d45-83ed86d43c0e.webp"
   ],
-  "imageCount": 2,
-  "url": "https://divar.ir/v/72متر2خوابفول-امکاناتخوش-نقشهبه-قیمت-رسیده/ga6aVAP0",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6aVAP0_N"
+  "imageCount": 11,
+  "url": "https://divar.ir/v/استادمعین64-مترآسانسور-انباری-15-متر-تراس/gaoWvYFP",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_gaoWvYFP_N"
 },
 {
-  "token": "ga6a1xOj",
-  "title": "133متر/هروی/3خواب مستر/فول امکانات/نور جنوب",
-  "price": 49000000000,
-  "priceText": "۴۹,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6e1yk5",
+  "title": "۱۰۰ متر / دو خواب / فول / صبح دوست / باغ فیض",
+  "price": 27500000000,
+  "priceText": "۲۷,۵۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "هروی",
-  "subtitle": "آژانس املاک بزرگ ماکان در هروی",
+  "district": "باغ فیض",
+  "subtitle": "آژانس املاک اوپال در باغ فیض",
   "condition": null,
   "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/OEFO-FEECtNTBzLi702R9Q/a3d4bec7-f453-47cd-be6d-a5ab9980a3c0.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cYgl3PLlBoiW3P3To7Ieow/110e9237-9fe0-4722-9cc8-02ce8fd86747.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/OEFO-FEECtNTBzLi702R9Q/a3d4bec7-f453-47cd-be6d-a5ab9980a3c0.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cYgl3PLlBoiW3P3To7Ieow/110e9237-9fe0-4722-9cc8-02ce8fd86747.webp"
   ],
-  "imageCount": 3,
-  "url": "https://divar.ir/v/133مترهروی3خواب-مسترفول-امکاناتنور-جنوب/ga6a1xOj",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6a1xOj_N"
+  "imageCount": 1,
+  "url": "https://divar.ir/v/۱۰۰-متر--دو-خواب--فول--صبح-دوست--باغ-فیض/ga6e1yk5",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6e1yk5_N"
 },
 {
-  "token": "ga6aVeUd",
-  "title": "اجاره بوفه باشگاه بدنسازی",
-  "price": 20000000,
-  "priceText": "اجاره: ۲۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6mVyGl",
+  "title": "110 متر 3 خواب/طبقه اول آکواریوم نور/ بهنام الهی",
+  "price": 21000000,
+  "priceText": "اجاره: ۲۱,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "هروی",
-  "subtitle": "لحظاتی پیش در هروی",
-  "condition": "ودیعه: ۱۲۰,۰۰۰,۰۰۰ تومان",
+  "district": "مهران",
+  "subtitle": "آژانس املاک بزرگ ولیعصر شعبه اباذر در مهران",
+  "condition": "ودیعه: ۲,۰۰۰,۰۰۰,۰۰۰ تومان",
   "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/ML30MuYf-D7uFRVaIOHaUw/6512d873-7454-4035-95c4-fa1c16ab9a45.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/-7i0vfwMzBNHivtiR3u-5A/e581bca6-debb-4738-9fbc-bec49e48f812.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/ML30MuYf-D7uFRVaIOHaUw/6512d873-7454-4035-95c4-fa1c16ab9a45.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/-7i0vfwMzBNHivtiR3u-5A/e581bca6-debb-4738-9fbc-bec49e48f812.webp"
   ],
   "imageCount": 8,
-  "url": "https://divar.ir/v/اجاره-بوفه-باشگاه-بدنسازی/ga6aVeUd",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6aVeUd_N"
+  "url": "https://divar.ir/v/110-متر-3-خوابطبقه-اول-آکواریوم-نور-بهنام-الهی/ga6mVyGl",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6mVyGl_N"
 },
 {
-  "token": "ga6mVGmi",
-  "title": "۱۳۵ متر / تکواحدی / سیبویه ، نوبخت",
-  "price": 53000000000,
-  "priceText": "۵۳,۰۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "QaJTJ_zP",
+  "title": "سویت آپارتمان مبله کوتاه مدت نواب نیم روزه",
+  "price": 500000,
+  "priceText": "از ۵۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "نیلوفر",
-  "subtitle": "دپارتمان املاک راما در نیلوفر",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/DBFgOb8MbAqfkdS7lPsOVA/9e2bb63f-2408-49cc-8344-4a88164e1374.webp",
+  "district": "هلال احمر",
+  "subtitle": "مشاور محمدعلی در هلال احمر",
+  "condition": "۲ اتاق, تا ۵ نفر",
+  "tags": "نردبان شده",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KfZoCF-6OPthevmyTe7swA/a1995ac3-b224-4b75-9750-5b8f4c06b2a2.jpg.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/DBFgOb8MbAqfkdS7lPsOVA/9e2bb63f-2408-49cc-8344-4a88164e1374.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/KfZoCF-6OPthevmyTe7swA/a1995ac3-b224-4b75-9750-5b8f4c06b2a2.jpg.webp"
   ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۱۳۵-متر--تکواحدی--سیبویه-،-نوبخت/ga6mVGmi",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6mVGmi_N"
+  "imageCount": 13,
+  "url": "https://divar.ir/v/سویت-آپارتمان-مبله-کوتاه-مدت-نواب-نیم-روزه/QaJTJ_zP",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_QaJTJ_zP_N"
 },
 {
-  "token": "ga6e1bX4",
-  "title": "68متر2خ/فول بازسازی/حیاط دار/خوش نقشه/حسام‌الدین",
-  "price": 6350000000,
-  "priceText": "۶,۳۵۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6qVAXk",
+  "title": "۸۲متر ۲خواب ، تکواحدی",
+  "price": 21000000000,
+  "priceText": "۲۱,۰۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "هفت چنار",
-  "subtitle": "گروه مشاورین املاک عمارت در هفت چنار",
+  "district": "توحید",
+  "subtitle": "هلدینگ خاورمیانه در توحید",
   "condition": null,
   "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/FSCEl9u6pT29Igebfgdd7A/784aee55-c8f6-4a11-a9cc-a556a063895d.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/qIvLevzGuqDMeKW6VlnpEA/a42696c2-2f00-4229-8a15-c287a8754e15.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/FSCEl9u6pT29Igebfgdd7A/784aee55-c8f6-4a11-a9cc-a556a063895d.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/qIvLevzGuqDMeKW6VlnpEA/a42696c2-2f00-4229-8a15-c287a8754e15.webp"
   ],
   "imageCount": 2,
-  "url": "https://divar.ir/v/68متر2خفول-بازسازیحیاط-دارخوش-نقشهحسام‌الدین/ga6e1bX4",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6e1bX4_N"
+  "url": "https://divar.ir/v/۸۲متر-۲خواب-،-تکواحدی/ga6qVAXk",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6qVAXk_N"
 },
 {
-  "token": "ga6mFHJD",
-  "title": "آپارتمان ۴۷ متر دو خواب با پارکینگ کارون کمیل",
-  "price": 7600000000,
-  "priceText": "۷,۶۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga3CPUvn",
+  "title": "فردوس غرب/65متر/تاپ لوکیشن",
+  "price": 18800000000,
+  "priceText": "۱۸,۸۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "جیحون",
-  "subtitle": "املاک بزرگ آسا در جیحون",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/mdUxpmLXDbEjA3a80HYWSQ/bd6ff38c-e646-43e2-b01b-098823a0a425.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/mdUxpmLXDbEjA3a80HYWSQ/bd6ff38c-e646-43e2-b01b-098823a0a425.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/آپارتمان-۴۷-متر-دو-خواب-با-پارکینگ-کارون-کمیل/ga6mFHJD",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6mFHJD_N"
-},
-{
-  "token": "gaSKsSoE",
-  "title": "135متر  تکواحدی  کلید نخورده  (( آگهی واقعی ))",
-  "price": 42500000000,
-  "priceText": "۴۲,۵۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "فردوس",
-  "subtitle": "املاک بزرگ سرزمین در فردوس",
+  "district": "سازمان برنامه جنوبی",
+  "subtitle": "آژانس املاک بزرگ آرکا در سازمان برنامه جنوبی",
   "condition": null,
   "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/-l5TXzm9CJ-rOF-2Tae_gQ/2f169ccd-b263-4f68-b3b8-a8b35b5a2887.webp",
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/0xQUw24tKxA_f3Kj_KmKDA/0069997d-8d04-465d-a830-ef4e5f783720.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/-l5TXzm9CJ-rOF-2Tae_gQ/2f169ccd-b263-4f68-b3b8-a8b35b5a2887.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/135متر-تکواحدی-کلید-نخورده-((-آگهی-واقعی-))/gaSKsSoE",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gaSKsSoE_N"
-},
-{
-  "token": "ga6m1AOS",
-  "title": "۹۵ متر ۴ ساله در فردوس شرق",
-  "price": 18000000,
-  "priceText": "اجاره: ۱۸,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "فردوس",
-  "subtitle": "آژانس سناتور در فردوس",
-  "condition": "ودیعه: ۲,۳۰۰,۰۰۰,۰۰۰ تومان",
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/PS3Y8H88YOZNUuM18sDKFA/cbc1092b-a1a3-45bb-b41d-a9235a56d322.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/PS3Y8H88YOZNUuM18sDKFA/cbc1092b-a1a3-45bb-b41d-a9235a56d322.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۹۵-متر-۴-ساله-در-فردوس-شرق/ga6m1AOS",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6m1AOS_N"
-},
-{
-  "token": "ga6a1uZP",
-  "title": "۶۵متری دوخواب/فول امکانات/زیرقیمت در نارمک",
-  "price": 15250000000,
-  "priceText": "۱۵,۲۵۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "نارمک",
-  "subtitle": "گروه بزرگ شهرِ ملک در نارمک",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cWNIac1TmaNYkF9KCAsxhQ/59dfe54d-52a7-4692-aa61-34b189b37002.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/cWNIac1TmaNYkF9KCAsxhQ/59dfe54d-52a7-4692-aa61-34b189b37002.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۶۵متری-دوخوابفول-امکاناتزیرقیمت-در-نارمک/ga6a1uZP",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6a1uZP_N"
-},
-{
-  "token": "ga5GS8Om",
-  "title": "260متر بهترین خیابان آجودانیه غربی",
-  "price": 260000000000,
-  "priceText": "۲۶۰,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "اقدسیه",
-  "subtitle": "آژانس کلید در اقدسیه",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/pg1w1aPOjno0YfhU3JO9zQ/27be795a-3139-4c83-8445-e608e6053076.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/pg1w1aPOjno0YfhU3JO9zQ/27be795a-3139-4c83-8445-e608e6053076.webp"
-  ],
-  "imageCount": 5,
-  "url": "https://divar.ir/v/260متر-بهترین-خیابان-آجودانیه-غربی/ga5GS8Om",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga5GS8Om_N"
-},
-{
-  "token": "ga6alaFE",
-  "title": "۷۹ متری /پارکینگ /اسانسور",
-  "price": 9000000000,
-  "priceText": "۹,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "فلاح",
-  "subtitle": "املاک فلاح در فلاح",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/X-ajJk3G6JVGz74lQ2BzVQ/1f941c4f-8c1a-4521-98f7-11375374eda8.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/X-ajJk3G6JVGz74lQ2BzVQ/1f941c4f-8c1a-4521-98f7-11375374eda8.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۷۹-متری-پارکینگ-اسانسور/ga6alaFE",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6alaFE_N"
-},
-{
-  "token": "gamOFD9t",
-  "title": "۸۵مترقدرالسهم دار/۲خواب/دولت",
-  "price": 28000000000,
-  "priceText": "۲۸,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "اختیاریه",
-  "subtitle": "هلدینگ بزرگ آریو در اختیاریه",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/NThTvhem8NB5l3kj7qxLVA/9eec029a-1fa1-48b9-993a-3ff0b413c553.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/NThTvhem8NB5l3kj7qxLVA/9eec029a-1fa1-48b9-993a-3ff0b413c553.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/۸۵مترقدرالسهم-دار۲خوابدولت/gamOFD9t",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gamOFD9t_N"
-},
-{
-  "token": "gahyZ9rz",
-  "title": "54متر/فول امکانات/رشد سرمایه باخریدوفروش زیریک ماه",
-  "price": 5180000000,
-  "priceText": "۵,۱۸۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "جیحون",
-  "subtitle": "هلدینگ سرمایه گذاری پارسیان در جیحون",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LUWoPuRqDhHuIM_Gx3D2uQ/c49278c0-7b6e-408a-8ebb-7f40bd72b09c.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/LUWoPuRqDhHuIM_Gx3D2uQ/c49278c0-7b6e-408a-8ebb-7f40bd72b09c.webp"
-  ],
-  "imageCount": 1,
-  "url": "https://divar.ir/v/54مترفول-امکاناترشد-سرمایه-باخریدوفروش-زیریک-ماه/gahyZ9rz",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gahyZ9rz_N"
-},
-{
-  "token": "galysh7h",
-  "title": "115 متر نوساز/سالن پرده خور و خوش چیدمان",
-  "price": 43700000000,
-  "priceText": "۴۳,۷۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "هفت حوض",
-  "subtitle": "آژانس سفير در هفت حوض",
-  "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/e02VBfjp4958lknxymhmeQ/0fe161fb-8675-4b96-9f59-59c53efca41e.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/e02VBfjp4958lknxymhmeQ/0fe161fb-8675-4b96-9f59-59c53efca41e.webp"
-  ],
-  "imageCount": 3,
-  "url": "https://divar.ir/v/115-متر-نوسازسالن-پرده-خور-و-خوش-چیدمان/galysh7h",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_galysh7h_N"
-},
-{
-  "token": "ga6el9Dm",
-  "title": "قیطریه/142متر/3خواب/تراس قابل چیدمان/ویومشجر",
-  "price": 80000000000,
-  "priceText": "۸۰,۰۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "قیطریه",
-  "subtitle": "آژانس املاک دیپلمات فرمانیه در قیطریه",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/5ydpzGAMyADZicuRTmDB6w/59e381b3-105d-467f-ad53-7b8f7fa2c792.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/5ydpzGAMyADZicuRTmDB6w/59e381b3-105d-467f-ad53-7b8f7fa2c792.webp"
-  ],
-  "imageCount": 5,
-  "url": "https://divar.ir/v/قیطریه142متر3خوابتراس-قابل-چیدمانویومشجر/ga6el9Dm",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6el9Dm_N"
-},
-{
-  "token": "ga6iV_9U",
-  "title": "80متر/اباذر/تاپلکیشن /بدونه مشابه",
-  "price": 22300000000,
-  "priceText": "۲۲,۳۰۰,۰۰۰,۰۰۰ تومان",
-  "currency": "IRT",
-  "category": "real-estate",
-  "city": "تهران",
-  "district": "اباذر",
-  "subtitle": "آژانس مجموعه بزرگ بارمان دو در اباذر",
-  "condition": null,
-  "tags": null,
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hty8f7keRGk4hKLLDOfkfA/74426873-c210-4ce7-9350-f1d2759cec12.webp",
-  "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/hty8f7keRGk4hKLLDOfkfA/74426873-c210-4ce7-9350-f1d2759cec12.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/0xQUw24tKxA_f3Kj_KmKDA/0069997d-8d04-465d-a830-ef4e5f783720.webp"
   ],
   "imageCount": 8,
-  "url": "https://divar.ir/v/80متراباذرتاپلکیشن-بدونه-مشابه/ga6iV_9U",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_ga6iV_9U_N"
+  "url": "https://divar.ir/v/فردوس-غرب65مترتاپ-لوکیشن/ga3CPUvn",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga3CPUvn_N"
 },
 {
-  "token": "gaqiUmkH",
-  "title": "۳۹ متر  فول امکانات ۴ سال ساخت بدون مشابه",
-  "price": 8900000000,
-  "priceText": "۸,۹۰۰,۰۰۰,۰۰۰ تومان",
+  "token": "ga6WFYU1",
+  "title": "۱۳۵ متر/ ۳ خواب/ بر نیاوران/ طبقه ۲",
+  "price": 67000000000,
+  "priceText": "۶۷,۰۰۰,۰۰۰,۰۰۰ تومان",
   "currency": "IRT",
   "category": "real-estate",
   "city": "تهران",
-  "district": "جیحون",
-  "subtitle": "آژانس آوا در جیحون",
+  "district": "نیاوران",
+  "subtitle": "مشاور امین خدایاری در نیاوران",
   "condition": null,
-  "tags": "نردبان شده",
-  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/pasvEMWEugfAsoDIxbKrwQ/867929cf-43e7-4c8b-88b2-2543eb02d77d.webp",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/kHjSS4dK5-IdWbtW0mZLAQ/310c3c98-e22f-4fa6-a615-55e7023866fe.webp",
   "images": [
-    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/pasvEMWEugfAsoDIxbKrwQ/867929cf-43e7-4c8b-88b2-2543eb02d77d.webp"
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/kHjSS4dK5-IdWbtW0mZLAQ/310c3c98-e22f-4fa6-a615-55e7023866fe.webp"
+  ],
+  "imageCount": 3,
+  "url": "https://divar.ir/v/۱۳۵-متر-۳-خواب-بر-نیاوران-طبقه-۲/ga6WFYU1",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6WFYU1_N"
+},
+{
+  "token": "ga6SgeSt",
+  "title": "اتاق ۱۲ متری",
+  "price": 10000000,
+  "priceText": "اجاره: ۱۰,۰۰۰,۰۰۰ تومان",
+  "currency": "IRT",
+  "category": "real-estate",
+  "city": "تهران",
+  "district": "حکیمیه",
+  "subtitle": "لحظاتی پیش در حکیمیه",
+  "condition": "ودیعه: ۱۰۰,۰۰۰,۰۰۰ تومان",
+  "tags": null,
+  "thumbnailUrl": "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/HA_COUU6IHZ-HU3-oejQew/a85f0f18-ca96-4867-8bd0-6d1726a49301.webp",
+  "images": [
+    "https://s100.divarcdn.com/static/photo/neda/webp_thumbnail/HA_COUU6IHZ-HU3-oejQew/a85f0f18-ca96-4867-8bd0-6d1726a49301.webp"
   ],
   "imageCount": 1,
-  "url": "https://divar.ir/v/۳۹-متر-فول-امکانات-۴-سال-ساخت-بدون-مشابه/gaqiUmkH",
-  "adInstanceId": "c9c54563-d613-4ff5-9aa1-3c15c7d20f85_gaqiUmkH_N"
+  "url": "https://divar.ir/v/اتاق-۱۲-متری/ga6SgeSt",
+  "adInstanceId": "99246da3-bf03-4911-bd32-7019fefa7b4d_ga6SgeSt_N"
 }]
