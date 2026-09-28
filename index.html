@@ -1,63 +1,319 @@
-```html
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>من دستیار مشاور املاک اورین نکسوس</title>
+<title>دستیار مشاور املاک اورین نکسوس</title>
+
 <style>
-:root{--bg:#0b1017;--panel:#111923;--panel2:#172331;--line:#263547;--text:#edf3f8;--muted:#91a2b5;--accent:#46c6a7;--accent2:#2aa88c;--danger:#e47a7a}
+:root{
+--bg:#0b1017;
+--panel:#111923;
+--panel2:#172331;
+--line:#263547;
+--text:#edf3f8;
+--muted:#91a2b5;
+--accent:#46c6a7;
+--accent2:#2aa88c;
+--danger:#e47a7a
+}
 *{box-sizing:border-box}
-body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
-.app{min-height:100vh;background:linear-gradient(145deg,#0b1017,#0d141d 55%,#101a23);padding:28px 16px}
-.wrap{max-width:850px;margin:auto}
-.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.brand{display:flex;gap:12px;align-items:center}
-.logo{width:42px;height:42px;border:1px solid #3b5a67;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-weight:800}
-.brand b{font-size:17px}
-.brand span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.step{font-size:11px;color:var(--muted)}
-.bar{height:5px;background:#18232f;border-radius:8px;overflow:hidden;margin-bottom:22px}
-.bar i{display:block;height:100%;background:var(--accent);transition:.25s;width:14%}
-.card{background:rgba(17,25,35,.96);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 18px 50px #0006}
-.eyebrow{color:var(--accent);font-size:12px;margin-bottom:10px}
-.title{font-size:24px;font-weight:800;line-height:1.6;margin:0 0 8px}
-.desc{color:#b4c0cd;line-height:2;font-size:13px;margin:0 0 22px}
-.input{width:100%;background:#0c141d;border:1px solid #334558;color:#fff;border-radius:12px;padding:14px;font-size:15px;outline:none}
-.input:focus{border-color:var(--accent)}
-.counter{font-size:11px;color:var(--muted);margin-top:7px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
-.choice{background:#0d151e;border:1px solid #2a394a;color:#dce6ee;border-radius:13px;padding:15px;text-align:right;cursor:pointer;font-size:14px;transition:.15s}
-.choice:hover,.choice.selected{border-color:var(--accent);background:#11251f}
-.actions{display:flex;gap:9px;margin-top:22px}
-.btn{border:0;border-radius:12px;padding:12px 18px;cursor:pointer;font-weight:700}
-.primary{background:var(--accent);color:#07120f}
-.secondary{background:#1a2735;color:#d8e1e9;border:1px solid #304254}
-.summary{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
-.tag{border:1px solid #2d4052;background:#0d151e;color:#b9c8d5;border-radius:20px;padding:7px 10px;font-size:11px}
-.resultsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:15px}
-.resultsHead h2{margin:0;font-size:20px}
-.resultsHead p{color:var(--muted);font-size:11px;margin:7px 0 0}
-.list{display:grid;gap:10px}
-.listing{border:1px solid #29394a;background:#0c141d;border-radius:15px;padding:16px;cursor:pointer}
-.listing:hover{border-color:#4c6977}
-.ltop{display:flex;justify-content:space-between;gap:12px}
-.ltitle{font-weight:800;line-height:1.7;font-size:14px}
-.price{color:var(--accent);font-weight:800;white-space:nowrap;font-size:13px}
-.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.meta span{font-size:10px;color:#aebdca;background:#16212d;border-radius:8px;padding:6px 8px}
-.excerpt{color:#899aaa;font-size:11px;line-height:1.9}
-.source{color:#62778b;font-size:10px;margin-top:9px}
-.detail .back{margin-bottom:15px}
-.fulltext{white-space:pre-line;color:#b8c4cf;font-size:12px;line-height:2.15;background:#0b131c;border:1px solid #253546;border-radius:13px;padding:15px;margin-top:15px}
-.detailGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px}
-.detailItem{background:#101b26;border-radius:10px;padding:10px}
-.detailItem b{display:block;font-size:10px;color:#74889b;margin-bottom:5px}
-.detailItem span{font-size:12px}
-.loading{text-align:center;padding:50px 10px}
-.spinner{width:34px;height:34px;border:3px solid #294052;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.notice{background:#15231f;border:1px solid #2e5b50;color:#a9d8cc;padding:11px 13px;border-radius:11px;font-size:11px;line-height:1.8;margin-top:12px}
+body{
+margin:0;
+background:#070b10;
+color:var(--text);
+font-family:Tahoma,"Segoe UI",sans-serif
+}
+.app{
+min-height:100vh;
+background:linear-gradient(145deg,#0b1017,#0d141d 55%,#101a23);
+padding:28px 16px
+}
+.wrap{
+max-width:850px;
+margin:auto
+}
+.head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:18px
+}
+.brand{
+display:flex;
+gap:12px;
+align-items:center
+}
+.logo{
+width:42px;
+height:42px;
+border:1px solid #3b5a67;
+border-radius:12px;
+display:grid;
+place-items:center;
+color:var(--accent);
+font-weight:800
+}
+.brand b{
+font-size:17px
+}
+.brand span{
+display:block;
+color:var(--muted);
+font-size:11px;
+margin-top:4px
+}
+.step{
+font-size:11px;
+color:var(--muted)
+}
+.bar{
+height:5px;
+background:#18232f;
+border-radius:8px;
+overflow:hidden;
+margin-bottom:22px
+}
+.bar i{
+display:block;
+height:100%;
+background:var(--accent);
+transition:.25s;
+width:14%
+}
+.card{
+background:rgba(17,25,35,.96);
+border:1px solid var(--line);
+border-radius:20px;
+padding:26px;
+box-shadow:0 18px 50px #0006
+}
+.eyebrow{
+color:var(--accent);
+font-size:12px;
+margin-bottom:10px
+}
+.title{
+font-size:24px;
+font-weight:800;
+line-height:1.6;
+margin:0 0 8px
+}
+.desc{
+color:#b4c0cd;
+line-height:2;
+font-size:13px;
+margin:0 0 22px
+}
+.input{
+width:100%;
+background:#0c141d;
+border:1px solid #334558;
+color:#fff;
+border-radius:12px;
+padding:14px;
+font-size:15px;
+outline:none
+}
+.input:focus{
+border-color:var(--accent)
+}
+.counter{
+font-size:11px;
+color:var(--muted);
+margin-top:7px
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:11px
+}
+.choice{
+background:#0d151e;
+border:1px solid #2a394a;
+color:#dce6ee;
+border-radius:13px;
+padding:15px;
+text-align:right;
+cursor:pointer;
+font-size:14px;
+transition:.15s
+}
+.choice:hover,
+.choice.selected{
+border-color:var(--accent);
+background:#11251f
+}
+.choice small{
+display:block;
+color:var(--muted);
+font-size:10px;
+margin-top:5px
+}
+.actions{
+display:flex;
+gap:9px;
+margin-top:22px
+}
+.btn{
+border:0;
+border-radius:12px;
+padding:12px 18px;
+cursor:pointer;
+font-weight:700
+}
+.primary{
+background:var(--accent);
+color:#07120f
+}
+.secondary{
+background:#1a2735;
+color:#d8e1e9;
+border:1px solid #304254
+}
+.summary{
+display:flex;
+flex-wrap:wrap;
+gap:7px;
+margin:16px 0
+}
+.tag{
+border:1px solid #2d4052;
+background:#0d151e;
+color:#b9c8d5;
+border-radius:20px;
+padding:7px 10px;
+font-size:11px
+}
+.resultsHead{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:15px;
+margin-bottom:15px
+}
+.resultsHead h2{
+margin:0;
+font-size:20px
+}
+.resultsHead p{
+color:var(--muted);
+font-size:11px;
+margin:7px 0 0
+}
+.list{
+display:grid;
+gap:10px
+}
+.listing{
+border:1px solid #29394a;
+background:#0c141d;
+border-radius:15px;
+padding:16px;
+cursor:pointer
+}
+.listing:hover{
+border-color:#4c6977
+}
+.ltop{
+display:flex;
+justify-content:space-between;
+gap:12px
+}
+.ltitle{
+font-weight:800;
+line-height:1.7;
+font-size:14px
+}
+.price{
+color:var(--accent);
+font-weight:800;
+white-space:nowrap;
+font-size:13px
+}
+.meta{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+margin:10px 0
+}
+.meta span{
+font-size:10px;
+color:#aebdca;
+background:#16212d;
+border-radius:8px;
+padding:6px 8px
+}
+.excerpt{
+color:#899aaa;
+font-size:11px;
+line-height:1.9
+}
+.source{
+color:#62778b;
+font-size:10px;
+margin-top:9px
+}
+.detail .back{
+margin-bottom:15px
+}
+.fulltext{
+white-space:pre-line;
+color:#b8c4cf;
+font-size:12px;
+line-height:2.15;
+background:#0b131c;
+border:1px solid #253546;
+border-radius:13px;
+padding:15px;
+margin-top:15px
+}
+.detailGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:15px
+}
+.detailItem{
+background:#101b26;
+border-radius:10px;
+padding:10px
+}
+.detailItem b{
+display:block;
+font-size:10px;
+color:#74889b;
+margin-bottom:5px
+}
+.detailItem span{
+font-size:12px
+}
+.loading{
+text-align:center;
+padding:50px 10px
+}
+.spinner{
+width:34px;
+height:34px;
+border:3px solid #294052;
+border-top-color:var(--accent);
+border-radius:50%;
+animation:spin .8s linear infinite;
+margin:0 auto 16px
+}
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+.notice{
+background:#15231f;
+border:1px solid #2e5b50;
+color:#a9d8cc;
+padding:11px 13px;
+border-radius:11px;
+font-size:11px;
+line-height:1.8;
+margin-top:12px
+}
 @media(max-width:600px){
 .app{padding:18px 10px}
 .card{padding:19px}
@@ -71,10 +327,12 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 </head>
 
 <body>
+
 <main class="app">
 <div class="wrap">
 
 <header class="head">
+
 <div class="brand">
 <div class="logo">E</div>
 <div>
@@ -82,21 +340,67 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 <span>دستیار مشاور املاک اورین نکسوس</span>
 </div>
 </div>
+
 <div class="step" id="stepText">مرحله ۱ از ۷</div>
+
 </header>
 
-<div class="bar"><i id="bar"></i></div>
+<div class="bar">
+<i id="bar"></i>
+</div>
+
 <section id="root"></section>
 
 </div>
 </main>
 
 <script>
-const cities=['تهران','مشهد','تبریز','استانبول','ازمیر','آنتالیا'];
-const types=['مسکونی','تجاری','اداری','خدماتی','ورزشی','آموزشی','بهداشتی و درمانی','زمین','ویلا'];
-const rooms=['سوییت','تک خوابه','دو خوابه','سه خوابه و بیشتر'];
-const areas=['زیر ۶۰','۶۰–۷۰','۷۰–۸۰','۸۰–۹۰','۹۰–۱۲۰','۱۲۰–۱۵۰','بزرگتر از ۱۵۰'];
-const ages=['نوساز کلید نخورده','۱–۵ سال','۵–۱۰ سال','۱۰–۲۰ سال','بیشتر از ۲۰'];
+
+const cities=[
+'تهران',
+'مشهد',
+'تبریز',
+'استانبول',
+'ازمیر',
+'آنتالیا'
+];
+
+const types=[
+'مسکونی',
+'تجاری',
+'اداری',
+'خدماتی',
+'ورزشی',
+'آموزشی',
+'بهداشتی و درمانی',
+'زمین',
+'ویلا'
+];
+
+const rooms=[
+'سوییت',
+'تک خوابه',
+'دو خوابه',
+'سه خوابه و بیشتر'
+];
+
+const areas=[
+'زیر ۶۰',
+'۶۰–۷۰',
+'۷۰–۸۰',
+'۸۰–۹۰',
+'۹۰–۱۲۰',
+'۱۲۰–۱۵۰',
+'بزرگتر از ۱۵۰'
+];
+
+const ages=[
+'نوساز کلید نخورده',
+'۱–۵ سال',
+'۵–۱۰ سال',
+'۱۰–۲۰ سال',
+'بیشتر از ۲۰'
+];
 
 let s={
 step:1,
@@ -112,36 +416,34 @@ age:''
 let editing=false;
 let results=[];
 
-const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const fa=n =>
+String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 
-function esc(v){
-return String(v??'').replace(/[&<>"']/g,c=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#39;'
-}[c]));
-}
 
 function render(){
 
 document.getElementById('stepText').textContent=
-s.step<=7?`مرحله ${fa(s.step)} از ۷`:'';
+s.step<=7
+?`مرحله ${fa(s.step)} از ۷`
+:'';
 
 document.getElementById('bar').style.width=
 (s.step<=7?s.step/7*100:100)+'%';
 
 let r=document.getElementById('root');
 
-if(s.step===1)return intro(r);
+if(s.step===1)
+return intro(r);
 
 if(s.step===2)
 return choices(
 r,
 'نوع خدمت',
 'برای شروع، نوع خدمت مورد نظر خود را انتخاب نمایید:',
-[['خرید ملک','خرید'],['اجاره ملک','اجاره']],
+[
+['خرید ملک','خرید'],
+['اجاره ملک','اجاره']
+],
 'service'
 );
 
@@ -191,14 +493,19 @@ r,
 ages.map(x=>[x,x]),
 'age'
 );
+
 }
+
 
 function intro(r){
 
 r.innerHTML=`
+
 <div class="card">
 
-<div class="eyebrow">EVREN NEXUS · AVRIN</div>
+<div class="eyebrow">
+EVREN NEXUS · AVRIN
+</div>
 
 <h1 class="title">
 سلام، من دستیار مشاور املاک اورین نکسوس هستم.
@@ -216,7 +523,7 @@ r.innerHTML=`
 <input
 id="u"
 class="input"
-value="${esc(s.username)}"
+value="${s.username}"
 placeholder="نام کاربری خود را وارد کنید"
 >
 
@@ -225,32 +532,52 @@ ${s.username.length} کاراکتر
 </div>
 
 <div class="actions">
-<button type="button" class="btn primary" id="startBtn">
+
+<button
+type="button"
+class="btn primary"
+id="startBtn"
+>
 شروع مشاوره
 </button>
+
 </div>
 
 </div>
+
 `;
 
-document.getElementById('u').addEventListener('input',function(){
+document
+.getElementById('u')
+.addEventListener('input',function(){
+
 s.username=this.value;
+
 document.getElementById('count').textContent=
 this.value.length+' کاراکتر';
+
 });
 
-document.getElementById('startBtn')
+document
+.getElementById('startBtn')
 .addEventListener('click',nextUser);
+
 }
+
 
 function choices(r,ey,desc,items,key){
 
 let html=`
+
 <div class="card">
 
-<div class="eyebrow">${esc(ey)}</div>
+<div class="eyebrow">
+${ey}
+</div>
 
-<h1 class="title">${esc(desc)}</h1>
+<h1 class="title">
+${desc}
+</h1>
 
 <div class="grid">
 `;
@@ -258,93 +585,122 @@ let html=`
 items.forEach((item,i)=>{
 
 html+=`
+
 <button
 type="button"
 class="choice ${s[key]===item[1]?'selected':''}"
 data-choice="${i}"
 >
-${esc(item[0])}
+${item[0]}
 </button>
+
 `;
 
 });
 
-html+=`</div><div class="actions">`;
-
-if(s.step>1)
 html+=`
-<button type="button" class="btn secondary" id="backBtn">
-بازگشت
-</button>
-`;
 
-if(editing)
-html+=`
-<button type="button" class="btn secondary" id="resultsBtn">
-بازگشت به نتایج
-</button>
-`;
+</div>
 
-html+=`</div></div>`;
+<div class="actions">
+
+${s.step>1
+?'<button type="button" class="btn secondary" id="backBtn">بازگشت</button>'
+:''}
+
+${editing
+?'<button type="button" class="btn secondary" id="resultsBtn">بازگشت به نتایج</button>'
+:''}
+
+</div>
+
+</div>
+
+`;
 
 r.innerHTML=html;
 
-r.querySelectorAll('[data-choice]').forEach(btn=>{
+r.querySelectorAll('[data-choice]')
+.forEach(btn=>{
+
 btn.addEventListener('click',()=>{
+
 pick(
 key,
 items[Number(btn.dataset.choice)][1]
 );
+
 });
+
 });
 
 const b=document.getElementById('backBtn');
 const q=document.getElementById('resultsBtn');
 
-if(b)b.addEventListener('click',prevStep);
-if(q)q.addEventListener('click',showResults);
+if(b)
+b.addEventListener('click',prevStep);
+
+if(q)
+q.addEventListener('click',showResults);
+
 }
+
 
 function nextUser(){
 
-if(!s.username.trim()){
-alert('لطفاً یک نام کاربری وارد کنید.');
-return;
-}
+if(!s.username.trim())
+return alert('لطفاً یک نام کاربری وارد کنید.');
 
 s.username=s.username.trim();
+
 s.step=2;
+
 render();
+
 }
+
 
 function pick(k,v){
 
 s[k]=v;
+
 s.step++;
 
 if(s.step===8)
 searching();
 else
 render();
+
 }
+
 
 function prevStep(){
 
 if(s.step>1&&s.step<=7){
+
 s.step--;
+
 render();
+
 }
 else if(s.step===8){
+
 showResults();
+
 }
+
 }
+
 
 async function searching(){
 
-document.getElementById('stepText').textContent='جست‌وجوی گزینه‌ها';
+document.getElementById('stepText').textContent=
+'جست‌وجوی گزینه‌ها';
+
 document.getElementById('bar').style.width='100%';
 
 document.getElementById('root').innerHTML=`
+
 <div class="card loading">
 
 <div class="spinner"></div>
@@ -358,28 +714,32 @@ document.getElementById('root').innerHTML=`
 </p>
 
 </div>
+
 `;
 
 try{
 
-const response=await fetch(
-'./data/listings.json?'+Date.now()
-);
+const response=
+await fetch('./data/listings.json?'+Date.now());
 
 if(!response.ok)
 throw new Error('HTTP '+response.status);
 
-const data=await response.json();
+const data=
+await response.json();
 
-results=filterListings(
+results=
+filterListings(
 Array.isArray(data)?data:[]
 );
 
 showResults();
 
-}catch(e){
+}
+catch(e){
 
 document.getElementById('root').innerHTML=`
+
 <div class="card">
 
 <div class="eyebrow">
@@ -396,7 +756,7 @@ document.getElementById('root').innerHTML=`
 </p>
 
 <div class="notice">
-${esc(e.message)}
+${e.message}
 </div>
 
 <div class="actions">
@@ -412,12 +772,17 @@ id="retryBtn"
 </div>
 
 </div>
+
 `;
 
-document.getElementById('retryBtn')
+document
+.getElementById('retryBtn')
 .addEventListener('click',searching);
+
 }
+
 }
+
 
 function filterListings(data){
 
@@ -526,20 +891,40 @@ x.priceText||
 x['قیمت']||
 'قیمت توافقی';
 
-return{
+return {
+
 ...x,
+
 id:x.id||x.token||i+1,
+
 title,
+
 text,
-area:areaNum?fa(areaNum)+' متر':'',
+
+area:
+areaNum
+?fa(areaNum)+' متر'
+:'',
+
 areaNum,
-age:ageNum?fa(ageNum)+' سال':'نامشخص',
+
+age:
+ageNum
+?fa(ageNum)+' سال'
+:'نامشخص',
+
 ageNum,
+
 city:rawCity,
+
 type:rawType,
+
 rooms:rawRoom,
+
 price,
+
 link
+
 };
 
 })
@@ -573,37 +958,44 @@ x.ageNum<=ageMax
 )
 
 .slice(0,14);
+
 }
+
 
 function tags(){
 
-return`
+return `
+
 <div class="summary">
 
-<span class="tag">${esc(s.service)}</span>
-<span class="tag">${esc(s.type)}</span>
-<span class="tag">${esc(s.city)}</span>
-<span class="tag">${esc(s.room)}</span>
-<span class="tag">${esc(s.area)}</span>
-<span class="tag">${esc(s.age)}</span>
+<span class="tag">${s.service}</span>
+
+<span class="tag">${s.type}</span>
+
+<span class="tag">${s.city}</span>
+
+<span class="tag">${s.room}</span>
+
+<span class="tag">${s.area} متر</span>
+
+<span class="tag">${s.age}</span>
 
 </div>
+
 `;
+
 }
+
 
 function showResults(){
 
 s.step=8;
 
-document.getElementById('stepText')
-.textContent='نتایج جست‌وجو';
+document.getElementById('stepText').textContent=
+'نتایج جست‌وجو';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('root').innerHTML=`
 
-let r=document.getElementById('root');
-
-let html=`
 <div class="card">
 
 <div class="resultsHead">
@@ -637,13 +1029,12 @@ id="editBtn"
 ${tags()}
 
 <div class="list">
-`;
 
-if(results.length){
+${
+results.length
+?
+results.map((x,i)=>`
 
-results.forEach((x,i)=>{
-
-html+=`
 <article
 class="listing"
 data-result="${i}"
@@ -652,26 +1043,37 @@ data-result="${i}"
 <div class="ltop">
 
 <div class="ltitle">
-${esc(x.title)}
+${x.title}
 </div>
 
 <div class="price">
-${esc(x.price)}
+${x.price}
 </div>
 
 </div>
 
 <div class="meta">
 
-<span>${esc(x.area||'متراژ نامشخص')}</span>
-<span>${esc(x.rooms||'اتاق نامشخص')}</span>
-<span>${esc(x.age||'سن نامشخص')}</span>
-<span>${esc(x.city||s.city)}</span>
+<span>
+${x.area||'متراژ نامشخص'}
+</span>
+
+<span>
+${x.rooms||'اتاق نامشخص'}
+</span>
+
+<span>
+${x.age||'سن نامشخص'}
+</span>
+
+<span>
+${x.city||s.city}
+</span>
 
 </div>
 
 <div class="excerpt">
-${esc(String(x.text||'').split('\n')[0])}
+${String(x.text||'').split('\n')[0]}
 </div>
 
 <div class="source">
@@ -679,21 +1081,17 @@ ${esc(String(x.text||'').split('\n')[0])}
 </div>
 
 </article>
-`;
 
-});
+`).join('')
 
-}else{
+:
 
-html+=`
-<div class="notice">
+`<div class="notice">
 در آرشیو فعلی، آگهی‌ای با تمام معیارهای انتخاب‌شده پیدا نشد.
-</div>
-`;
+</div>`
 
 }
 
-html+=`
 </div>
 
 <div class="actions">
@@ -709,46 +1107,44 @@ id="contactBtn"
 </div>
 
 </div>
+
 `;
 
-r.innerHTML=html;
-
-document.getElementById('editBtn')
+document
+.getElementById('editBtn')
 .addEventListener('click',editSearch);
 
-document.getElementById('contactBtn')
+document
+.getElementById('contactBtn')
 .addEventListener('click',showContact);
 
-r.querySelectorAll('[data-result]')
-.forEach(el=>{
+document
+.querySelectorAll('[data-result]')
+.forEach(card=>{
 
-el.addEventListener('click',()=>{
+card.addEventListener('click',()=>{
+
 detail(
-results[Number(el.dataset.result)].id
+results[Number(card.dataset.result)]
 );
+
 });
 
 });
 
 }
 
-function detail(id){
 
-let x=results.find(
-a=>String(a.id)===String(id)
-);
+function detail(x){
 
-if(!x)return;
+if(!x)
+return;
 
-document.getElementById('stepText')
-.textContent='جزئیات آگهی';
+document.getElementById('stepText').textContent=
+'جزئیات آگهی';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('root').innerHTML=`
 
-let r=document.getElementById('root');
-
-let html=`
 <div class="card detail">
 
 <button
@@ -764,49 +1160,55 @@ id="detailBack"
 </div>
 
 <h1 class="title">
-${esc(x.title)}
+${x.title}
 </h1>
 
-<div class="price" style="font-size:18px">
-${esc(x.price)}
+<div
+class="price"
+style="font-size:18px"
+>
+${x.price}
 </div>
 
 <div class="detailGrid">
-`;
 
-[
+${[
 ['شهر',x.city||s.city],
 ['محله',x.neighborhood||x.district||'نامشخص'],
 ['متراژ',x.area||'نامشخص'],
 ['اتاق',x.rooms||'نامشخص'],
 ['سن بنا',x.age||'نامشخص'],
 ['وضعیت','آگهی واقعی']
-].forEach(a=>{
+]
+.map(a=>`
 
-html+=`
 <div class="detailItem">
-<b>${esc(a[0])}</b>
-<span>${esc(a[1])}</span>
+
+<b>
+${a[0]}
+</b>
+
+<span>
+${a[1]}
+</span>
+
 </div>
-`;
 
-});
+`).join('')}
 
-html+=`
 </div>
 
 <div class="fulltext">
-${esc(
-x.text||
-'توضیحات آگهی در داده دریافت‌شده موجود نیست.'
-)}
+
+${x.text||'توضیحات آگهی در داده دریافت‌شده موجود نیست.'}
+
 </div>
 
 <div class="actions">
 
 <a
 class="btn secondary"
-href="${esc(x.link)}"
+href="${x.link}"
 target="_blank"
 rel="noopener"
 >
@@ -824,27 +1226,35 @@ id="detailEdit"
 </div>
 
 </div>
+
 `;
 
-r.innerHTML=html;
-
-document.getElementById('detailBack')
+document
+.getElementById('detailBack')
 .addEventListener('click',showResults);
 
-document.getElementById('detailEdit')
+document
+.getElementById('detailEdit')
 .addEventListener('click',editSearch);
+
 }
+
 
 function editSearch(){
 
 editing=true;
+
 s.step=2;
+
 render();
+
 }
+
 
 function contactForm(){
 
-return`
+return `
+
 <div class="card">
 
 <div class="eyebrow">
@@ -905,8 +1315,11 @@ id="cancelContact"
 </div>
 
 </div>
+
 `;
+
 }
+
 
 function finishContact(){
 
@@ -919,34 +1332,54 @@ document.getElementById('cphone').value.trim();
 const email=
 document.getElementById('cemail').value.trim();
 
-if(!name){
-alert('لطفاً نام خود را وارد کنید.');
-return;
-}
+if(!name)
+return alert('لطفاً نام خود را وارد کنید.');
 
-if(!phone&&!email){
-alert('لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.');
-return;
-}
+if(!phone&&!email)
+return alert('لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.');
+
+s.contactName=name;
+s.contactPhone=phone;
+s.contactEmail=email;
 
 const lead={
+
 username:s.username,
+
 service:s.service,
+
 type:s.type,
+
 city:s.city,
+
 room:s.room,
+
 area:s.area,
+
 age:s.age,
+
 name,
+
 phone,
+
 email,
-shownListings:results.map(x=>({
+
+shownListings:
+results.map(x=>({
+
 id:x.id,
+
 title:x.title,
+
 price:x.price,
+
 link:x.link
+
 })),
-createdAt:new Date().toISOString()
+
+createdAt:
+new Date().toISOString()
+
 };
 
 const leads=
@@ -962,29 +1395,34 @@ JSON.stringify(leads)
 );
 
 showResults();
+
 }
+
 
 function showContact(){
 
-document.getElementById('stepText')
-.textContent='اطلاعات تماس';
+document.getElementById('stepText').textContent=
+'اطلاعات تماس';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('bar').style.width='100%';
 
-document.getElementById('root')
-.innerHTML=contactForm();
+document.getElementById('root').innerHTML=
+contactForm();
 
-document.getElementById('saveContact')
+document
+.getElementById('saveContact')
 .addEventListener('click',finishContact);
 
-document.getElementById('cancelContact')
+document
+.getElementById('cancelContact')
 .addEventListener('click',showResults);
+
 }
 
+
 render();
+
 </script>
 
 </body>
 </html>
-```
