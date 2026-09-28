@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,7 +15,6 @@
 --muted:#91a2b5;
 --accent:#46c6a7;
 --accent2:#2aa88c;
---danger:#e47a7a
 }
 
 *{box-sizing:border-box}
@@ -168,13 +166,6 @@ border-color:var(--accent);
 background:#11251f
 }
 
-.choice small{
-display:block;
-color:var(--muted);
-font-size:10px;
-margin-top:5px
-}
-
 .actions{
 display:flex;
 gap:9px;
@@ -305,18 +296,6 @@ margin-top:9px
 margin-bottom:15px
 }
 
-.fulltext{
-white-space:pre-line;
-color:#b8c4cf;
-font-size:12px;
-line-height:2.15;
-background:#0b131c;
-border:1px solid #253546;
-border-radius:13px;
-padding:15px;
-margin-top:15px
-}
-
 .detailGrid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -339,6 +318,18 @@ margin-bottom:5px
 
 .detailItem span{
 font-size:12px
+}
+
+.fulltext{
+white-space:pre-line;
+color:#b8c4cf;
+font-size:12px;
+line-height:2.15;
+background:#0b131c;
+border:1px solid #253546;
+border-radius:13px;
+padding:15px;
+margin-top:15px
 }
 
 .loading{
@@ -369,6 +360,11 @@ border-radius:11px;
 font-size:11px;
 line-height:1.8;
 margin-top:12px
+}
+
+.empty{
+text-align:center;
+padding:25px 10px
 }
 
 @media(max-width:600px){
@@ -412,6 +408,8 @@ margin-top:12px
 
 }
 </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="fa">
 </head>
 
 <body>
@@ -461,6 +459,12 @@ const cities=[
 'آنتالیا'
 ];
 
+const iranCities={
+'تهران':'tehran',
+'مشهد':'mashhad',
+'تبریز':'tabriz'
+};
+
 const types=[
 'مسکونی',
 'تجاری',
@@ -498,7 +502,6 @@ const ages=[
 'بیشتر از ۲۰'
 ];
 
-
 let s={
 step:1,
 username:'',
@@ -527,22 +530,23 @@ d=>'۰۱۲۳۴۵۶۷۸۹'[d]
 function normalize(v){
 
 return String(v ?? '')
-.replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-.replace(/ي/g,'ی')
-.replace(/ك/g,'ک')
 .trim()
-.toLowerCase();
+.toLowerCase()
+.replace(/[ي]/g,'ی')
+.replace(/[ك]/g,'ک')
+.replace(/[ۀ]/g,'ه');
 
 }
 
 
-function number(v){
+function escapeHTML(value){
 
-const n=normalize(v)
-.replace(/,/g,'')
-.replace(/[^0-9.]/g,'');
-
-return n ? Number(n) : 0;
+return String(value ?? '')
+.replace(/&/g,'&amp;')
+.replace(/</g,'&lt;')
+.replace(/>/g,'&gt;')
+.replace(/"/g,'&quot;')
+.replace(/'/g,'&#039;');
 
 }
 
@@ -557,12 +561,14 @@ s.step<=7
 document.getElementById('bar').style.width=
 (s.step<=7?s.step/7*100:100)+'%';
 
-const r=document.getElementById('root');
+let r=document.getElementById('root');
 
-if(s.step===1)
+if(s.step===1){
 return intro(r);
+}
 
-if(s.step===2)
+if(s.step===2){
+
 return choices(
 r,
 'نوع خدمت',
@@ -574,7 +580,10 @@ r,
 'service'
 );
 
-if(s.step===3)
+}
+
+if(s.step===3){
+
 return choices(
 r,
 'نوع ملک',
@@ -583,7 +592,10 @@ types.map(x=>[x,x]),
 'type'
 );
 
-if(s.step===4)
+}
+
+if(s.step===4){
+
 return choices(
 r,
 'شهر',
@@ -594,7 +606,10 @@ cities.map(x=>[x,x]),
 'city'
 );
 
-if(s.step===5)
+}
+
+if(s.step===5){
+
 return choices(
 r,
 'تعداد اتاق',
@@ -603,7 +618,10 @@ rooms.map(x=>[x,x]),
 'room'
 );
 
-if(s.step===6)
+}
+
+if(s.step===6){
+
 return choices(
 r,
 'متراژ',
@@ -612,14 +630,19 @@ areas.map(x=>[x,x]),
 'area'
 );
 
-if(s.step===7)
+}
+
+if(s.step===7){
+
 return choices(
 r,
 'سن بنا',
-'سن بنای مورد نظر خود را انتخاب نمایید:',
+'سن بنای مورد نظر را انتخاب نمایید:',
 ages.map(x=>[x,x]),
 'age'
 );
+
+}
 
 }
 
@@ -657,20 +680,20 @@ EVREN NEXUS · AVRIN
 <input
 id="u"
 class="input"
-value="${escapeHtml(s.username)}"
+value="${escapeHTML(s.username)}"
 placeholder="نام کاربری خود را وارد کنید"
 >
 
 <div id="count" class="counter">
-${s.username.length} کاراکتر
+${fa(s.username.length)} کاراکتر
 </div>
 
 <div class="actions">
 
 <button
-type="button"
 class="btn primary"
 id="startBtn"
+type="button"
 >
 شروع مشاوره
 </button>
@@ -678,155 +701,103 @@ id="startBtn"
 </div>
 
 </div>
-
 `;
 
 const input=document.getElementById('u');
 
-input.addEventListener(
-'input',
-function(){
+input.addEventListener('input',function(){
 
 s.username=this.value;
 
 document.getElementById('count').textContent=
-this.value.length+' کاراکتر';
+fa(this.value.length)+' کاراکتر';
 
-}
-);
+});
 
 document.getElementById('startBtn')
-.addEventListener(
-'click',
-nextUser
-);
+.addEventListener('click',nextUser);
 
 }
 
 
 function choices(r,ey,desc,items,key){
 
-let html=`
+let back=
+s.step>1
+?`<button class="btn secondary" id="backBtn" type="button">بازگشت</button>`
+:'';
+
+r.innerHTML=`
 
 <div class="card">
 
 <div class="eyebrow">
-${ey}
+${escapeHTML(ey)}
 </div>
 
 <h1 class="title">
-${desc}
+${escapeHTML(desc)}
 </h1>
 
 <div class="grid">
-`;
 
-items.forEach(
-(item,i)=>{
-
-html+=`
+${items.map(([label,val])=>`
 
 <button
+class="choice ${s[key]===val?'selected':''}"
+data-key="${escapeHTML(key)}"
+data-value="${escapeHTML(val)}"
 type="button"
-class="choice ${s[key]===item[1]?'selected':''}"
-data-choice="${i}"
 >
-${item[0]}
+
+${escapeHTML(label)}
+
 </button>
 
-`;
-
-}
-);
-
-html+=`
+`).join('')}
 
 </div>
 
 <div class="actions">
 
-`;
+${back}
 
-if(s.step>1){
-
-html+=`
-
-<button
-type="button"
-class="btn secondary"
-id="backBtn"
->
-بازگشت
-</button>
-
-`;
-
+${
+editing
+?
+'<button class="btn secondary" id="resultsBtn" type="button">بازگشت به نتایج</button>'
+:''
 }
-
-if(editing){
-
-html+=`
-
-<button
-type="button"
-class="btn secondary"
-id="resultsBtn"
->
-بازگشت به نتایج
-</button>
-
-`;
-
-}
-
-html+=`
 
 </div>
 
 </div>
 `;
 
-r.innerHTML=html;
+document.querySelectorAll('.choice').forEach(btn=>{
 
-
-r.querySelectorAll('[data-choice]')
-.forEach(btn=>{
-
-btn.addEventListener(
-'click',
-function(){
-
-const index=Number(
-this.dataset.choice
-);
+btn.addEventListener('click',function(){
 
 pick(
-key,
-items[index][1]
-);
-
-}
+this.dataset.key,
+this.dataset.value
 );
 
 });
 
+});
 
-const back=document.getElementById('backBtn');
+const backBtn=document.getElementById('backBtn');
 
-if(back)
-back.addEventListener(
-'click',
-prevStep
-);
-
+if(backBtn){
+backBtn.addEventListener('click',prevStep);
+}
 
 const resultsBtn=document.getElementById('resultsBtn');
 
-if(resultsBtn)
-resultsBtn.addEventListener(
-'click',
-showResults
-);
+if(resultsBtn){
+resultsBtn.addEventListener('click',showResults);
+}
 
 }
 
@@ -871,15 +842,13 @@ render();
 
 function prevStep(){
 
-if(s.step>1 && s.step<=7){
+if(s.step>1&&s.step<=7){
 
 s.step--;
 
 render();
 
-}
-
-else if(s.step===8){
+}else if(s.step===8){
 
 showResults();
 
@@ -888,28 +857,14 @@ showResults();
 }
 
 
-function escapeHtml(value){
-
-return String(value ?? '')
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
-
-}
-
-
 async function searching(){
 
-document.getElementById('stepText')
-.textContent='جست‌وجوی گزینه‌ها';
+document.getElementById('stepText').textContent=
+'جست‌وجوی گزینه‌ها';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('bar').style.width='100%';
 
-document.getElementById('root')
-.innerHTML=`
+document.getElementById('root').innerHTML=`
 
 <div class="card loading">
 
@@ -924,37 +879,30 @@ document.getElementById('root')
 </p>
 
 </div>
-
 `;
 
 try{
 
 const response=
-await fetch(
-'./data/listings.json?'+Date.now()
-);
+await fetch('./data/listings.json?'+Date.now());
 
-if(!response.ok)
-throw new Error(
-'HTTP '+response.status
-);
+if(!response.ok){
 
-const data=
-await response.json();
+throw new Error('HTTP '+response.status);
 
-results=
-filterListings(
+}
+
+const data=await response.json();
+
+results=filterListings(
 Array.isArray(data)?data:[]
 );
 
 showResults();
 
-}
+}catch(e){
 
-catch(e){
-
-document.getElementById('root')
-.innerHTML=`
+document.getElementById('root').innerHTML=`
 
 <div class="card">
 
@@ -968,19 +916,18 @@ document.getElementById('root')
 
 <p class="desc">
 اتصال به آرشیو آگهی‌های اورین با مشکل مواجه شد.
-لطفاً دوباره تلاش کنید.
 </p>
 
 <div class="notice">
-${escapeHtml(e.message)}
+${escapeHTML(e.message)}
 </div>
 
 <div class="actions">
 
 <button
-type="button"
 class="btn primary"
 id="retryBtn"
+type="button"
 >
 تلاش دوباره
 </button>
@@ -988,561 +935,199 @@ id="retryBtn"
 </div>
 
 </div>
-
 `;
 
 document.getElementById('retryBtn')
-.addEventListener(
-'click',
-searching
+.addEventListener('click',searching);
+
+}
+
+}
+
+
+function normalizeCity(city){
+
+const c=normalize(city);
+
+if(
+c==='tehran'||
+c.includes('تهران')
+)return 'tehran';
+
+if(
+c==='mashhad'||
+c.includes('مشهد')
+)return 'mashhad';
+
+if(
+c==='tabriz'||
+c.includes('تبریز')
+)return 'tabriz';
+
+return c;
+
+}
+
+
+function getDealType(x){
+
+const value=
+normalize(
+x.dealType ||
+x.deal_type ||
+x.transactionType ||
+x.service ||
+''
+);
+
+if(
+value==='sale' ||
+value==='فروش' ||
+value.includes('sale')
+){
+return 'sale';
+}
+
+if(
+value==='rent' ||
+value==='اجاره' ||
+value.includes('rent')
+){
+return 'rent';
+}
+
+return '';
+
+}
+
+
+function getCity(x){
+
+return normalizeCity(
+x.sourceCity ||
+x.city ||
+x.cityName ||
+x['شهر'] ||
+''
 );
 
 }
 
-}
-
-
-/* =========================
-   FILTER ENGINE
-========================= */
 
 function filterListings(data){
 
-const city=
-normalize(s.city);
-
-const wantedType=
-normalize(s.type);
-
-const wantedRoom=
-normalize(s.room);
-
-
-const areaRanges={
-
-'زیر ۶۰':[0,59],
-
-'۶۰–۷۰':[60,70],
-
-'۷۰–۸۰':[70,80],
-
-'۸۰–۹۰':[80,90],
-
-'۹۰–۱۲۰':[90,120],
-
-'۱۲۰–۱۵۰':[120,150],
-
-'بزرگتر از ۱۵۰':[150,99999]
-
-};
-
-
-const ageRanges={
-
-'نوساز کلید نخورده':[0,0],
-
-'۱–۵ سال':[1,5],
-
-'۵–۱۰ سال':[5,10],
-
-'۱۰–۲۰ سال':[10,20],
-
-'بیشتر از ۲۰':[20,9999]
-
-};
-
-
-const [amin,amax]=
-areaRanges[s.area] || [0,99999];
-
-const [ageMin,ageMax]=
-ageRanges[s.age] || [0,99999];
-
-
-const roomWanted=
-s.room==='سوییت'
-?0
-:s.room==='تک خوابه'
-?1
-:s.room==='دو خوابه'
-?2
-:3;
-
-
-const typeWords={
-
-'مسکونی':[
-'مسکونی',
-'آپارتمان',
-'خانه',
-'منزل',
-'پنت هاوس',
-'واحد مسکونی'
-],
-
-'تجاری':[
-'تجاری',
-'مغازه',
-'فروشگاه',
-'سرقفلی',
-'واحد تجاری'
-],
-
-'اداری':[
-'اداری',
-'دفتر',
-'دفترکار',
-'واحد اداری'
-],
-
-'خدماتی':[
-'خدماتی'
-],
-
-'ورزشی':[
-'ورزشی',
-'باشگاه'
-],
-
-'آموزشی':[
-'آموزشی',
-'مدرسه',
-'آموزشگاه'
-],
-
-'بهداشتی و درمانی':[
-'پزشکی',
-'درمانی',
-'مطب',
-'کلینیک',
-'بیمارستان'
-],
-
-'زمین':[
-'زمین',
-'قطعه زمین',
-'زمین مسکونی',
-'زمین تجاری'
-],
-
-'ویلا':[
-'ویلا',
-'باغ ویلا',
-'باغ‌ویلا'
-]
-
-};
-
-
-function extractArea(x,text){
-
-const raw=
-x.area ??
-x.meterage ??
-x.size ??
-x.area_m2 ??
-x.meter ??
-x.metraj ??
-x['متراژ'] ??
-'';
-
-let n=number(raw);
-
-if(n>0)
-return n;
-
-
-const patterns=[
-
-/(\d{2,5})\s*(?:متر|متری|مترمربع|متر مربع)/i,
-
-/متراژ\s*[:：]?\s*(\d{2,5})/i,
-
-/(\d{2,5})\s*متر/i
-
-];
-
-for(const p of patterns){
-
-const m=text.match(p);
-
-if(m){
-
-const v=Number(m[1]);
-
-if(v>0)
-return v;
-
-}
-
-}
-
-return 0;
-
-}
-
-
-function extractRooms(x,text){
-
-const raw=
-x.rooms ??
-x.room ??
-x.bedrooms ??
-x.bedroom ??
-x['اتاق'] ??
-x['اتاق خواب'] ??
-'';
-
-let n=number(raw);
-
-if(n>0)
-return n;
-
-
-if(
-/سه\s*(خوابه|اتاق)/.test(text) ||
-/3\s*(خوابه|اتاق)/.test(text)
-)
-return 3;
-
-if(
-/دو\s*(خوابه|اتاق)/.test(text) ||
-/2\s*(خوابه|اتاق)/.test(text)
-)
-return 2;
-
-if(
-/تک\s*(خوابه|اتاق)/.test(text) ||
-/یک\s*(خوابه|اتاق)/.test(text) ||
-/1\s*(خوابه|اتاق)/.test(text)
-)
-return 1;
-
-if(
-/سوییت|سوئیت|استودیو/.test(text)
-)
-return 0;
-
-return 0;
-
-}
-
-
-function extractAge(x,text){
-
-const raw=
-x.age ??
-x.buildingAge ??
-x.building_age ??
-x['سن بنا'] ??
-x['عمر بنا'] ??
-'';
-
-let n=number(raw);
-
-if(n>=0 && raw!=='')
-return n;
-
-
-let m=
-text.match(
-/(?:سن بنا|عمر بنا|ساخت)\s*[:：]?\s*(\d{1,3})/
-);
-
-if(m)
-return Number(m[1]);
-
-
-m=text.match(
-/(\d{1,3})\s*سال(?:ه)?\s*(?:ساخت|بنا|سن)/
-);
-
-if(m)
-return Number(m[1]);
-
-
-if(
-/نوساز|کلید نخورده/.test(text)
-)
-return 0;
-
-
-return 0;
-
-}
-
+const wantedCity=
+iranCities[s.city] || normalizeCity(s.city);
+
+const wantedDeal=
+s.service==='خرید'
+?'sale'
+:'rent';
 
 return data
+
+.filter(x=>{
+
+const city=getCity(x);
+
+return city===wantedCity;
+
+})
+
+.filter(x=>{
+
+const deal=getDealType(x);
+
+return deal===wantedDeal;
+
+})
+
+.slice(0,14)
+
 .map((x,i)=>{
 
 const title=
 x.title ||
 x.name ||
 x.heading ||
-x.subject ||
-x.headline ||
 'آگهی ملک';
-
 
 const text=
 x.description ||
 x.text ||
 x.body ||
 x.content ||
-x.desc ||
-x.details ||
 '';
 
-
-const rawCity=
-x.city ||
-x.cityName ||
-x.location?.city ||
-x['شهر'] ||
+const area=
+x.area ||
+x.meterage ||
+x.size ||
+x.area_m2 ||
+x['متراژ'] ||
 '';
 
-
-const rawType=
-x.type ||
-x.propertyType ||
-x.categoryName ||
-x.category ||
-x['نوع ملک'] ||
-'';
-
-
-const rawRoom=
+const roomsValue=
 x.rooms ||
 x.room ||
 x.bedrooms ||
-x.bedroom ||
 x['اتاق'] ||
-x['اتاق خواب'] ||
 '';
 
+const age=
+x.age ||
+x.buildingAge ||
+x['سن بنا'] ||
+'';
 
-const all=
-normalize(
-title+' '+
-text+' '+
-rawCity+' '+
-rawType+' '+
-String(x.category||'')
-);
-
-
-const areaNum=
-extractArea(
-x,
-normalize(title+' '+text)
-);
-
-
-const ageNum=
-extractAge(
-x,
-normalize(title+' '+text)
-);
-
-
-const roomNum=
-extractRooms(
-x,
-normalize(title+' '+text)
-);
-
-
-const cityText=
-normalize(
-rawCity+' '+all
-);
-
-
-const cityOk=
-!city ||
-cityText.includes(city);
-
-
-const typeOk=
-!wantedType ||
-normalize(rawType).includes(wantedType) ||
-wantedType.includes(normalize(rawType)) ||
-(typeWords[s.type]||[])
-.some(
-k=>all.includes(normalize(k))
-);
-
-
-let roomOk=true;
-
-
-/*
-اگر اطلاعات تعداد اتاق در داده وجود داشته باشد،
-فیلتر اعمال می‌شود.
-اگر اطلاعات موجود نباشد، آگهی حذف نمی‌شود.
-*/
-
-if(roomNum>0){
-
-if(roomWanted===0){
-
-roomOk=
-/سوییت|سوئیت|استودیو/.test(all);
-
-}else if(roomWanted===3){
-
-roomOk=
-roomNum>=3;
-
-}else{
-
-roomOk=
-roomNum===roomWanted;
-
-}
-
-}
-
-
-let areaOk=true;
-
-
-/*
-اگر متراژ پیدا شده باشد،
-فیلتر متراژ اعمال می‌شود.
-اگر متراژ ناشناخته باشد،
-آگهی حذف نمی‌شود.
-*/
-
-if(areaNum>0){
-
-areaOk=
-areaNum>=amin &&
-areaNum<=amax;
-
-}
-
-
-let ageOk=true;
-
-
-/*
-اگر سن بنا پیدا شده باشد،
-فیلتر سن اعمال می‌شود.
-اگر سن بنا ناشناخته باشد،
-آگهی حذف نمی‌شود.
-*/
-
-if(ageNum>0 || s.age==='نوساز کلید نخورده'){
-
-ageOk=
-ageNum>=ageMin &&
-ageNum<=ageMax;
-
-}
-
+const price=
+x.priceText ||
+x.price ||
+x['قیمت'] ||
+'قیمت توافقی';
 
 const link=
 x.url ||
 x.link ||
 x.webUrl ||
 x.shareUrl ||
-x.share_url ||
-x.canonicalUrl ||
-x.adUrl ||
 '#';
-
-
-const price=
-x.price ||
-x.priceText ||
-x.total_price ||
-x.totalPrice ||
-x['قیمت'] ||
-x['قیمت کل'] ||
-'قیمت توافقی';
-
 
 return{
 
 ...x,
 
-id:
-x.id ||
-x.token ||
-x.key ||
-x.adId ||
-i+1,
+id:x.token || x.id || x.adInstanceId || i+1,
 
 title:title,
 
 text:text,
 
-city:rawCity,
+area:area,
 
-type:rawType,
+rooms:roomsValue,
 
-rooms:
-rawRoom ||
-(roomNum?String(roomNum):''),
+age:age,
 
-area:
-areaNum
-?fa(areaNum)+' متر'
-:'نامشخص',
+city:s.city,
 
-areaNum:
+district:
+x.district ||
+x.neighborhood ||
+'',
 
-areaNum,
+price:price,
 
-age:
+link:link,
 
-ageNum
-?fa(ageNum)+' سال'
-:'نامشخص',
-
-ageNum:
-
-ageNum,
-
-price:
-
-price,
-
-link:
-
-link,
-
-_match:{
-cityOk,
-typeOk,
-roomOk,
-areaOk,
-ageOk
-}
+dealType:getDealType(x)
 
 };
 
-})
-
-.filter(x=>
-
-x._match.cityOk &&
-x._match.typeOk &&
-x._match.roomOk &&
-x._match.areaOk &&
-x._match.ageOk
-
-)
-
-.slice(0,14);
+});
 
 }
 
-
-/* =========================
-   RESULTS
-========================= */
 
 function tags(){
 
@@ -1551,27 +1136,27 @@ return `
 <div class="summary">
 
 <span class="tag">
-${escapeHtml(s.service)}
+${escapeHTML(s.service)}
 </span>
 
 <span class="tag">
-${escapeHtml(s.type)}
+${escapeHTML(s.type)}
 </span>
 
 <span class="tag">
-${escapeHtml(s.city)}
+${escapeHTML(s.city)}
 </span>
 
 <span class="tag">
-${escapeHtml(s.room)}
+${escapeHTML(s.room)}
 </span>
 
 <span class="tag">
-${escapeHtml(s.area)}
+${escapeHTML(s.area)}
 </span>
 
 <span class="tag">
-${escapeHtml(s.age)}
+${escapeHTML(s.age)}
 </span>
 
 </div>
@@ -1585,36 +1170,30 @@ function showResults(){
 
 s.step=8;
 
-document.getElementById('stepText')
-.textContent='نتایج جست‌وجو';
+document.getElementById('stepText').textContent=
+'نتایج جست‌وجو';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('bar').style.width='100%';
 
-
-let listHtml='';
-
+let list='';
 
 if(results.length){
 
-listHtml=
-results
-.map(
-(x,index)=>`
+list=results.map(x=>`
 
 <article
 class="listing"
-data-result="${index}"
+data-id="${escapeHTML(x.id)}"
 >
 
 <div class="ltop">
 
 <div class="ltitle">
-${escapeHtml(x.title)}
+${escapeHTML(x.title)}
 </div>
 
 <div class="price">
-${escapeHtml(x.price)}
+${escapeHTML(x.price)}
 </div>
 
 </div>
@@ -1622,52 +1201,70 @@ ${escapeHtml(x.price)}
 <div class="meta">
 
 <span>
-${escapeHtml(x.area||'متراژ نامشخص')}
+${x.area?escapeHTML(x.area):'متراژ نامشخص'}
 </span>
 
 <span>
-${escapeHtml(x.rooms||'اتاق نامشخص')}
+${x.rooms?escapeHTML(x.rooms):'اتاق نامشخص'}
 </span>
 
 <span>
-${escapeHtml(x.age||'سن نامشخص')}
+${x.age?escapeHTML(x.age):'سن بنا نامشخص'}
 </span>
 
 <span>
-${escapeHtml(x.city||s.city)}
+${escapeHTML(x.city)}
+</span>
+
+${
+x.district
+?
+`<span>${escapeHTML(x.district)}</span>`
+:''
+}
+
+<span>
+${x.dealType==='sale'?'فروش':'اجاره'}
 </span>
 
 </div>
 
 <div class="excerpt">
-${escapeHtml(
+
+${escapeHTML(
 String(x.text||'')
 .split('\n')[0]
 )}
+
 </div>
 
 <div class="source">
-منبع: آرشیو آگهی‌های اورین
+منبع: آرشیو آگهی‌های اورین · دیوار
 </div>
 
 </article>
 
-`
-)
-.join('');
+`).join('');
 
 }else{
 
-listHtml=`
+list=`
 
-<div class="notice">
+<div class="empty">
 
-در آرشیو فعلی، آگهی‌ای با تمام معیارهای انتخاب‌شده پیدا نشد.
+<div class="eyebrow">
+AVRIN MATCH
+</div>
 
-<br>
+<h3>
+آگهی منطبقی پیدا نشد
+</h3>
 
-ممکن است بعضی از اطلاعات آگهی‌ها مانند متراژ، سن بنا یا تعداد اتاق
-در داده دریافتی ثبت نشده باشد.
+<p class="desc">
+در آرشیو فعلی برای ${escapeHTML(s.city)}
+در بخش ${escapeHTML(s.service)}
+آگهی منطبق با این جست‌وجو پیدا نشد.
+</p>
 
 </div>
 
@@ -1676,8 +1273,7 @@ listHtml=`
 }
 
 
-document.getElementById('root')
-.innerHTML=`
+document.getElementById('root').innerHTML=`
 
 <div class="card">
 
@@ -1694,17 +1290,17 @@ ${fa(results.length)} گزینه منطبق پیدا شد
 </h2>
 
 <p>
-این گزینه‌ها از آرشیو واقعی آگهی‌های دریافت‌شده برای اورین انتخاب شده‌اند.
+گزینه‌ها از آرشیو واقعی آگهی‌های دریافت‌شده برای اورین انتخاب شده‌اند.
 </p>
 
 </div>
 
 <button
-type="button"
 class="btn secondary"
 id="editBtn"
+type="button"
 >
-ویرایش اطلاعات جستجو
+ویرایش اطلاعات جست‌وجو
 </button>
 
 </div>
@@ -1712,15 +1308,15 @@ id="editBtn"
 ${tags()}
 
 <div class="list">
-${listHtml}
+${list}
 </div>
 
 <div class="actions">
 
 <button
-type="button"
 class="btn primary"
 id="contactBtn"
+type="button"
 >
 ارائه اطلاعات برای مشاوره دقیق‌تر
 </button>
@@ -1728,71 +1324,51 @@ id="contactBtn"
 </div>
 
 </div>
-
 `;
 
 
-document.getElementById('editBtn')
-.addEventListener(
-'click',
-editSearch
-);
+document.querySelectorAll('.listing')
+.forEach(item=>{
 
+item.addEventListener('click',function(){
+
+detail(this.dataset.id);
+
+});
+
+});
+
+
+document.getElementById('editBtn')
+.addEventListener('click',editSearch);
 
 document.getElementById('contactBtn')
-.addEventListener(
-'click',
-showContact
-);
-
-
-document
-.querySelectorAll('[data-result]')
-.forEach(
-el=>{
-
-el.addEventListener(
-'click',
-function(){
-
-detail(
-Number(this.dataset.result)
-);
-
-}
-);
-
-}
-);
+.addEventListener('click',showContact);
 
 }
 
 
-/* =========================
-   DETAIL
-========================= */
+function detail(id){
 
-function detail(index){
+const x=results.find(
+a=>String(a.id)===String(id)
+);
 
-const x=results[index];
-
-if(!x)
-return;
+if(!x)return;
 
 
-document.getElementById('stepText')
-.textContent='جزئیات آگهی';
+document.getElementById('stepText').textContent=
+'جزئیات آگهی';
 
 
-document.getElementById('root')
-.innerHTML=`
+document.getElementById('root').innerHTML=`
 
 <div class="card detail">
 
 <button
-type="button"
 class="btn secondary back"
 id="detailBack"
+type="button"
 >
 ← بازگشت به نتایج
 </button>
@@ -1802,52 +1378,64 @@ id="detailBack"
 </div>
 
 <h1 class="title">
-${escapeHtml(x.title)}
+${escapeHTML(x.title)}
 </h1>
 
-<div
-class="price"
-style="font-size:18px"
->
-${escapeHtml(x.price)}
+<div class="price" style="font-size:18px">
+${escapeHTML(x.price)}
 </div>
 
 
 <div class="detailGrid">
 
-${[
-['شهر',x.city||s.city],
-['محله',x.neighborhood||x.district||'نامشخص'],
-['متراژ',x.area||'نامشخص'],
-['اتاق',x.rooms||'نامشخص'],
-['سن بنا',x.age||'نامشخص'],
-['وضعیت','آگهی واقعی']
-]
-.map(
-a=>`
-
 <div class="detailItem">
-
-<b>
-${escapeHtml(a[0])}
-</b>
-
+<b>نوع معامله</b>
 <span>
-${escapeHtml(a[1])}
+${x.dealType==='sale'?'فروش':'اجاره'}
 </span>
-
 </div>
 
-`
-)
-.join('')}
+<div class="detailItem">
+<b>شهر</b>
+<span>
+${escapeHTML(x.city)}
+</span>
+</div>
+
+<div class="detailItem">
+<b>محله</b>
+<span>
+${escapeHTML(x.district||'نامشخص')}
+</span>
+</div>
+
+<div class="detailItem">
+<b>متراژ</b>
+<span>
+${escapeHTML(x.area||'نامشخص')}
+</span>
+</div>
+
+<div class="detailItem">
+<b>اتاق</b>
+<span>
+${escapeHTML(x.rooms||'نامشخص')}
+</span>
+</div>
+
+<div class="detailItem">
+<b>سن بنا</b>
+<span>
+${escapeHTML(x.age||'نامشخص')}
+</span>
+</div>
 
 </div>
 
 
 <div class="fulltext">
 
-${escapeHtml(
+${escapeHTML(
 x.text ||
 'توضیحات آگهی در داده دریافت‌شده موجود نیست.'
 )}
@@ -1857,21 +1445,29 @@ x.text ||
 
 <div class="actions">
 
+${
+x.link && x.link!=='#'
+?
+`
 <a
-class="btn secondary"
-href="${escapeHtml(x.link)}"
+class="btn primary"
+href="${escapeHTML(x.link)}"
 target="_blank"
-rel="noopener"
+rel="noopener noreferrer"
 >
-مشاهده آگهی اصلی
+مشاهده آگهی اصلی در دیوار
 </a>
+`
+:
+''
+}
 
 <button
-type="button"
 class="btn secondary"
 id="detailEdit"
+type="button"
 >
-ویرایش اطلاعات جستجو
+ویرایش اطلاعات جست‌وجو
 </button>
 
 </div>
@@ -1882,24 +1478,13 @@ id="detailEdit"
 
 
 document.getElementById('detailBack')
-.addEventListener(
-'click',
-showResults
-);
-
+.addEventListener('click',showResults);
 
 document.getElementById('detailEdit')
-.addEventListener(
-'click',
-editSearch
-);
+.addEventListener('click',editSearch);
 
 }
 
-
-/* =========================
-   EDIT SEARCH
-========================= */
 
 function editSearch(){
 
@@ -1911,10 +1496,6 @@ render();
 
 }
 
-
-/* =========================
-   CONTACT
-========================= */
 
 function contactForm(){
 
@@ -1962,17 +1543,17 @@ placeholder="ایمیل (اختیاری)"
 <div class="actions">
 
 <button
-type="button"
 class="btn primary"
-id="finishBtn"
+id="saveContact"
+type="button"
 >
 ثبت اطلاعات
 </button>
 
 <button
-type="button"
 class="btn secondary"
-id="contactBack"
+id="cancelContact"
+type="button"
 >
 بازگشت به نتایج
 </button>
@@ -2003,14 +1584,11 @@ document.getElementById('cemail')
 
 if(!name){
 
-alert(
-'لطفاً نام خود را وارد کنید.'
-);
+alert('لطفاً نام خود را وارد کنید.');
 
 return;
 
 }
-
 
 if(!phone&&!email){
 
@@ -2021,11 +1599,6 @@ alert(
 return;
 
 }
-
-
-s.contactName=name;
-s.contactPhone=phone;
-s.contactEmail=email;
 
 
 const lead={
@@ -2051,8 +1624,8 @@ phone:phone,
 email:email,
 
 shownListings:
-results.map(
-x=>({
+
+results.map(x=>({
 
 id:x.id,
 
@@ -2062,11 +1635,9 @@ price:x.price,
 
 link:x.link
 
-})
-),
+})),
 
-createdAt:
-new Date().toISOString()
+createdAt:new Date().toISOString()
 
 };
 
@@ -2078,7 +1649,6 @@ localStorage.getItem('avrin_leads')||'[]'
 
 
 leads.push(lead);
-
 
 localStorage.setItem(
 'avrin_leads',
@@ -2093,28 +1663,21 @@ showResults();
 
 function showContact(){
 
-document.getElementById('stepText')
-.textContent='اطلاعات تماس';
+document.getElementById('stepText').textContent=
+'اطلاعات تماس';
 
-document.getElementById('bar')
-.style.width='100%';
+document.getElementById('bar').style.width='100%';
 
-document.getElementById('root')
-.innerHTML=contactForm();
-
-
-document.getElementById('finishBtn')
-.addEventListener(
-'click',
-finishContact
-);
+document.getElementById('root').innerHTML=
+contactForm();
 
 
-document.getElementById('contactBack')
-.addEventListener(
-'click',
-showResults
-);
+document.getElementById('saveContact')
+.addEventListener('click',finishContact);
+
+
+document.getElementById('cancelContact')
+.addEventListener('click',showResults);
 
 }
 
