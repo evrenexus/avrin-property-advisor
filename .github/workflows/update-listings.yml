@@ -13,25 +13,113 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch listings from Apify
+      - name: Start Apify scraper
+        id: start
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: |
-          mkdir -p data
+          set -e
 
-          curl -s -X POST \
-            "https://api.apify.com/v2/acts/hipersoft~divar-scraper/run-sync-get-dataset-items?token=${APIFY_TOKEN}" \
+          echo "Starting Divar scraper..."
+
+          RESPONSE=$(curl -sS --fail-with-body \
+            -X POST \
+            "https://api.apify.com/v2/acts/hipersoft~divar-scraper/runs" \
+            -H "Authorization: Bearer ${APIFY_TOKEN}" \
             -H "Content-Type: application/json" \
             -d '{
               "city": "tehran",
-              "maxItems": 100
-            }' \
+              "category": "real-estate",
+              "maxItems": 30
+            }')
+
+          echo "$RESPONSE" > apify-run.json
+
+          RUN_ID=$(echo "$RESPONSE" | jq -r '.data.id')
+          DATASET_ID=$(echo "$RESPONSE" | jq -r '.data.defaultDatasetId')
+
+          if [ "$RUN_ID" = "null" ] || [ -z "$RUN_ID" ]; then
+            echo "Could not start Apify run."
+            cat apify-run.json
+            exit 1
+          fi
+
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+          echo "DATASET_ID=$DATASET_ID" >> "$GITHUB_ENV"
+
+          echo "Run ID: $RUN_ID"
+          echo "Dataset ID: $DATASET_ID"
+
+      - name: Wait for Apify
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          set -e
+
+          echo "Waiting for scraper..."
+
+          for i in {1..60}; do
+
+            RESPONSE=$(curl -sS \
+              "https://api.apify.com/v2/actor-runs/${RUN_ID}" \
+              -H "Authorization: Bearer ${APIFY_TOKEN}")
+
+            STATUS=$(echo "$RESPONSE" | jq -r '.data.status')
+
+            echo "Attempt $i - Status: $STATUS"
+
+            if [ "$STATUS" = "SUCCEEDED" ]; then
+              echo "Scraper completed successfully."
+              break
+            fi
+
+            if [ "$STATUS" = "FAILED" ] || \
+               [ "$STATUS" = "ABORTED" ] || \
+               [ "$STATUS" = "TIMED-OUT" ]; then
+              echo "Apify run failed."
+              echo "$RESPONSE"
+              exit 1
+            fi
+
+            sleep 10
+
+          done
+
+          if [ "$STATUS" != "SUCCEEDED" ]; then
+            echo "Apify scraper did not finish within the allowed time."
+            exit 1
+          fi
+
+      - name: Download listings
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          set -e
+
+          mkdir -p data
+
+          echo "Downloading dataset..."
+
+          curl -sS --fail-with-body \
+            "https://api.apify.com/v2/datasets/${DATASET_ID}/items?format=json&clean=true" \
+            -H "Authorization: Bearer ${APIFY_TOKEN}" \
             -o data/listings.json
+
+          echo "Listings downloaded:"
+          jq 'length' data/listings.json
 
       - name: Commit listings
         run: |
+          set -e
+
           git config user.name "Avrin Bot"
           git config user.email "avrin-bot@users.noreply.github.com"
+
           git add data/listings.json
-          git diff --cached --quiet || git commit -m "Update Avrin listings"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update Avrin listings"
+            git push
+          fi
