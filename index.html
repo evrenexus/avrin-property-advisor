@@ -1,10 +1,10 @@
+```html
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مشاور ملک اورین</title>
-
+<title>من دستیار مشاور املاک اورین نکسوس</title>
 <style>
 :root{--bg:#0b1017;--panel:#111923;--panel2:#172331;--line:#263547;--text:#edf3f8;--muted:#91a2b5;--accent:#46c6a7;--accent2:#2aa88c;--danger:#e47a7a}
 *{box-sizing:border-box}
@@ -29,7 +29,6 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
 .choice{background:#0d151e;border:1px solid #2a394a;color:#dce6ee;border-radius:13px;padding:15px;text-align:right;cursor:pointer;font-size:14px;transition:.15s}
 .choice:hover,.choice.selected{border-color:var(--accent);background:#11251f}
-.choice small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
 .actions{display:flex;gap:9px;margin-top:22px}
 .btn{border:0;border-radius:12px;padding:12px 18px;cursor:pointer;font-weight:700}
 .primary{background:var(--accent);color:#07120f}
@@ -59,7 +58,6 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 .spinner{width:34px;height:34px;border:3px solid #294052;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .notice{background:#15231f;border:1px solid #2e5b50;color:#a9d8cc;padding:11px 13px;border-radius:11px;font-size:11px;line-height:1.8;margin-top:12px}
-
 @media(max-width:600px){
 .app{padding:18px 10px}
 .card{padding:19px}
@@ -73,7 +71,6 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 </head>
 
 <body>
-
 <main class="app">
 <div class="wrap">
 
@@ -82,69 +79,24 @@ body{margin:0;background:#070b10;color:var(--text);font-family:Tahoma,"Segoe UI"
 <div class="logo">E</div>
 <div>
 <b>Evren Nexus</b>
-<span>مشاور ملک اورین</span>
+<span>دستیار مشاور املاک اورین نکسوس</span>
 </div>
 </div>
-
 <div class="step" id="stepText">مرحله ۱ از ۷</div>
 </header>
 
-<div class="bar">
-<i id="bar"></i>
-</div>
-
+<div class="bar"><i id="bar"></i></div>
 <section id="root"></section>
 
 </div>
 </main>
 
 <script>
-
-const cities=[
-'تهران',
-'مشهد',
-'تبریز',
-'استانبول',
-'ازمیر',
-'آنتالیا'
-];
-
-const types=[
-'مسکونی',
-'تجاری',
-'اداری',
-'خدماتی',
-'ورزشی',
-'آموزشی',
-'بهداشتی و درمانی',
-'زمین',
-'ویلا'
-];
-
-const rooms=[
-'سوییت',
-'تک خوابه',
-'دو خوابه',
-'سه خوابه و بیشتر'
-];
-
-const areas=[
-'زیر ۶۰',
-'۶۰–۷۰',
-'۷۰–۸۰',
-'۸۰–۹۰',
-'۹۰–۱۲۰',
-'۱۲۰–۱۵۰',
-'بزرگتر از ۱۵۰'
-];
-
-const ages=[
-'نوساز کلید نخورده',
-'۱–۵ سال',
-'۵–۱۰ سال',
-'۱۰–۲۰ سال',
-'بیشتر از ۲۰'
-];
+const cities=['تهران','مشهد','تبریز','استانبول','ازمیر','آنتالیا'];
+const types=['مسکونی','تجاری','اداری','خدماتی','ورزشی','آموزشی','بهداشتی و درمانی','زمین','ویلا'];
+const rooms=['سوییت','تک خوابه','دو خوابه','سه خوابه و بیشتر'];
+const areas=['زیر ۶۰','۶۰–۷۰','۷۰–۸۰','۸۰–۹۰','۹۰–۱۲۰','۱۲۰–۱۵۰','بزرگتر از ۱۵۰'];
+const ages=['نوساز کلید نخورده','۱–۵ سال','۵–۱۰ سال','۱۰–۲۰ سال','بیشتر از ۲۰'];
 
 let s={
 step:1,
@@ -161,6 +113,16 @@ let editing=false;
 let results=[];
 
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+
+function esc(v){
+return String(v??'').replace(/[&<>"']/g,c=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[c]));
+}
 
 function render(){
 
@@ -179,10 +141,7 @@ return choices(
 r,
 'نوع خدمت',
 'برای شروع، نوع خدمت مورد نظر خود را انتخاب نمایید:',
-[
-['خرید ملک','خرید'],
-['اجاره ملک','اجاره']
-],
+[['خرید ملک','خرید'],['اجاره ملک','اجاره']],
 'service'
 );
 
@@ -232,26 +191,21 @@ r,
 ages.map(x=>[x,x]),
 'age'
 );
-
 }
 
 function intro(r){
 
 r.innerHTML=`
-
 <div class="card">
 
-<div class="eyebrow">
-EVREN NEXUS · AV RIN
-</div>
+<div class="eyebrow">EVREN NEXUS · AVRIN</div>
 
 <h1 class="title">
-سلام، من مشاور ملک اورین هستم.
+سلام، من دستیار مشاور املاک اورین نکسوس هستم.
 </h1>
 
 <p class="desc">
-هدف من این است که با استفاده از اطلاعات بازار و تحلیل داده‌ها،
-به شما برای انتخاب مناسب‌ترین گزینه در خرید یا اجاره ملک کمک کنم.
+هدف من این است که با استفاده از اطلاعات بازار و تحلیل داده‌ها، به شما برای انتخاب مناسب‌ترین گزینه در خرید یا اجاره ملک کمک کنم.
 <br>
 این خدمات در حال حاضر رایگان ارائه می‌شود.
 <br><br>
@@ -262,9 +216,8 @@ EVREN NEXUS · AV RIN
 <input
 id="u"
 class="input"
-value="${s.username}"
+value="${esc(s.username)}"
 placeholder="نام کاربری خود را وارد کنید"
-oninput="s.username=this.value;document.getElementById('count').textContent=this.value.length+' کاراکتر'"
 >
 
 <div id="count" class="counter">
@@ -272,123 +225,126 @@ ${s.username.length} کاراکتر
 </div>
 
 <div class="actions">
-
-<button
-class="btn primary"
-onclick="nextUser()"
->
+<button type="button" class="btn primary" id="startBtn">
 شروع مشاوره
 </button>
-
 </div>
 
 </div>
-
 `;
 
+document.getElementById('u').addEventListener('input',function(){
+s.username=this.value;
+document.getElementById('count').textContent=
+this.value.length+' کاراکتر';
+});
+
+document.getElementById('startBtn')
+.addEventListener('click',nextUser);
 }
 
 function choices(r,ey,desc,items,key){
 
-let back=s.step>1
-?`<button class="btn secondary" onclick="prevStep()">بازگشت</button>`
-:'';
-
-r.innerHTML=`
-
+let html=`
 <div class="card">
 
-<div class="eyebrow">
-${ey}
-</div>
+<div class="eyebrow">${esc(ey)}</div>
 
-<h1 class="title">
-${desc}
-</h1>
+<h1 class="title">${esc(desc)}</h1>
 
 <div class="grid">
-
-${items.map(([label,val])=>`
-
-<button
-class="choice ${s[key]===val?'selected':''}"
-onclick="pick('${key}',${JSON.stringify(val)})"
->
-${label}
-</button>
-
-`).join('')}
-
-</div>
-
-<div class="actions">
-
-${back}
-
-${editing
-?'<button class="btn secondary" onclick="showResults()">بازگشت به نتایج</button>'
-:''}
-
-</div>
-
-</div>
-
 `;
 
+items.forEach((item,i)=>{
+
+html+=`
+<button
+type="button"
+class="choice ${s[key]===item[1]?'selected':''}"
+data-choice="${i}"
+>
+${esc(item[0])}
+</button>
+`;
+
+});
+
+html+=`</div><div class="actions">`;
+
+if(s.step>1)
+html+=`
+<button type="button" class="btn secondary" id="backBtn">
+بازگشت
+</button>
+`;
+
+if(editing)
+html+=`
+<button type="button" class="btn secondary" id="resultsBtn">
+بازگشت به نتایج
+</button>
+`;
+
+html+=`</div></div>`;
+
+r.innerHTML=html;
+
+r.querySelectorAll('[data-choice]').forEach(btn=>{
+btn.addEventListener('click',()=>{
+pick(
+key,
+items[Number(btn.dataset.choice)][1]
+);
+});
+});
+
+const b=document.getElementById('backBtn');
+const q=document.getElementById('resultsBtn');
+
+if(b)b.addEventListener('click',prevStep);
+if(q)q.addEventListener('click',showResults);
 }
 
 function nextUser(){
 
-if(!s.username.trim())
-return alert('لطفاً یک نام کاربری وارد کنید.');
+if(!s.username.trim()){
+alert('لطفاً یک نام کاربری وارد کنید.');
+return;
+}
 
 s.username=s.username.trim();
-
 s.step=2;
-
 render();
-
 }
 
 function pick(k,v){
 
 s[k]=v;
-
 s.step++;
 
 if(s.step===8)
 searching();
 else
 render();
-
 }
 
 function prevStep(){
 
 if(s.step>1&&s.step<=7){
-
 s.step--;
-
 render();
-
 }
 else if(s.step===8){
-
 showResults();
-
 }
-
 }
 
 async function searching(){
 
-document.getElementById('stepText').textContent=
-'جست‌وجوی گزینه‌ها';
-
+document.getElementById('stepText').textContent='جست‌وجوی گزینه‌ها';
 document.getElementById('bar').style.width='100%';
 
 document.getElementById('root').innerHTML=`
-
 <div class="card loading">
 
 <div class="spinner"></div>
@@ -402,7 +358,6 @@ document.getElementById('root').innerHTML=`
 </p>
 
 </div>
-
 `;
 
 try{
@@ -422,12 +377,9 @@ Array.isArray(data)?data:[]
 
 showResults();
 
-}
-
-catch(e){
+}catch(e){
 
 document.getElementById('root').innerHTML=`
-
 <div class="card">
 
 <div class="eyebrow">
@@ -444,14 +396,15 @@ document.getElementById('root').innerHTML=`
 </p>
 
 <div class="notice">
-${e.message}
+${esc(e.message)}
 </div>
 
 <div class="actions">
 
 <button
+type="button"
 class="btn primary"
-onclick="searching()"
+id="retryBtn"
 >
 تلاش دوباره
 </button>
@@ -459,11 +412,11 @@ onclick="searching()"
 </div>
 
 </div>
-
 `;
 
+document.getElementById('retryBtn')
+.addEventListener('click',searching);
 }
-
 }
 
 function filterListings(data){
@@ -476,35 +429,21 @@ const room=normalize(s.room);
 const type=normalize(s.type);
 
 const ageRanges={
-
 'نوساز کلید نخورده':[0,0],
-
 '۱–۵ سال':[1,5],
-
 '۵–۱۰ سال':[5,10],
-
 '۱۰–۲۰ سال':[10,20],
-
 'بیشتر از ۲۰':[20,9999]
-
 };
 
 const areaRanges={
-
 'زیر ۶۰':[0,59],
-
 '۶۰–۷۰':[60,70],
-
 '۷۰–۸۰':[70,80],
-
 '۸۰–۹۰':[80,90],
-
 '۹۰–۱۲۰':[90,120],
-
 '۱۲۰–۱۵۰':[120,150],
-
 'بزرگتر از ۱۵۰':[150,99999]
-
 };
 
 const [amin,amax]=
@@ -588,39 +527,19 @@ x['قیمت']||
 'قیمت توافقی';
 
 return{
-
 ...x,
-
 id:x.id||x.token||i+1,
-
 title,
-
 text,
-
-area:
-areaNum
-?fa(areaNum)+' متر'
-:'',
-
+area:areaNum?fa(areaNum)+' متر':'',
 areaNum,
-
-age:
-ageNum
-?fa(ageNum)+' سال'
-:'نامشخص',
-
+age:ageNum?fa(ageNum)+' سال':'نامشخص',
 ageNum,
-
 city:rawCity,
-
 type:rawType,
-
 rooms:rawRoom,
-
 price,
-
 link
-
 };
 
 })
@@ -654,54 +573,37 @@ x.ageNum<=ageMax
 )
 
 .slice(0,14);
-
 }
 
 function tags(){
 
-return `
-
+return`
 <div class="summary">
 
-<span class="tag">
-${s.service}
-</span>
-
-<span class="tag">
-${s.type}
-</span>
-
-<span class="tag">
-${s.city}
-</span>
-
-<span class="tag">
-${s.room}
-</span>
-
-<span class="tag">
-${s.area}
-</span>
-
-<span class="tag">
-${s.age}
-</span>
+<span class="tag">${esc(s.service)}</span>
+<span class="tag">${esc(s.type)}</span>
+<span class="tag">${esc(s.city)}</span>
+<span class="tag">${esc(s.room)}</span>
+<span class="tag">${esc(s.area)}</span>
+<span class="tag">${esc(s.age)}</span>
 
 </div>
-
 `;
-
 }
 
 function showResults(){
 
 s.step=8;
 
-document.getElementById('stepText').textContent=
-'نتایج جست‌وجو';
+document.getElementById('stepText')
+.textContent='نتایج جست‌وجو';
 
-document.getElementById('root').innerHTML=`
+document.getElementById('bar')
+.style.width='100%';
 
+let r=document.getElementById('root');
+
+let html=`
 <div class="card">
 
 <div class="resultsHead">
@@ -723,8 +625,9 @@ ${fa(results.length)} گزینه منطبق پیدا شد
 </div>
 
 <button
+type="button"
 class="btn secondary"
-onclick="editSearch()"
+id="editBtn"
 >
 ویرایش اطلاعات جستجو
 </button>
@@ -734,53 +637,41 @@ onclick="editSearch()"
 ${tags()}
 
 <div class="list">
+`;
 
-${
-results.length
+if(results.length){
 
-?
+results.forEach((x,i)=>{
 
-results.map(x=>`
-
+html+=`
 <article
 class="listing"
-onclick="detail(${JSON.stringify(x.id)})"
+data-result="${i}"
 >
 
 <div class="ltop">
 
 <div class="ltitle">
-${x.title}
+${esc(x.title)}
 </div>
 
 <div class="price">
-${x.price}
+${esc(x.price)}
 </div>
 
 </div>
 
 <div class="meta">
 
-<span>
-${x.area||'متراژ نامشخص'}
-</span>
-
-<span>
-${x.rooms||'اتاق نامشخص'}
-</span>
-
-<span>
-${x.age||'سن نامشخص'}
-</span>
-
-<span>
-${x.city||s.city}
-</span>
+<span>${esc(x.area||'متراژ نامشخص')}</span>
+<span>${esc(x.rooms||'اتاق نامشخص')}</span>
+<span>${esc(x.age||'سن نامشخص')}</span>
+<span>${esc(x.city||s.city)}</span>
 
 </div>
 
 <div class="excerpt">
-${String(x.text||'').split('\n')[0]}
+${esc(String(x.text||'').split('\n')[0])}
 </div>
 
 <div class="source">
@@ -788,30 +679,29 @@ ${String(x.text||'').split('\n')[0]}
 </div>
 
 </article>
+`;
 
-`).join('')
+});
 
-:
+}else{
 
-`
-
+html+=`
 <div class="notice">
-
 در آرشیو فعلی، آگهی‌ای با تمام معیارهای انتخاب‌شده پیدا نشد.
-
 </div>
-
-`
+`;
 
 }
 
+html+=`
 </div>
 
 <div class="actions">
 
 <button
+type="button"
 class="btn primary"
-onclick="showContact()"
+id="contactBtn"
 >
 ارائه اطلاعات برای مشاوره دقیق‌تر
 </button>
@@ -819,8 +709,26 @@ onclick="showContact()"
 </div>
 
 </div>
-
 `;
+
+r.innerHTML=html;
+
+document.getElementById('editBtn')
+.addEventListener('click',editSearch);
+
+document.getElementById('contactBtn')
+.addEventListener('click',showContact);
+
+r.querySelectorAll('[data-result]')
+.forEach(el=>{
+
+el.addEventListener('click',()=>{
+detail(
+results[Number(el.dataset.result)].id
+);
+});
+
+});
 
 }
 
@@ -832,16 +740,21 @@ a=>String(a.id)===String(id)
 
 if(!x)return;
 
-document.getElementById('stepText').textContent=
-'جزئیات آگهی';
+document.getElementById('stepText')
+.textContent='جزئیات آگهی';
 
-document.getElementById('root').innerHTML=`
+document.getElementById('bar')
+.style.width='100%';
 
+let r=document.getElementById('root');
+
+let html=`
 <div class="card detail">
 
 <button
+type="button"
 class="btn secondary back"
-onclick="showResults()"
+id="detailBack"
 >
 ← بازگشت به نتایج
 </button>
@@ -851,54 +764,49 @@ onclick="showResults()"
 </div>
 
 <h1 class="title">
-${x.title}
+${esc(x.title)}
 </h1>
 
-<div
-class="price"
-style="font-size:18px"
->
-${x.price}
+<div class="price" style="font-size:18px">
+${esc(x.price)}
 </div>
 
 <div class="detailGrid">
+`;
 
-${[
+[
 ['شهر',x.city||s.city],
 ['محله',x.neighborhood||x.district||'نامشخص'],
 ['متراژ',x.area||'نامشخص'],
 ['اتاق',x.rooms||'نامشخص'],
 ['سن بنا',x.age||'نامشخص'],
 ['وضعیت','آگهی واقعی']
-].map(a=>`
+].forEach(a=>{
 
+html+=`
 <div class="detailItem">
-
-<b>
-${a[0]}
-</b>
-
-<span>
-${a[1]}
-</span>
-
+<b>${esc(a[0])}</b>
+<span>${esc(a[1])}</span>
 </div>
+`;
 
-`).join('')}
+});
 
+html+=`
 </div>
 
 <div class="fulltext">
-
-${x.text||'توضیحات آگهی در داده دریافت‌شده موجود نیست.'}
-
+${esc(
+x.text||
+'توضیحات آگهی در داده دریافت‌شده موجود نیست.'
+)}
 </div>
 
 <div class="actions">
 
 <a
 class="btn secondary"
-href="${x.link}"
+href="${esc(x.link)}"
 target="_blank"
 rel="noopener"
 >
@@ -906,8 +814,9 @@ rel="noopener"
 </a>
 
 <button
+type="button"
 class="btn secondary"
-onclick="editSearch()"
+id="detailEdit"
 >
 ویرایش اطلاعات جستجو
 </button>
@@ -915,25 +824,27 @@ onclick="editSearch()"
 </div>
 
 </div>
-
 `;
 
+r.innerHTML=html;
+
+document.getElementById('detailBack')
+.addEventListener('click',showResults);
+
+document.getElementById('detailEdit')
+.addEventListener('click',editSearch);
 }
 
 function editSearch(){
 
 editing=true;
-
 s.step=2;
-
 render();
-
 }
 
 function contactForm(){
 
-return `
-
+return`
 <div class="card">
 
 <div class="eyebrow">
@@ -976,15 +887,17 @@ placeholder="ایمیل (اختیاری)"
 <div class="actions">
 
 <button
+type="button"
 class="btn primary"
-onclick="finishContact()"
+id="saveContact"
 >
 ثبت اطلاعات
 </button>
 
 <button
+type="button"
 class="btn secondary"
-onclick="showResults()"
+id="cancelContact"
 >
 بازگشت به نتایج
 </button>
@@ -992,9 +905,7 @@ onclick="showResults()"
 </div>
 
 </div>
-
 `;
-
 }
 
 function finishContact(){
@@ -1008,52 +919,34 @@ document.getElementById('cphone').value.trim();
 const email=
 document.getElementById('cemail').value.trim();
 
-if(!name)
-return alert('لطفاً نام خود را وارد کنید.');
+if(!name){
+alert('لطفاً نام خود را وارد کنید.');
+return;
+}
 
-if(!phone&&!email)
-return alert(
-'لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.'
-);
+if(!phone&&!email){
+alert('لطفاً حداقل شماره تلفن یا ایمیل را وارد کنید.');
+return;
+}
 
 const lead={
-
 username:s.username,
-
 service:s.service,
-
 type:s.type,
-
 city:s.city,
-
 room:s.room,
-
 area:s.area,
-
 age:s.age,
-
 name,
-
 phone,
-
 email,
-
-shownListings:
-
-results.map(x=>({
-
+shownListings:results.map(x=>({
 id:x.id,
-
 title:x.title,
-
 price:x.price,
-
 link:x.link
-
 })),
-
 createdAt:new Date().toISOString()
-
 };
 
 const leads=
@@ -1069,24 +962,29 @@ JSON.stringify(leads)
 );
 
 showResults();
-
 }
 
 function showContact(){
 
-document.getElementById('stepText').textContent=
-'اطلاعات تماس';
+document.getElementById('stepText')
+.textContent='اطلاعات تماس';
 
-document.getElementById('bar').style.width='100%';
+document.getElementById('bar')
+.style.width='100%';
 
-document.getElementById('root').innerHTML=
-contactForm();
+document.getElementById('root')
+.innerHTML=contactForm();
 
+document.getElementById('saveContact')
+.addEventListener('click',finishContact);
+
+document.getElementById('cancelContact')
+.addEventListener('click',showResults);
 }
 
 render();
-
 </script>
 
 </body>
 </html>
+```
