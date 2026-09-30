@@ -26,47 +26,77 @@ function toNumber(value) {
   return n ? Number(n) : null;
 }
 
+// --------------------------------------------------
+// استخراج مشخصات ساختاری
+// --------------------------------------------------
+
 function extractArea(lines) {
   const i = lines.indexOf("متراژ");
-  if (i >= 0 && lines[i + 1]) {
-    const n = toNumber(lines[i + 1]);
-    if (n >= 15 && n <= 5000) return n;
+
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 3 && j < lines.length; j++) {
+      const n = toNumber(lines[j]);
+
+      if (n >= 15 && n <= 5000) {
+        return n;
+      }
+    }
   }
+
   return null;
 }
 
 function extractBuildYear(lines) {
   const i = lines.indexOf("ساخت");
-  if (i >= 0 && lines[i + 1]) {
-    const n = toNumber(lines[i + 1]);
 
-    // سال شمسی ساخت ملک
-    if (n >= 1200 && n <= 1500) return n;
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 3 && j < lines.length; j++) {
+      const n = toNumber(lines[j]);
+
+      if (n >= 1200 && n <= 1500) {
+        return n;
+      }
+    }
   }
+
   return null;
 }
 
 function extractRooms(lines) {
   const i = lines.indexOf("اتاق");
-  if (i >= 0 && lines[i + 1]) {
-    const value = clean(lines[i + 1]);
 
-    if (value === "بدون اتاق") return 0;
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 3 && j < lines.length; j++) {
+      const value = clean(lines[j]);
 
-    const n = toNumber(value);
-    if (n !== null && n >= 0 && n <= 20) return n;
+      if (value === "بدون اتاق") {
+        return 0;
+      }
+
+      const n = toNumber(value);
+
+      if (n !== null && n >= 0 && n <= 20) {
+        return n;
+      }
+    }
   }
+
   return null;
 }
 
 function extractPrice(lines) {
   const i = lines.indexOf("قیمت کل");
 
-  if (i >= 0 && lines[i + 1]) {
-    const value = clean(lines[i + 1]);
-    const n = toNumber(value);
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 4 && j < lines.length; j++) {
+      const value = clean(lines[j]);
 
-    if (n && n > 0) return n;
+      const n = toNumber(value);
+
+      if (n && n >= 1000000) {
+        return n;
+      }
+    }
   }
 
   return null;
@@ -75,11 +105,14 @@ function extractPrice(lines) {
 function extractPricePerMeter(lines) {
   const i = lines.indexOf("قیمت هر متر");
 
-  if (i >= 0 && lines[i + 1]) {
-    const value = clean(lines[i + 1]);
-    const n = toNumber(value);
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 4 && j < lines.length; j++) {
+      const n = toNumber(lines[j]);
 
-    if (n && n > 0) return n;
+      if (n && n >= 100000) {
+        return n;
+      }
+    }
   }
 
   return null;
@@ -88,26 +121,37 @@ function extractPricePerMeter(lines) {
 function extractFloor(lines) {
   const i = lines.indexOf("طبقه");
 
-  if (i >= 0 && lines[i + 1]) {
-    return clean(lines[i + 1]);
+  if (i >= 0) {
+    for (let j = i + 1; j <= i + 3 && j < lines.length; j++) {
+      const value = clean(lines[j]);
+
+      if (value) {
+        return value;
+      }
+    }
   }
 
   return null;
 }
 
-function extractLocation(lines) {
-  // نمونه:
-  // دقایقی پیش در تهران، امام زاده حسن، خ لقمان حکیم
+// --------------------------------------------------
+// موقعیت
+// --------------------------------------------------
 
+function extractLocation(lines) {
   for (const line of lines) {
     const text = clean(line);
 
     if (text.includes(" در تهران،")) {
       const parts = text.split(" در تهران،");
 
+      const locationText = parts[1]
+        ? parts[1].split("،")[0].trim()
+        : null;
+
       return {
         city: "تهران",
-        neighborhood: parts[1] ? parts[1].split("،")[0].trim() : null
+        neighborhood: locationText || null
       };
     }
   }
@@ -118,7 +162,11 @@ function extractLocation(lines) {
   };
 }
 
-function extractPublishedAge(lines) {
+// --------------------------------------------------
+// تاریخ / سن آگهی
+// --------------------------------------------------
+
+function extractPublishedText(lines) {
   for (const line of lines) {
     const text = clean(line);
 
@@ -128,7 +176,8 @@ function extractPublishedAge(lines) {
       text.includes("ساعت پیش") ||
       text.includes("روزی پیش") ||
       text.includes("روز پیش") ||
-      text.includes("هفته پیش")
+      text.includes("هفته پیش") ||
+      text.includes("ماه پیش")
     ) {
       return text;
     }
@@ -142,43 +191,77 @@ function ageInDays(publishedText) {
 
   const text = clean(publishedText);
 
-  if (text.includes("دقایقی پیش")) return 0;
-  if (text.includes("ساعتی پیش")) return 0;
-  if (text.includes("ساعت پیش")) return 0;
-  if (text.includes("روزی پیش")) return 1;
+  if (
+    text.includes("دقایقی پیش") ||
+    text.includes("ساعتی پیش") ||
+    text.includes("ساعت پیش")
+  ) {
+    return 0;
+  }
 
-  let m = text.match(/(\d+)\s*روز پیش/);
-  if (m) return Number(m[1]);
+  if (text.includes("روزی پیش")) {
+    return 1;
+  }
 
-  m = text.match(/(\d+)\s*هفته پیش/);
-  if (m) return Number(m[1]) * 7;
+  let match = text.match(/(\d+)\s*روز پیش/);
+
+  if (match) {
+    return Number(match[1]);
+  }
+
+  match = text.match(/(\d+)\s*هفته پیش/);
+
+  if (match) {
+    return Number(match[1]) * 7;
+  }
+
+  match = text.match(/(\d+)\s*ماه پیش/);
+
+  if (match) {
+    return Number(match[1]) * 30;
+  }
 
   return null;
 }
 
-function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, price }) {
+// --------------------------------------------------
+// ساخت عنوان خودمان
+// --------------------------------------------------
+
+function buildDisplayTitle({
+  propertyType,
+  area,
+  rooms,
+  neighborhood,
+  city,
+  price
+}) {
   const parts = [];
 
   parts.push(propertyType || "ملک");
 
   if (area) {
-    parts.push(`${area.toLocaleString("fa-IR")} مترمربعی`);
+    parts.push(
+      `${area.toLocaleString("fa-IR")} مترمربعی`
+    );
   }
 
   if (rooms !== null && rooms !== undefined) {
     if (rooms === 0) {
       parts.push("بدون اتاق");
     } else {
-      parts.push(`${rooms.toLocaleString("fa-IR")} خوابه`);
+      parts.push(
+        `${rooms.toLocaleString("fa-IR")} خوابه`
+      );
     }
   }
+
+  let title = parts.join(" ");
 
   const location =
     neighborhood && city
       ? `${neighborhood} / ${city}`
-      : city || neighborhood || null;
-
-  let title = parts.join(" ");
+      : city || neighborhood;
 
   if (location) {
     title += `، ${location}`;
@@ -187,21 +270,21 @@ function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, pric
   if (price) {
     const billion = price / 1000000000;
 
-    let priceText;
-
-    if (Number.isInteger(billion)) {
-      priceText = `${billion.toLocaleString("fa-IR")} میلیارد تومان`;
-    } else {
-      priceText = `${billion.toLocaleString("fa-IR", {
-        maximumFractionDigits: 2
-      })} میلیارد تومان`;
-    }
+    const priceText = Number.isInteger(billion)
+      ? `${billion.toLocaleString("fa-IR")} میلیارد تومان`
+      : `${billion.toLocaleString("fa-IR", {
+          maximumFractionDigits: 2
+        })} میلیارد تومان`;
 
     title += ` — ${priceText}`;
   }
 
   return title;
 }
+
+// --------------------------------------------------
+// لینک‌های آگهی
+// --------------------------------------------------
 
 async function getListingLinks(page) {
   return await page.locator('a[href*="/v/"]').evaluateAll(links => {
@@ -211,19 +294,24 @@ async function getListingLinks(page) {
     for (const a of links) {
       const href = a.href;
 
-      if (!href || seen.has(href)) continue;
+      if (!href || seen.has(href)) {
+        continue;
+      }
 
       seen.add(href);
 
       result.push({
-        url: href,
-        originalTitle: (a.innerText || "").trim()
+        url: href
       });
     }
 
     return result;
   });
 }
+
+// --------------------------------------------------
+// خواندن صفحه آگهی
+// --------------------------------------------------
 
 async function readListing(page, url) {
   await page.goto(url, {
@@ -233,7 +321,9 @@ async function readListing(page, url) {
 
   await page.waitForTimeout(2500);
 
-  const lines = (await page.locator("body").innerText())
+  const rawText = await page.locator("body").innerText();
+
+  const lines = rawText
     .split("\n")
     .map(clean)
     .filter(Boolean);
@@ -244,20 +334,36 @@ async function readListing(page, url) {
   const price = extractPrice(lines);
   const pricePerMeter = extractPricePerMeter(lines);
   const floor = extractFloor(lines);
+
   const location = extractLocation(lines);
-  const publishedText = extractPublishedAge(lines);
 
-  const daysOld = ageInDays(publishedText);
+  const publishedText =
+    extractPublishedText(lines);
 
-  // آگهی‌های قدیمی‌تر از ۱۴ روز حذف شوند.
-  if (daysOld !== null && daysOld > 14) {
-    return null;
-  }
+  const ageDays =
+    ageInDays(publishedText);
 
-  // اگر مشخصات اصلی صفحه قابل استخراج نباشد، آگهی ناقص را فعلاً نگه نمی‌داریم.
-  if (!area || !price) {
-    return null;
-  }
+  // ------------------------------------------------
+  // گزارش تشخیصی
+  // ------------------------------------------------
+
+  console.log("");
+  console.log("----- STRUCTURED DATA -----");
+  console.log("AREA:", area);
+  console.log("BUILD YEAR:", buildYear);
+  console.log("ROOMS:", rooms);
+  console.log("PRICE:", price);
+  console.log("PRICE/METER:", pricePerMeter);
+  console.log("FLOOR:", floor);
+  console.log("CITY:", location.city);
+  console.log("NEIGHBORHOOD:", location.neighborhood);
+  console.log("PUBLISHED:", publishedText);
+  console.log("AGE DAYS:", ageDays);
+  console.log("---------------------------");
+
+  // ------------------------------------------------
+  // فعلاً هیچ آگهی‌ای به خاطر ناقص بودن داده حذف نمی‌شود
+  // ------------------------------------------------
 
   const propertyType = "آپارتمان";
 
@@ -272,11 +378,13 @@ async function readListing(page, url) {
     }),
 
     propertyType,
+
     dealType: "buy",
 
     area,
     rooms,
     buildYear,
+
     floor,
 
     price,
@@ -286,20 +394,24 @@ async function readListing(page, url) {
     neighborhood: location.neighborhood,
 
     publishedText,
-    ageDays: daysOld,
+    ageDays,
 
     source: "divar",
     url,
 
-    // عنوان اصلی دیوار فقط برای مرجع نگهداری می‌شود
+    // عنوان دیوار عمداً استفاده نمی‌شود
     originalTitle: null,
 
-    // فعلاً متن آگهی عمداً استفاده نمی‌شود
+    // متن آگهی فعلاً استفاده نمی‌شود
     descriptionUsed: false
   };
 
   return listing;
 }
+
+// --------------------------------------------------
+// MAIN
+// --------------------------------------------------
 
 (async () => {
   const browser = await chromium.launch({
@@ -324,48 +436,92 @@ async function readListing(page, url) {
 
     await page.waitForTimeout(7000);
 
-    const links = await getListingLinks(page);
+    const links =
+      await getListingLinks(page);
 
-    console.log("LISTING LINKS:", links.length);
+    console.log(
+      "LISTING LINKS:",
+      links.length
+    );
 
     const listings = [];
 
     for (const item of links.slice(0, 20)) {
-      console.log("Reading:", item.url);
+      console.log("");
+      console.log(
+        "Reading:",
+        item.url
+      );
 
       try {
-        const listing = await readListing(page, item.url);
-
-        if (!listing) {
-          console.log("SKIP");
-          continue;
-        }
+        const listing =
+          await readListing(
+            page,
+            item.url
+          );
 
         listings.push(listing);
 
-        console.log("OK:", listing.displayTitle);
+        console.log(
+          "GENERATED TITLE:",
+          listing.displayTitle
+        );
+
       } catch (error) {
-        console.log("ERROR:", error.message);
+        console.log(
+          "ERROR:",
+          error.message
+        );
       }
     }
 
-    fs.mkdirSync("data", { recursive: true });
+    fs.mkdirSync(
+      "data",
+      { recursive: true }
+    );
 
     fs.writeFileSync(
       "data/listings.json",
-      JSON.stringify(listings, null, 2),
+      JSON.stringify(
+        listings,
+        null,
+        2
+      ),
       "utf8"
     );
 
-    console.log("\n========== FINAL LISTINGS ==========");
-    console.log("Count:", listings.length);
-    console.log(JSON.stringify(listings, null, 2));
+    console.log("");
+    console.log(
+      "========== FINAL LISTINGS =========="
+    );
 
-    console.log("\nSaved: data/listings.json");
+    console.log(
+      "Count:",
+      listings.length
+    );
+
+    console.log(
+      JSON.stringify(
+        listings,
+        null,
+        2
+      )
+    );
+
+    console.log("");
+    console.log(
+      "Saved: data/listings.json"
+    );
+
   } catch (error) {
-    console.error("TEST FAILED:");
+    console.error(
+      "TEST FAILED:"
+    );
+
     console.error(error);
+
     process.exitCode = 1;
+
   } finally {
     await browser.close();
   }
