@@ -198,10 +198,15 @@ async function getCities(page) {
   if (fs.existsSync(cachePath)) {
     try {
       const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
-      if (Array.isArray(cached) && cached.length > 0) {
+      if (
+        Array.isArray(cached) &&
+        cached.length > 0 &&
+        cached.every(city => city && city.slug && city.id != null)
+      ) {
         console.log("Using cached city list:", cached.length);
         return cached;
       }
+      console.log("City cache has no Divar IDs; refreshing city list.");
     } catch (e) {
       console.log("CITY CACHE ERROR:", e.message);
     }
