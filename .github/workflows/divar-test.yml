@@ -24,4 +24,11 @@ jobs:
 
       - name: Test Divar
         run: |
-          node test-divar.js
+          node test-divar.js > divar-test-output.txt 2>&1
+          cat divar-test-output.txt
+
+      - name: Upload Divar Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: divar-test-output
+          path: divar-test-output.txt
