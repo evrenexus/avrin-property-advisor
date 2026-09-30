@@ -1,196 +1,24 @@
-name: Update Avrin Listings
-
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Playwright
-        run: |
-          npm init -y
-          npm install playwright
-          npx playwright install --with-deps chromium
-
-      - name: Collect Divar listings
-        env:
-          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
-        run: |
-          set -e
-
-          mkdir -p data
-          rm -f data/raw-*.json
-          rm -f data/part-*.json
-          rm -f data/raw-listings.json
-
-          cities=("tehran" "mashhad" "tabriz")
-          types=("sale" "rent")
-          queries=("فروش" "اجاره")
-
-          index=0
-
-          for CITY in "${cities[@]}"; do
-            for TYPE_INDEX in 0 1; do
-
-              TYPE="${types[$TYPE_INDEX]}"
-              QUERY="${queries[$TYPE_INDEX]}"
-
-              echo "========================================"
-              echo "City: $CITY"
-              echo "Type: $TYPE"
-              echo "========================================"
-
-              RESPONSE=$(curl -sS --fail-with-body \
-                -X POST \
-                "https://api.apify.com/v2/acts/hipersoft~divar-scraper/runs" \
-                -H "Authorization: Bearer ${APIFY_TOKEN}" \
-                -H "Content-Type: application/json" \
-                -d "{
-                  \"city\": \"${CITY}\",
-                  \"query\": \"${QUERY}\",
-                  \"category\": \"real-estate\",
-                  \"maxItems\": 50
-                }")
-
-              RUN_ID=$(echo "$RESPONSE" | jq -r '.data.id')
-              DATASET_ID=$(echo "$RESPONSE" | jq -r '.data.defaultDatasetId')
-
-              if [ "$RUN_ID" = "null" ] || [ -z "$RUN_ID" ]; then
-                echo "Could not start Apify run."
-                echo "$RESPONSE"
-                exit 1
-              fi
-
-              for i in {1..60}; do
-                RESPONSE_STATUS=$(curl -sS \
-                  "https://api.apify.com/v2/actor-runs/${RUN_ID}" \
-                  -H "Authorization: Bearer ${APIFY_TOKEN}")
-
-                STATUS=$(echo "$RESPONSE_STATUS" | jq -r '.data.status')
-
-                echo "Attempt $i - Status: $STATUS"
-
-                if [ "$STATUS" = "SUCCEEDED" ]; then
-                  break
-                fi
-
-                if [ "$STATUS" = "FAILED" ] || \
-                   [ "$STATUS" = "ABORTED" ] || \
-                   [ "$STATUS" = "TIMED-OUT" ]; then
-                  echo "$RESPONSE_STATUS"
-                  exit 1
-                fi
-
-                sleep 10
-              done
-
-              if [ "$STATUS" != "SUCCEEDED" ]; then
-                echo "Apify scraper did not finish in time."
-                exit 1
-              fi
-
-              curl -sS --fail-with-body \
-                "https://api.apify.com/v2/datasets/${DATASET_ID}/items?format=json&clean=true" \
-                -H "Authorization: Bearer ${APIFY_TOKEN}" \
-                -o "data/raw-${index}.json"
-
-              jq \
-                --arg dealType "$TYPE" \
-                --arg cityCode "$CITY" \
-                'map(. + {
-                  dealType: $dealType,
-                  sourceCity: $cityCode,
-                  source: "divar"
-                })' \
-                "data/raw-${index}.json" \
-                > "data/part-${index}.json"
-
-              rm "data/raw-${index}.json"
-
-              index=$((index + 1))
-
-            done
-          done
-
-          jq -s 'add' data/part-*.json > data/raw-listings.json
-          rm -f data/part-*.json
-
-          echo "Raw listings:"
-          jq 'length' data/raw-listings.json
-
-      - name: Scrape and filter listings
-        run: |
-          node scrape-details.js
-
-      - name: Validate listings
-        run: |
-          set -e
-
-          test -f data/listings.json
-          jq empty data/listings.json
-
-          echo "========================================"
-          echo "FINAL RESULTS"
-          echo "========================================"
-
-          echo "Total:"
-          jq 'length' data/listings.json
-
-          echo "Sale:"
-          jq '[.[] | select(.dealType == "sale")] | length' data/listings.json
-
-          echo "Rent:"
-          jq '[.[] | select(.dealType == "rent")] | length' data/listings.json
-
-          echo "Personal:"
-          jq '[.[] | select(.sellerType == "personal")] | length' data/listings.json
-
-          echo "Age <= 14 days:"
-          jq '[.[] | select(.ageHours <= 336)] | length' data/listings.json
-
-          echo "With area:"
-          jq '[.[] | select(.area != null)] | length' data/listings.json
-
-          echo "With rooms:"
-          jq '[.[] | select(.rooms != null)] | length' data/listings.json
-
-          echo "With build year:"
-          jq '[.[] | select(.buildYear != null)] | length' data/listings.json
-
-          echo "With floor:"
-          jq '[.[] | select(.floor != null)] | length' data/listings.json
-
-          echo "With units:"
-          jq '[.[] | select(.units != null)] | length' data/listings.json
-
-      - name: Show sample
-        run: |
-          jq '.[0:3]' data/listings.json
-
-      - name: Commit listings
-        run: |
-          set -e
-
-          git config user.name "Avrin Bot"
-          git config user.email "avrin-bot@users.noreply.github.com"
-
-          git add data/listings.json
-
-          if git diff --cached --quiet; then
-            echo "No changes."
-          else
-            git commit -m "Update Avrin listings"
-            git push
-          fi
+[
+  {
+    "displayTitle": "آپارتمان ۱۰۵ مترمربعی ۳ خوابه، شهرک چیتگر / تهران — ۲٫۵ میلیارد تومان",
+    "propertyType": "آپارتمان",
+    "dealType": "buy",
+    "area": 105,
+    "rooms": 3,
+    "buildYear": 1405,
+    "floor": "16 از 22",
+    "units": null,
+    "price": 2500000000,
+    "pricePerMeter": 23809000,
+    "city": "تهران",
+    "neighborhood": "شهرک چیتگر",
+    "sellerType": "personal",
+    "verified": false,
+    "publishedText": "6 روز پیش در تهران، شهرک چیتگر، خ B3",
+    "ageHours": 144,
+    "source": "divar",
+    "url": "https://divar.ir/v/%D9%81%D8%B1%D8%B5%D8%AA-%D8%AE%D8%B1%DB%8C%D8%AF-%D9%88-%D8%B3%D8%B1%D9%85%D8%A7%DB%8C%D9%87-%DA%AF%D8%B0%D8%A7%D8%B1%DB%8C-%D9%88%D8%A7%D8%AD%D8%AF-100%D9%85%D8%AA%D8%B1%DB%8C-%D8%AF%D8%B1%DB%8C%D8%A7%DA%86%D9%87-%DA%86%DB%8C%D8%AA%DA%AF%D8%B1/gaze7sAf",
+    "originalTitle": null,
+    "descriptionUsed": false
+  }
+]
