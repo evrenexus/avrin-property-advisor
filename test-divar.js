@@ -11,36 +11,39 @@ const { chromium } = require("playwright");
   try {
     const url = "https://divar.ir/s/tehran/real-estate";
 
-    console.log("Opening:", url);
-
-    const response = await page.goto(url, {
+    await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
 
-    console.log("HTTP status:", response?.status());
     await page.waitForTimeout(5000);
 
-    console.log("Page title:", await page.title());
-    console.log("Final URL:", page.url());
+    const articles = page.locator("article");
+    const count = await articles.count();
 
-    const cards = await page.locator("article").count();
-    console.log("Article count:", cards);
+    console.log(`ARTICLE COUNT: ${count}`);
 
-    const text = (await page.locator("body").innerText()).slice(0, 5000);
+    for (let i = 0; i < count; i++) {
+      const article = articles.nth(i);
 
-    console.log("\n--- PAGE TEXT ---\n");
-    console.log(text);
+      console.log(`\n========== ARTICLE ${i + 1} ==========`);
 
-    await page.screenshot({
-      path: "divar-test.png",
-      fullPage: false
-    });
+      console.log(
+        "TEXT:",
+        await article.innerText().catch(() => "")
+      );
 
-    console.log("\nScreenshot saved: divar-test.png");
+      const links = await article.locator("a").evaluateAll(els =>
+        els.map(a => ({
+          text: (a.innerText || "").trim(),
+          href: a.href
+        }))
+      );
+
+      console.log("LINKS:", JSON.stringify(links, null, 2));
+    }
 
   } catch (error) {
-    console.error("TEST FAILED:");
     console.error(error);
     process.exitCode = 1;
   } finally {
