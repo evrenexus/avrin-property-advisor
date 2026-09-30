@@ -191,13 +191,31 @@ function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, pric
   return title;
 }
 
-async function getCitySlugs(page) {
-  const candidates = new Set();
+async function getCities(page) {
+  const cachePath = "data/cities.json";
+
+  // Use the cached city list on subsequent runs.
+  if (fs.existsSync(cachePath)) {
+    try {
+      const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
+      if (Array.isArray(cached) && cached.length > 0) {
+        console.log("Using cached city list:", cached.length);
+        return cached;
+      }
+    } catch (e) {
+      console.log("CITY CACHE ERROR:", e.message);
+    }
+  }
+
+  const citiesBySlug = new Map();
 
   async function loadCities(url) {
     try {
       const response = await page.request.get(url, { timeout: 30000 });
-      if (!response.ok()) return;
+      if (!response.ok()) {
+        console.log("CITY API STATUS:", url, response.status());
+        return;
+      }
 
       const data = await response.json();
       const cities = Array.isArray(data) ? data : (data.cities || data.data || []);
@@ -205,8 +223,15 @@ async function getCitySlugs(page) {
       for (const city of cities) {
         if (!city || typeof city !== "object") continue;
         const slug = city.slug || city.city_slug || city.citySlug;
-        if (typeof slug === "string" && /^[a-z0-9-]{2,60}$/.test(slug)) {
-          candidates.add(slug);
+        const display = city.display || city.name || city.title || slug;
+        if (
+          typeof slug === "string" &&
+          /^[a-z0-9-]{2,60}$/.test(slug)
+        ) {
+          citiesBySlug.set(slug, {
+            slug,
+            display: typeof display === "string" ? display : slug
+          });
         }
       }
     } catch (e) {
@@ -214,18 +239,26 @@ async function getCitySlugs(page) {
     }
   }
 
-  // Divar's public city endpoint is the authoritative source for city discovery.
+  // Divar's city API provides the authoritative city list.
+  // We use the unauthenticated endpoint that is already returning the full
+  // Divar city set in this collector.
   await loadCities("https://api.divar.ir/v8/places/cities");
+
+  // Official Open Platform endpoint is also attempted when available.
   await loadCities("https://open-api.divar.ir/v1/open-platform/assets/city");
 
-  // Never recursively scrape the menu for arbitrary slugs: that can include
-  // categories/sections and cause the workflow to run for hours.
-  if (!candidates.size) {
-    console.log("CITY API returned no slugs; using Tehran fallback.");
-    candidates.add("tehran");
+  let cities = [...citiesBySlug.values()];
+
+  if (!cities.length) {
+    console.log("CITY API returned no cities; using Tehran fallback.");
+    cities = [{ slug: "tehran", display: "تهران" }];
   }
 
-  return [...candidates];
+  fs.mkdirSync("data", { recursive: true });
+  fs.writeFileSync(cachePath, JSON.stringify(cities, null, 2), "utf8");
+  console.log("Saved city list:", cities.length);
+
+  return cities;
 }
 async function getListingLinks(page, city) {
   const url = `https://divar.ir/s/${city}/buy-residential`;
@@ -310,7 +343,7 @@ async function readListing(page, url) {
       console.log("CITY:", city);
       let links = [];
       try {
-        links = await getListingLinks(page, city);
+        links = await getListingLinks(page, city.slug);
       } catch (e) {
         console.log("CITY ERROR:", city, e.message);
         continue;
