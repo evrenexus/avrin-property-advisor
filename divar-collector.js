@@ -331,8 +331,25 @@ async function readListing(page, url) {
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ locale: "fa-IR", viewport: { width: 1440, height: 900 } });
-  const all = [];
-  const seen = new Set();
+  const progressPath = "data/collector-progress.json";
+  let all = [];
+  let completedCities = new Set();
+
+  if (fs.existsSync(progressPath)) {
+    try {
+      const progress = JSON.parse(fs.readFileSync(progressPath, "utf8"));
+      if (Array.isArray(progress.listings)) all = progress.listings;
+      if (Array.isArray(progress.completedCities)) {
+        completedCities = new Set(progress.completedCities);
+      }
+      console.log("RESUME: completed cities =", completedCities.size);
+      console.log("RESUME: listings =", all.length);
+    } catch (e) {
+      console.log("PROGRESS CACHE ERROR:", e.message);
+    }
+  }
+
+  const seen = new Set(all.map(item => item.url).filter(Boolean));
 
   try {
     console.log("Discovering Divar cities...");
@@ -340,6 +357,11 @@ async function readListing(page, url) {
     console.log("CITY COUNT:", cities.length);
 
     for (const city of cities) {
+      if (completedCities.has(city.slug)) {
+        console.log("CITY SKIP (already completed):", city.slug);
+        continue;
+      }
+
       console.log("CITY:", city.slug);
       let links = [];
       try {
@@ -355,9 +377,6 @@ async function readListing(page, url) {
         return true;
       });
 
-      // Read detail pages concurrently instead of opening them one-by-one.
-      // This keeps the same structured-field extraction rules while cutting
-      // collection time dramatically.
       for (let i = 0; i < queue.length; i += DETAIL_CONCURRENCY) {
         const batch = queue.slice(i, i + DETAIL_CONCURRENCY);
         const results = await Promise.all(
@@ -385,10 +404,40 @@ async function readListing(page, url) {
           await page.waitForTimeout(CONCURRENCY_DELAY_MS);
         }
       }
+
+      completedCities.add(city.slug);
+      fs.mkdirSync("data", { recursive: true });
+      fs.writeFileSync(
+        progressPath,
+        JSON.stringify(
+          {
+            updatedAt: new Date().toISOString(),
+            completedCities: [...completedCities],
+            listings: all
+          },
+          null,
+          2
+        ),
+        "utf8"
+      );
+
+      console.log("CHECKPOINT:", city.slug, "completed;", "LISTINGS:", all.length);
+
+      // Push every city checkpoint so a later run can resume from the last
+      // completed city even if the workflow times out or fails.
+      const { execFileSync } = require("child_process");
+      execFileSync("git", ["add", progressPath], { stdio: "inherit" });
+      execFileSync(
+        "git",
+        ["commit", "-m", `Checkpoint listings: ${city.slug}`],
+        { stdio: "inherit" }
+      );
+      execFileSync("git", ["push"], { stdio: "inherit" });
     }
 
     fs.mkdirSync("data", { recursive: true });
     fs.writeFileSync("data/listings.json", JSON.stringify(all, null, 2), "utf8");
+    fs.rmSync(progressPath, { force: true });
     console.log("FINAL COUNT:", all.length);
   } finally {
     await browser.close();
