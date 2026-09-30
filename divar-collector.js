@@ -193,88 +193,39 @@ function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, pric
 async function getCitySlugs(page) {
   const candidates = new Set();
 
-  function collectSlugs(value) {
-    if (!value || typeof value !== "object") return;
-
-    if (Array.isArray(value)) {
-      for (const item of value) collectSlugs(item);
-      return;
-    }
-
-    for (const [key, val] of Object.entries(value)) {
-      if (
-        typeof val === "string" &&
-        /^(slug|citySlug|city_slug|seoSlug|urlSlug)$/i.test(key) &&
-        /^[a-z0-9-]{2,40}$/.test(val)
-      ) {
-        candidates.add(val);
-      }
-      if (val && typeof val === "object") collectSlugs(val);
-    }
-  }
-
-  // Divar's public city-assets endpoint provides the complete city slug list.
-  try {
-    const response = await page.request.get(
-      "https://open-api.divar.ir/v1/open-platform/assets/city",
-      { timeout: 30000 }
-    );
-
-    if (response.ok()) {
-      const data = await response.json();
-      for (const city of (data.cities || [])) {
-        if (city && typeof city.slug === "string" && /^[a-z0-9-]{2,60}$/.test(city.slug)) {
-          candidates.add(city.slug);
-        }
-      }
-    }
-  } catch (_) {}
-
-  // Keep the legacy menu endpoint as a fallback/source of any additional slugs.
-  try {
-    const response = await page.request.get(
-      "https://api.divar.ir/v8/my-divar/web/menu",
-      { timeout: 30000 }
-    );
-
-    if (response.ok()) {
-      collectSlugs(await response.json());
-    }
-  } catch (_) {}
-
-  // Discover additional city slugs exposed by public Divar navigation.
-  for (const url of [
-    "https://divar.ir/s/tehran/real-estate",
-    "https://divar.ir/s"
-  ]) {
+  async function loadCities(url) {
     try {
-      await page.goto(url, {
-        waitUntil: "domcontentloaded",
-        timeout: 60000
-      });
-      await page.waitForTimeout(1500);
+      const response = await page.request.get(url, { timeout: 30000 });
+      if (!response.ok()) return;
 
-      const slugs = await page.locator('a[href^="/s/"]').evaluateAll(as =>
-        as
-          .map(a => a.getAttribute("href") || "")
-          .map(h => h.split("/").filter(Boolean))
-          .filter(p => p.length >= 2)
-          .map(p => p[1])
-          .filter(Boolean)
-      );
+      const data = await response.json();
+      const cities = Array.isArray(data) ? data : (data.cities || data.data || []);
 
-      for (const slug of slugs) {
-        if (/^[a-z0-9-]{2,40}$/.test(slug)) {
+      for (const city of cities) {
+        if (!city || typeof city !== "object") continue;
+        const slug = city.slug || city.city_slug || city.citySlug;
+        if (typeof slug === "string" && /^[a-z0-9-]{2,60}$/.test(slug)) {
           candidates.add(slug);
         }
       }
-    } catch (_) {}
+    } catch (e) {
+      console.log("CITY API ERROR:", url, e.message);
+    }
   }
 
-  candidates.add("tehran");
+  // Divar's public city endpoint is the authoritative source for city discovery.
+  await loadCities("https://api.divar.ir/v8/places/cities");
+  await loadCities("https://open-api.divar.ir/v1/open-platform/assets/city");
+
+  // Never recursively scrape the menu for arbitrary slugs: that can include
+  // categories/sections and cause the workflow to run for hours.
+  if (!candidates.size) {
+    console.log("CITY API returned no slugs; using Tehran fallback.");
+    candidates.add("tehran");
+  }
+
   return [...candidates];
 }
-
 async function getListingLinks(page, city) {
   const url = `https://divar.ir/s/${city}/buy-residential`;
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
