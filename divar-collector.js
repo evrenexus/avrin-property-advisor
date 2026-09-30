@@ -439,7 +439,7 @@ async function readListing(item) {
   );
 
   if (!response.ok) {
-    throw new Error("Divar detail API " + response.status());
+    throw new Error("Divar detail API " + response.status);
   }
 
   const detail = await response.json();
