@@ -125,9 +125,11 @@ function extractPublishedText(lines) {
   for (const line of lines) {
     const text = clean(line);
     if (
-      /(?:دقایقی پیش|ساعتی پیش|\d+\s*(?:روز|هفته|ماه) پیش)/.test(text) ||
-      /(?:روزی پیش|هفته پیش|ماه پیش)/.test(text)
-    ) return text;
+      /(?:دقایقی پیش|ساعتی پیش|روزی پیش|هفته پیش|ماه پیش)/.test(text) ||
+      /\d+\s*(?:روز|هفته|ماه) پیش/.test(text)
+    ) {
+      return text;
+    }
   }
   return null;
 }
@@ -155,6 +157,17 @@ function detectSellerType(lines) {
   return "personal";
 }
 
+function extractPropertyType(lines) {
+  const stop = lines.findIndex(x => x === "توضیحات");
+  const top = (stop >= 0 ? lines.slice(0, stop) : lines).join(" ");
+
+  if (/زمین|کلنگی/.test(top)) return "زمین و کلنگی";
+  if (/ویلا|خانه و ویلا/.test(top)) return "خانه و ویلا";
+  if (/مغازه|تجاری|دفتر کار|صنعتی/.test(top)) return "املاک تجاری";
+  if (/آپارتمان/.test(top)) return "آپارتمان";
+  return "ملک مسکونی";
+}
+
 function detectVerified(lines) {
   return lines.some(x => /تأیید شده|تایید شده|احراز هویت شده/.test(x));
 }
@@ -180,35 +193,63 @@ function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, pric
 async function getCitySlugs(page) {
   const candidates = new Set();
 
-  // Divar's menu endpoint is used only to discover city slugs; listings themselves
-  // are still read from public Divar pages.
-  try {
-    const response = await page.request.get("https://api.divar.ir/v8/my-divar/web/menu", { timeout: 30000 });
-    if (response.ok()) {
-      const data = await response.json();
-      const raw = JSON.stringify(data);
-      const re = /["'](?:slug|citySlug|city_slug)["']\s*:\s*["']([^"']+)["']/g;
-      let m;
-      while ((m = re.exec(raw))) {
-        if (/^[a-z0-9-]{2,40}$/.test(m[1])) candidates.add(m[1]);
+  function collectSlugs(value) {
+    if (!value || typeof value !== "object") return;
+
+    if (Array.isArray(value)) {
+      for (const item of value) collectSlugs(item);
+      return;
+    }
+
+    for (const [key, val] of Object.entries(value)) {
+      if (
+        typeof val === "string" &&
+        /^(slug|citySlug|city_slug|seoSlug|urlSlug)$/i.test(key) &&
+        /^[a-z0-9-]{2,40}$/.test(val)
+      ) {
+        candidates.add(val);
       }
+      if (val && typeof val === "object") collectSlugs(val);
+    }
+  }
+
+  // Divar's menu endpoint is used to discover city slugs.
+  try {
+    const response = await page.request.get(
+      "https://api.divar.ir/v8/my-divar/web/menu",
+      { timeout: 30000 }
+    );
+
+    if (response.ok()) {
+      collectSlugs(await response.json());
     }
   } catch (_) {}
 
-  // Also discover city links exposed by Divar's public pages.
-  for (const url of ["https://divar.ir/s/tehran/real-estate", "https://divar.ir/s"]) {
+  // Discover additional city slugs exposed by public Divar navigation.
+  for (const url of [
+    "https://divar.ir/s/tehran/real-estate",
+    "https://divar.ir/s"
+  ]) {
     try {
-      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+      await page.goto(url, {
+        waitUntil: "domcontentloaded",
+        timeout: 60000
+      });
       await page.waitForTimeout(1500);
+
       const slugs = await page.locator('a[href^="/s/"]').evaluateAll(as =>
-        as.map(a => a.getAttribute("href") || "")
+        as
+          .map(a => a.getAttribute("href") || "")
           .map(h => h.split("/").filter(Boolean))
           .filter(p => p.length >= 2)
           .map(p => p[1])
           .filter(Boolean)
       );
+
       for (const slug of slugs) {
-        if (/^[a-z0-9-]{2,40}$/.test(slug)) candidates.add(slug);
+        if (/^[a-z0-9-]{2,40}$/.test(slug)) {
+          candidates.add(slug);
+        }
       }
     } catch (_) {}
   }
@@ -252,14 +293,15 @@ async function readListing(page, url) {
   const publishedText = extractPublishedText(lines);
   const age = ageHours(publishedText);
 
-  // Title and description are intentionally excluded from extraction.
+  // Title and description are not used for property specifications.
   const sellerType = detectSellerType(lines);
   if (sellerType === "agency") return null;
 
-  // We cannot safely keep an old listing when its publication time is unknown.
-  if (age === null || age > MAX_AGE_HOURS) return null;
+  // If publication age is known, enforce the 14-day rule.
+  // Unknown age is retained for now rather than silently discarding a valid listing.
+  if (age !== null && age > MAX_AGE_HOURS) return null;
 
-  const propertyType = "آپارتمان";
+  const propertyType = extractPropertyType(lines);
   return {
     displayTitle: buildDisplayTitle({ propertyType, area, rooms, neighborhood: location.neighborhood, city: location.city, price }),
     propertyType,
@@ -277,6 +319,7 @@ async function readListing(page, url) {
     verified: detectVerified(lines),
     publishedText,
     ageHours: age,
+    ageStatus: age === null ? "unknown" : "known",
     source: "divar",
     url,
     originalTitle: null,
