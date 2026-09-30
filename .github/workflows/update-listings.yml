@@ -50,19 +50,29 @@ jobs:
               echo "========================================"
               echo "City: $CITY"
               echo "Type: $TYPE"
+              echo "Query: $QUERY"
               echo "========================================"
+
+              INPUT=$(jq -n \
+                --arg city "$CITY" \
+                --arg query "$QUERY" \
+                '{
+                  city: $city,
+                  query: $query,
+                  category: "real-estate",
+                  maxItems: 50
+                }')
+
+              echo "Starting Apify Actor..."
 
               RESPONSE=$(curl -sS --fail-with-body \
                 -X POST \
-                "https://api.apify.com/v2/acts/hipersoft~divar-scraper/runs" \
+                "https://api.apify.com/v2/actors/hipersoft~divar-scraper/runs" \
                 -H "Authorization: Bearer ${APIFY_TOKEN}" \
                 -H "Content-Type: application/json" \
-                -d "{
-                  \"city\": \"${CITY}\",
-                  \"query\": \"${QUERY}\",
-                  \"category\": \"real-estate\",
-                  \"maxItems\": 50
-                }")
+                -d "$INPUT")
+
+              echo "Apify response received."
 
               RUN_ID=$(echo "$RESPONSE" | jq -r '.data.id')
               DATASET_ID=$(echo "$RESPONSE" | jq -r '.data.defaultDatasetId')
@@ -73,8 +83,14 @@ jobs:
                 exit 1
               fi
 
+              echo "Run ID: $RUN_ID"
+              echo "Dataset ID: $DATASET_ID"
+
+              STATUS=""
+
               for i in {1..60}; do
-                RESPONSE_STATUS=$(curl -sS \
+
+                RESPONSE_STATUS=$(curl -sS --fail-with-body \
                   "https://api.apify.com/v2/actor-runs/${RUN_ID}" \
                   -H "Authorization: Bearer ${APIFY_TOKEN}")
 
@@ -100,6 +116,8 @@ jobs:
                 echo "Apify scraper did not finish in time."
                 exit 1
               fi
+
+              echo "Downloading dataset..."
 
               curl -sS --fail-with-body \
                 "https://api.apify.com/v2/datasets/${DATASET_ID}/items?format=json&clean=true" \
