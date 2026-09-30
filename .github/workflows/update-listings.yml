@@ -1,9 +1,6 @@
 name: Update Avrin Listings
 
 on:
-  push:
-    paths:
-      - ".github/workflows/update-listings.yml"
   workflow_dispatch:
   schedule:
     - cron: "0 */6 * * *"
