@@ -1,4 +1,5 @@
 const { chromium } = require("playwright");
+const fs = require("fs");
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
@@ -9,54 +10,68 @@ const { chromium } = require("playwright");
   });
 
   try {
-    const url = "https://divar.ir/s/tehran/real-estate";
+    const url = "https://divar.ir/s/tehran/buy-residential";
 
     console.log("Opening:", url);
-
-    // تمام پاسخ‌های شبکه را بررسی می‌کنیم
-    page.on("response", async (response) => {
-      const responseUrl = response.url();
-
-      if (
-        responseUrl.includes("api") ||
-        responseUrl.includes("city") ||
-        responseUrl.includes("location") ||
-        responseUrl.includes("search")
-      ) {
-        console.log("\nNETWORK:");
-        console.log(responseUrl);
-      }
-    });
 
     await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
 
-    await page.waitForTimeout(8000);
+    await page.waitForTimeout(7000);
 
-    console.log("\n========== PAGE LOADED ==========");
-    console.log("FINAL URL:", page.url());
+    // کمی اسکرول برای بارگذاری آگهی‌های بیشتر
+    await page.mouse.wheel(0, 5000);
+    await page.waitForTimeout(3000);
 
-    // لینک‌های مربوط به شهر
-    const cityLinks = await page.locator('a[href^="/s/"]').evaluateAll(links =>
-      links.map(a => ({
-        text: (a.innerText || "").trim(),
-        href: a.getAttribute("href")
-      }))
+    const listings = await page.locator('article').evaluateAll(articles =>
+      articles.map(article => {
+        const text = (article.innerText || "")
+          .replace(/\n+/g, "\n")
+          .trim();
+
+        const link = article.querySelector('a[href*="/v/"]');
+
+        return {
+          title: text.split("\n")[0] || null,
+          url: link ? link.href : null,
+          text
+        };
+      })
+      .filter(x => x.url)
     );
 
-    console.log("\n========== SEARCH LINKS ==========");
-    console.log(JSON.stringify(cityLinks, null, 2));
+    console.log("Listings found:", listings.length);
 
-    // متن صفحه
-    const bodyText = await page.locator("body").innerText();
+    fs.mkdirSync("data", { recursive: true });
 
-    console.log("\n========== PAGE TEXT ==========");
-    console.log(bodyText.slice(0, 10000));
+    fs.writeFileSync(
+      "data/divar-raw.json",
+      JSON.stringify(
+        {
+          source: "divar",
+          city: "tehran",
+          category: "buy-residential",
+          collectedAt: new Date().toISOString(),
+          listings
+        },
+        null,
+        2
+      ),
+      "utf8"
+    );
+
+    console.log("Saved: data/divar-raw.json");
+
+    console.log("\n========== SAMPLE ==========\n");
+
+    console.log(
+      JSON.stringify(listings.slice(0, 10), null, 2)
+    );
 
   } catch (error) {
-    console.error("TEST FAILED:");
+    console.error("SCRAPER FAILED:");
     console.error(error);
     process.exitCode = 1;
   } finally {
