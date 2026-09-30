@@ -1,9 +1,6 @@
 name: Update Avrin Listings
 
 on:
-  push:
-    paths:
-      - "divar-collector.js"
   workflow_dispatch:
   schedule:
     - cron: "0 */6 * * *"
