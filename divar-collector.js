@@ -4,7 +4,7 @@ const fs = require("fs");
 const MAX_AGE_HOURS = 336;
 const MAX_LISTING_LINKS_PER_CITY = 50;
 const CONCURRENCY_DELAY_MS = 300;
-const DETAIL_CONCURRENCY = 6;
+const DETAIL_CONCURRENCY = 6; // bounded concurrency for GitHub Actions
 
 function normalizeDigits(value = "") {
   return String(value)
