@@ -2,7 +2,6 @@ const { chromium } = require("playwright");
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
-
   const page = await browser.newPage({
     locale: "fa-IR",
     viewport: { width: 1440, height: 900 }
@@ -13,39 +12,41 @@ const { chromium } = require("playwright");
 
     console.log("Opening:", url);
 
-    const response = await page.goto(url, {
+    await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
 
     await page.waitForTimeout(5000);
 
-    console.log("HTTP status:", response?.status());
-    console.log("Final URL:", page.url());
+    const links = await page.locator("a[href]").evaluateAll(links =>
+      links.map(a => ({
+        text: (a.innerText || "").trim(),
+        href: a.getAttribute("href")
+      }))
+      .filter(x =>
+        x.href &&
+        x.href.startsWith("/s/")
+      )
+    );
 
-    const articles = page.locator("article");
-    const count = await articles.count();
+    const unique = [];
+    const seen = new Set();
 
-    console.log("ARTICLE COUNT:", count);
+    for (const item of links) {
+      if (!seen.has(item.href)) {
+        seen.add(item.href);
+        unique.push(item);
+      }
+    }
 
-    for (let i = 0; i < Math.min(count, 3); i++) {
-      const article = articles.nth(i);
+    console.log("\n========== DIVAR SEARCH LINKS ==========");
+    console.log("TOTAL:", unique.length);
 
-      const title = await article.locator("h2, h3").first()
-        .innerText()
-        .catch(() => "");
-
-      const href = await article.locator("a").first()
-        .getAttribute("href")
-        .catch(() => null);
-
-      const text = await article.innerText().catch(() => "");
-
-      console.log(`\n========== ARTICLE ${i + 1} ==========`);
-      console.log("TITLE:", title);
-      console.log("LINK:", href);
-      console.log("FULL TEXT:");
-      console.log(text);
+    for (const item of unique) {
+      console.log(`TEXT: ${item.text}`);
+      console.log(`URL: ${item.href}`);
+      console.log("--------------------------------");
     }
 
   } catch (error) {
