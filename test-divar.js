@@ -1,4 +1,5 @@
 const { chromium } = require("playwright");
+const fs = require("fs");
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
@@ -9,7 +10,10 @@ const { chromium } = require("playwright");
   });
 
   try {
-    const url = "https://divar.ir/s/tehran/real-estate";
+    // صفحه عمومی املاک دیوار
+    const url = "https://divar.ir/s/real-estate";
+
+    console.log("Opening:", url);
 
     await page.goto(url, {
       waitUntil: "domcontentloaded",
@@ -18,30 +22,68 @@ const { chromium } = require("playwright");
 
     await page.waitForTimeout(5000);
 
+    console.log("HTTP status: loaded");
+    console.log("FINAL URL:", page.url());
+
     const articles = page.locator("article");
     const count = await articles.count();
 
     console.log("ARTICLE COUNT:", count);
 
-    for (let i = 0; i < Math.min(count, 3); i++) {
-      const article = articles.nth(i);
+    const results = [];
 
-      console.log(`\n========== ARTICLE ${i + 1} ==========`);
+    for (let i = 0; i < Math.min(count, 10); i++) {
+      const article = articles.nth(i);
 
       const title = await article.locator("h2, h3").first()
         .innerText()
         .catch(() => "");
 
-      const text = await article.innerText().catch(() => "");
-
-      const link = await article.locator("a").first()
+      const href = await article.locator("a").first()
         .getAttribute("href")
         .catch(() => null);
 
+      const cardText = await article.innerText().catch(() => "");
+
+      results.push({
+        title,
+        url: href ? new URL(href, "https://divar.ir").href : null,
+        cardText
+      });
+
+      console.log(`\n========== ARTICLE ${i + 1} ==========`);
       console.log("TITLE:", title);
-      console.log("LINK:", link);
-      console.log("FULL TEXT:");
-      console.log(text);
+      console.log("LINK:", href);
+      console.log("CARD TEXT:");
+      console.log(cardText);
+    }
+
+    const report = [
+      "# Divar Iran Test",
+      "",
+      `Final URL: ${page.url()}`,
+      `Article count: ${count}`,
+      "",
+      ...results.map((item, index) => `
+## Article ${index + 1}
+
+**Title:** ${item.title}
+
+**URL:** ${item.url}
+
+**Card text:**
+
+\`\`\`
+${item.cardText}
+\`\`\`
+`).join("\n")
+    ];
+
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      fs.appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        report.join("\n")
+      );
     }
 
   } catch (error) {
