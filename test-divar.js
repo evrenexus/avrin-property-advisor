@@ -2,6 +2,7 @@ const { chromium } = require("playwright");
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
+
   const page = await browser.newPage({
     locale: "fa-IR",
     viewport: { width: 1440, height: 900 }
@@ -12,42 +13,47 @@ const { chromium } = require("playwright");
 
     console.log("Opening:", url);
 
+    // تمام پاسخ‌های شبکه را بررسی می‌کنیم
+    page.on("response", async (response) => {
+      const responseUrl = response.url();
+
+      if (
+        responseUrl.includes("api") ||
+        responseUrl.includes("city") ||
+        responseUrl.includes("location") ||
+        responseUrl.includes("search")
+      ) {
+        console.log("\nNETWORK:");
+        console.log(responseUrl);
+      }
+    });
+
     await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(8000);
 
-    const links = await page.locator("a[href]").evaluateAll(links =>
+    console.log("\n========== PAGE LOADED ==========");
+    console.log("FINAL URL:", page.url());
+
+    // لینک‌های مربوط به شهر
+    const cityLinks = await page.locator('a[href^="/s/"]').evaluateAll(links =>
       links.map(a => ({
         text: (a.innerText || "").trim(),
         href: a.getAttribute("href")
       }))
-      .filter(x =>
-        x.href &&
-        x.href.startsWith("/s/")
-      )
     );
 
-    const unique = [];
-    const seen = new Set();
+    console.log("\n========== SEARCH LINKS ==========");
+    console.log(JSON.stringify(cityLinks, null, 2));
 
-    for (const item of links) {
-      if (!seen.has(item.href)) {
-        seen.add(item.href);
-        unique.push(item);
-      }
-    }
+    // متن صفحه
+    const bodyText = await page.locator("body").innerText();
 
-    console.log("\n========== DIVAR SEARCH LINKS ==========");
-    console.log("TOTAL:", unique.length);
-
-    for (const item of unique) {
-      console.log(`TEXT: ${item.text}`);
-      console.log(`URL: ${item.href}`);
-      console.log("--------------------------------");
-    }
+    console.log("\n========== PAGE TEXT ==========");
+    console.log(bodyText.slice(0, 10000));
 
   } catch (error) {
     console.error("TEST FAILED:");
