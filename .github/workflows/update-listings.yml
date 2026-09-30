@@ -25,152 +25,17 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Collect Divar listings
-        env:
-          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: |
-          set -e
-
-          mkdir -p data
-          rm -f data/raw-*.json
-          rm -f data/part-*.json
-          rm -f data/raw-listings.json
-
-          cities=("tehran" "mashhad" "tabriz")
-          types=("sale" "rent")
-          queries=("فروش" "اجاره")
-
-          index=0
-
-          for CITY in "${cities[@]}"; do
-            for TYPE_INDEX in 0 1; do
-
-              TYPE="${types[$TYPE_INDEX]}"
-              QUERY="${queries[$TYPE_INDEX]}"
-
-              echo "========================================"
-              echo "City: $CITY"
-              echo "Type: $TYPE"
-              echo "Query: $QUERY"
-              echo "========================================"
-
-              INPUT=$(jq -n \
-                --arg city "$CITY" \
-                --arg query "$QUERY" \
-                '{
-                  city: $city,
-                  query: $query,
-                  category: "real-estate",
-                  maxItems: 50
-                }')
-
-              echo "Starting Apify Actor..."
-
-              RESPONSE=$(curl -sS --fail-with-body \
-                -X POST \
-                "https://api.apify.com/v2/actors/hipersoft~divar-scraper/runs" \
-                -H "Authorization: Bearer ${APIFY_TOKEN}" \
-                -H "Content-Type: application/json" \
-                -d "$INPUT")
-
-              echo "Apify response received."
-
-              RUN_ID=$(echo "$RESPONSE" | jq -r '.data.id')
-              DATASET_ID=$(echo "$RESPONSE" | jq -r '.data.defaultDatasetId')
-
-              if [ "$RUN_ID" = "null" ] || [ -z "$RUN_ID" ]; then
-                echo "Could not start Apify run."
-                echo "$RESPONSE"
-                exit 1
-              fi
-
-              echo "Run ID: $RUN_ID"
-              echo "Dataset ID: $DATASET_ID"
-
-              STATUS=""
-
-              for i in {1..60}; do
-
-                RESPONSE_STATUS=$(curl -sS --fail-with-body \
-                  "https://api.apify.com/v2/actor-runs/${RUN_ID}" \
-                  -H "Authorization: Bearer ${APIFY_TOKEN}")
-
-                STATUS=$(echo "$RESPONSE_STATUS" | jq -r '.data.status')
-
-                echo "Attempt $i - Status: $STATUS"
-
-                if [ "$STATUS" = "SUCCEEDED" ]; then
-                  break
-                fi
-
-                if [ "$STATUS" = "FAILED" ] || \
-                   [ "$STATUS" = "ABORTED" ] || \
-                   [ "$STATUS" = "TIMED-OUT" ]; then
-                  echo "$RESPONSE_STATUS"
-                  exit 1
-                fi
-
-                sleep 10
-              done
-
-              if [ "$STATUS" != "SUCCEEDED" ]; then
-                echo "Apify scraper did not finish in time."
-                exit 1
-              fi
-
-              echo "Downloading dataset..."
-
-              curl -sS --fail-with-body \
-                "https://api.apify.com/v2/datasets/${DATASET_ID}/items?format=json&clean=true" \
-                -H "Authorization: Bearer ${APIFY_TOKEN}" \
-                -o "data/raw-${index}.json"
-
-              jq \
-                --arg dealType "$TYPE" \
-                --arg cityCode "$CITY" \
-                'map(. + {
-                  dealType: $dealType,
-                  sourceCity: $cityCode,
-                  source: "divar"
-                })' \
-                "data/raw-${index}.json" \
-                > "data/part-${index}.json"
-
-              rm "data/raw-${index}.json"
-
-              index=$((index + 1))
-
-            done
-          done
-
-          jq -s 'add' data/part-*.json > data/raw-listings.json
-          rm -f data/part-*.json
-
-          echo "Raw listings:"
-          jq 'length' data/raw-listings.json
-
-      - name: Scrape and filter listings
-        run: |
-          node scrape-details.js
+          node divar-collector.js
 
       - name: Validate listings
         run: |
           set -e
-
           test -f data/listings.json
           jq empty data/listings.json
 
-          echo "========================================"
-          echo "FINAL RESULTS"
-          echo "========================================"
-
           echo "Total:"
           jq 'length' data/listings.json
-
-          echo "Sale:"
-          jq '[.[] | select(.dealType == "sale")] | length' data/listings.json
-
-          echo "Rent:"
-          jq '[.[] | select(.dealType == "rent")] | length' data/listings.json
 
           echo "Personal:"
           jq '[.[] | select(.sellerType == "personal")] | length' data/listings.json
@@ -194,18 +59,14 @@ jobs:
           jq '[.[] | select(.units != null)] | length' data/listings.json
 
       - name: Show sample
-        run: |
-          jq '.[0:3]' data/listings.json
+        run: jq '.[0:5]' data/listings.json
 
       - name: Commit listings
         run: |
           set -e
-
           git config user.name "Avrin Bot"
           git config user.email "avrin-bot@users.noreply.github.com"
-
           git add data/listings.json
-
           if git diff --cached --quiet; then
             echo "No changes."
           else
