@@ -10,32 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------------------------------------------------------
-      # 1. Checkout
-      # ---------------------------------------------------------
+
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ---------------------------------------------------------
-      # 2. Node.js
-      # ---------------------------------------------------------
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # ---------------------------------------------------------
-      # 3. Install Playwright
-      # ---------------------------------------------------------
       - name: Install Playwright
         run: |
           npm init -y
           npm install playwright
           npx playwright install --with-deps chromium
 
-      # ---------------------------------------------------------
-      # 4. Collect Divar cards through Apify
-      # ---------------------------------------------------------
       - name: Collect Divar listings
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
@@ -45,10 +34,7 @@ jobs:
           mkdir -p data
           rm -f data/raw-*.json
           rm -f data/part-*.json
-
-          echo "========================================"
-          echo "Starting Avrin Divar collection"
-          echo "========================================"
+          rm -f data/raw-listings.json
 
           cities=("tehran" "mashhad" "tabriz")
           types=("sale" "rent")
@@ -62,12 +48,11 @@ jobs:
               TYPE="${types[$TYPE_INDEX]}"
               QUERY="${queries[$TYPE_INDEX]}"
 
-              echo ""
-              echo "----------------------------------------"
+              echo "========================================"
               echo "City: $CITY"
               echo "Type: $TYPE"
               echo "Query: $QUERY"
-              echo "----------------------------------------"
+              echo "========================================"
 
               RESPONSE=$(curl -sS --fail-with-body \
                 -X POST \
@@ -111,8 +96,6 @@ jobs:
                 if [ "$STATUS" = "FAILED" ] || \
                    [ "$STATUS" = "ABORTED" ] || \
                    [ "$STATUS" = "TIMED-OUT" ]; then
-
-                  echo "Apify run failed."
                   echo "$RESPONSE_STATUS"
                   exit 1
                 fi
@@ -150,15 +133,11 @@ jobs:
 
           jq -s 'add' data/part-*.json > data/raw-listings.json
 
-          echo ""
           echo "Raw listings:"
           jq 'length' data/raw-listings.json
 
           rm -f data/part-*.json
 
-      # ---------------------------------------------------------
-      # 5. Create detail-page scraper
-      # ---------------------------------------------------------
       - name: Create detail scraper
         run: |
           cat > scrape-details.js <<'EOF'
@@ -169,7 +148,8 @@ jobs:
             fs.readFileSync("data/raw-listings.json", "utf8")
           );
 
-          const MAX_AGE_HOURS = 6;
+          // حداکثر سن آگهی: 14 روز
+          const MAX_AGE_HOURS = 336;
 
           const sleep = ms =>
             new Promise(resolve => setTimeout(resolve, ms));
@@ -177,7 +157,7 @@ jobs:
           function normalizeText(value) {
             if (!value) return "";
 
-            return value
+            return String(value)
               .replace(/\u200c/g, " ")
               .replace(/\s+/g, " ")
               .trim();
@@ -195,42 +175,54 @@ jobs:
           }
 
           function numberFrom(value) {
-            if (!value) return null;
+            if (value === null || value === undefined) {
+              return null;
+            }
 
-            const n = faToEn(value)
+            const normalized = faToEn(String(value))
               .replace(/,/g, "")
               .replace(/٬/g, "")
-              .match(/\d+(?:\.\d+)?/);
+              .trim();
+
+            const n = normalized.match(/\d+(?:\.\d+)?/);
 
             return n ? Number(n[0]) : null;
           }
 
           function extractArea(text) {
+            const t = faToEn(normalizeText(text));
+
             const patterns = [
-              /(?:متراژ|زیربنا|مساحت)\s*[:\-]?\s*([۰-۹0-9]{2,5})\s*متر/,
-              /([۰-۹0-9]{2,5})\s*متر\s*(?:مربع)?/
+              /(?:متراژ|زیربنا|مساحت)\s*[:\-]?\s*(\d{2,5})\s*(?:متر|مترمربع)/i,
+              /(?:متراژ|زیربنا|مساحت)\s*[:\-]?\s*(\d{2,5})/i
             ];
 
-            for (const p of patterns) {
-              const m = text.match(p);
-              if (m) return numberFrom(m[1]);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
+
+              if (match) {
+                return numberFrom(match[1]);
+              }
             }
 
             return null;
           }
 
           function extractRooms(text) {
+            const t = faToEn(normalizeText(text));
+
             const patterns = [
-              /(\d+)\s*خواب/,
-              /(\d+)\s*خوابه/,
-              /(\d+)\s*اتاق/
+              /(\d+)\s*خوابه/i,
+              /(\d+)\s*خواب/i,
+              /(\d+)\s*اتاق\s*خواب/i,
+              /(\d+)\s*اتاق/i
             ];
 
-            for (const p of patterns) {
-              const m = text.match(p);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
 
-              if (m) {
-                return numberFrom(m[1]);
+              if (match) {
+                return numberFrom(match[1]);
               }
             }
 
@@ -238,17 +230,20 @@ jobs:
           }
 
           function extractYear(text) {
+            const t = faToEn(normalizeText(text));
+
             const patterns = [
-              /(?:سال ساخت|ساخت)\s*[:\-]?\s*(13\d{2})/,
-              /(?:سال ساخت|ساخت)\s*[:\-]?\s*(14\d{2})/,
-              /(?:سال ساخت|ساخت)\s*[:\-]?\s*(\d{4})/
+              /سال\s*ساخت\s*[:\-]?\s*(13\d{2})/i,
+              /سال\s*ساخت\s*[:\-]?\s*(14\d{2})/i,
+              /ساخت\s*[:\-]?\s*(13\d{2})/i,
+              /ساخت\s*[:\-]?\s*(14\d{2})/i
             ];
 
-            for (const p of patterns) {
-              const m = faToEn(text).match(p);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
 
-              if (m) {
-                return numberFrom(m[1]);
+              if (match) {
+                return numberFrom(match[1]);
               }
             }
 
@@ -256,17 +251,30 @@ jobs:
           }
 
           function extractFloor(text) {
+            const t = faToEn(normalizeText(text));
+
+            if (/همکف/.test(t)) {
+              return 0;
+            }
+
+            const negative = t.match(
+              /طبقه\s*(?:منفی|-)\s*(\d+)/i
+            );
+
+            if (negative) {
+              return -numberFrom(negative[1]);
+            }
+
             const patterns = [
-              /(?:طبقه)\s*[:\-]?\s*(\d+)/,
-              /طبقه\s+(\d+)/,
-              /(\d+)\s*ام\s*طبقه/
+              /طبقه\s*[:\-]?\s*(\d+)/i,
+              /(\d+)\s*ام\s*طبقه/i
             ];
 
-            for (const p of patterns) {
-              const m = faToEn(text).match(p);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
 
-              if (m) {
-                return numberFrom(m[1]);
+              if (match) {
+                return numberFrom(match[1]);
               }
             }
 
@@ -274,17 +282,19 @@ jobs:
           }
 
           function extractUnits(text) {
+            const t = faToEn(normalizeText(text));
+
             const patterns = [
-              /(?:تعداد واحد|تعداد واحدها|واحد)\s*[:\-]?\s*(\d+)/,
-              /(\d+)\s*واحدی/,
-              /(\d+)\s*واحد/
+              /تعداد\s*واحد(?:ها)?\s*[:\-]?\s*(\d+)/i,
+              /(\d+)\s*واحدی/i,
+              /(\d+)\s*واحد/i
             ];
 
-            for (const p of patterns) {
-              const m = faToEn(text).match(p);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
 
-              if (m) {
-                return numberFrom(m[1]);
+              if (match) {
+                return numberFrom(match[1]);
               }
             }
 
@@ -292,7 +302,6 @@ jobs:
           }
 
           function extractUsage(text) {
-
             const t = normalizeText(text);
 
             if (
@@ -323,11 +332,15 @@ jobs:
           }
 
           function extractParking(text) {
-            if (/پارکینگ\s*ندارد|بدون\s*پارکینگ/.test(text)) {
+            const t = normalizeText(text);
+
+            if (
+              /پارکینگ\s*(ندارد|ن دارد)|بدون\s*پارکینگ/.test(t)
+            ) {
               return false;
             }
 
-            if (/پارکینگ/.test(text)) {
+            if (/پارکینگ/.test(t)) {
               return true;
             }
 
@@ -335,11 +348,15 @@ jobs:
           }
 
           function extractElevator(text) {
-            if (/آسانسور\s*ندارد|بدون\s*آسانسور/.test(text)) {
+            const t = normalizeText(text);
+
+            if (
+              /آسانسور\s*(ندارد|ن دارد)|بدون\s*آسانسور/.test(t)
+            ) {
               return false;
             }
 
-            if (/آسانسور/.test(text)) {
+            if (/آسانسور/.test(t)) {
               return true;
             }
 
@@ -347,11 +364,15 @@ jobs:
           }
 
           function extractStorage(text) {
-            if (/انباری\s*ندارد|بدون\s*انباری/.test(text)) {
+            const t = normalizeText(text);
+
+            if (
+              /انباری\s*(ندارد|ن دارد)|بدون\s*انباری/.test(t)
+            ) {
               return false;
             }
 
-            if (/انباری/.test(text)) {
+            if (/انباری/.test(t)) {
               return true;
             }
 
@@ -359,21 +380,19 @@ jobs:
           }
 
           function sellerType(text) {
-
             const t = normalizeText(text);
 
             const agencyPatterns = [
               "مشاور املاک",
               "مشاورین املاک",
-              "املاک",
-              "آژانس",
-              "دفتر فروش",
+              "آژانس املاک",
+              "دفتر املاک",
               "دپارتمان املاک",
-              "هلدینگ",
-              "بنگاه",
+              "بنگاه املاک",
               "گروه املاک",
               "مجموعه املاک",
-              "دفتر املاک"
+              "دفتر فروش",
+              "دپارتمان فروش"
             ];
 
             for (const word of agencyPatterns) {
@@ -383,9 +402,10 @@ jobs:
             }
 
             const personalPatterns = [
-              "مالک",
-              "شخصی",
               "فروشنده شخصی",
+              "فروشنده: شخصی",
+              "شخصی",
+              "مالک",
               "مستقیم از مالک"
             ];
 
@@ -399,21 +419,23 @@ jobs:
           }
 
           function extractTimeText(text) {
+            const t = faToEn(normalizeText(text));
 
             const patterns = [
               /لحظاتی پیش/,
               /دقایقی پیش/,
-              /(\d+)\s*دقیقه پیش/,
-              /(\d+)\s*ساعت پیش/,
+              /\d+\s*دقیقه پیش/,
+              /\d+\s*ساعت پیش/,
+              /\d+\s*روز پیش/,
               /امروز/,
               /دیروز/
             ];
 
-            for (const p of patterns) {
-              const m = text.match(p);
+            for (const pattern of patterns) {
+              const match = t.match(pattern);
 
-              if (m) {
-                return normalizeText(m[0]);
+              if (match) {
+                return normalizeText(match[0]);
               }
             }
 
@@ -421,8 +443,9 @@ jobs:
           }
 
           function ageHoursFromTime(timeText) {
-
-            if (!timeText) return null;
+            if (!timeText) {
+              return null;
+            }
 
             const t = faToEn(timeText);
 
@@ -434,16 +457,28 @@ jobs:
               return 0.25;
             }
 
-            let m = t.match(/(\d+)\s*دقیقه پیش/);
+            let match = t.match(
+              /(\d+)\s*دقیقه پیش/
+            );
 
-            if (m) {
-              return Number(m[1]) / 60;
+            if (match) {
+              return Number(match[1]) / 60;
             }
 
-            m = t.match(/(\d+)\s*ساعت پیش/);
+            match = t.match(
+              /(\d+)\s*ساعت پیش/
+            );
 
-            if (m) {
-              return Number(m[1]);
+            if (match) {
+              return Number(match[1]);
+            }
+
+            match = t.match(
+              /(\d+)\s*روز پیش/
+            );
+
+            if (match) {
+              return Number(match[1]) * 24;
             }
 
             if (/امروز/.test(t)) {
@@ -458,7 +493,6 @@ jobs:
           }
 
           async function extractStructuredData(page) {
-
             return await page.evaluate(() => {
 
               const result = {
@@ -467,8 +501,11 @@ jobs:
               };
 
               document
-                .querySelectorAll('script[type="application/ld+json"]')
+                .querySelectorAll(
+                  'script[type="application/ld+json"]'
+                )
                 .forEach(script => {
+
                   try {
                     result.jsonLd.push(
                       JSON.parse(script.textContent)
@@ -476,15 +513,15 @@ jobs:
                   } catch {}
                 });
 
-              const next = document.querySelector(
-                'script#__NEXT_DATA__'
-              );
+              const next =
+                document.querySelector(
+                  "script#__NEXT_DATA__"
+                );
 
               if (next) {
                 try {
-                  result.nextData = JSON.parse(
-                    next.textContent
-                  );
+                  result.nextData =
+                    JSON.parse(next.textContent);
                 } catch {}
               }
 
@@ -510,6 +547,15 @@ jobs:
                 `[${index + 1}/${input.length}] ${item.token}`
               );
 
+              if (!item.url) {
+                console.log(
+                  `SKIP no URL token=${item.token}`
+                );
+
+                await page.close();
+                return null;
+              }
+
               await page.goto(item.url, {
                 waitUntil: "domcontentloaded",
                 timeout: 30000
@@ -521,9 +567,8 @@ jobs:
 
                 const body = document.body;
 
-                const allText = body
-                  ? body.innerText
-                  : "";
+                const allText =
+                  body ? body.innerText : "";
 
                 const title =
                   document.querySelector("h1")?.innerText ||
@@ -545,7 +590,7 @@ jobs:
                     src.includes("divar.ir")
                   );
 
-                const descriptionCandidates = [
+                const descriptionSelectors = [
                   '[data-testid="description"]',
                   '[class*="description"]',
                   '[class*="Description"]'
@@ -553,17 +598,24 @@ jobs:
 
                 let description = "";
 
-                for (const selector of descriptionCandidates) {
+                for (
+                  const selector of descriptionSelectors
+                ) {
 
                   const elements =
                     document.querySelectorAll(selector);
 
-                  for (const element of elements) {
+                  for (
+                    const element of elements
+                  ) {
 
                     const txt =
                       element.innerText?.trim();
 
-                    if (txt && txt.length > description.length) {
+                    if (
+                      txt &&
+                      txt.length > description.length
+                    ) {
                       description = txt;
                     }
                   }
@@ -573,7 +625,9 @@ jobs:
                   title: title.trim(),
                   bodyText: allText.trim(),
                   description: description.trim(),
-                  images: [...new Set(images)]
+                  images: [
+                    ...new Set(images)
+                  ]
                 };
               });
 
@@ -591,39 +645,52 @@ jobs:
               const ageHours =
                 ageHoursFromTime(timeText);
 
+              // تاریخ انتشار باید قابل تشخیص باشد.
+              if (ageHours === null) {
+
+                console.log(
+                  `SKIP unknown age token=${item.token}`
+                );
+
+                await page.close();
+                return null;
+              }
+
+              // فقط آگهی‌های حداکثر 14 روزه
+              if (
+                ageHours > MAX_AGE_HOURS
+              ) {
+
+                console.log(
+                  `SKIP old listing ${ageHours}h token=${item.token}`
+                );
+
+                await page.close();
+                return null;
+              }
+
               const seller =
                 sellerType(
                   `${text} ${item.subtitle || ""}`
                 );
 
+              // فقط شخصی
               if (
                 seller !== "personal"
               ) {
+
                 console.log(
                   `SKIP seller=${seller} token=${item.token}`
                 );
 
                 await page.close();
-
-                return null;
-              }
-
-              if (
-                ageHours !== null &&
-                ageHours > MAX_AGE_HOURS
-              ) {
-                console.log(
-                  `SKIP old listing ${ageHours}h`
-                );
-
-                await page.close();
-
                 return null;
               }
 
               const description =
                 data.description ||
-                data.bodyText;
+                data.bodyText ||
+                "";
 
               const images = [
                 ...new Set([
@@ -634,17 +701,20 @@ jobs:
 
               const result = {
 
-                token: item.token,
+                token:
+                  item.token || "",
 
                 title:
                   data.title ||
-                  item.title,
+                  item.title ||
+                  "",
 
                 description:
-
                   description
                     .replace(
-                      data.title || item.title || "",
+                      data.title ||
+                      item.title ||
+                      "",
                       ""
                     )
                     .trim(),
@@ -659,15 +729,13 @@ jobs:
                   item.currency || "IRT",
 
                 dealType:
-                  item.dealType,
+                  item.dealType || null,
 
                 city:
-                  item.city ||
-                  "",
+                  item.city || "",
 
                 district:
-                  item.district ||
-                  "",
+                  item.district || "",
 
                 area:
                   extractArea(text),
@@ -721,7 +789,7 @@ jobs:
                   "divar",
 
                 sourceCity:
-                  item.sourceCity,
+                  item.sourceCity || "",
 
                 scrapedAt:
                   new Date().toISOString(),
@@ -748,9 +816,10 @@ jobs:
 
           (async () => {
 
-            const browser = await chromium.launch({
-              headless: true
-            });
+            const browser =
+              await chromium.launch({
+                headless: true
+              });
 
             const results = [];
 
@@ -776,11 +845,14 @@ jobs:
 
             await browser.close();
 
-            const unique = new Map();
+            const unique =
+              new Map();
 
             for (const item of results) {
 
-              if (!item.token) continue;
+              if (!item.token) {
+                continue;
+              }
 
               unique.set(
                 item.token,
@@ -789,7 +861,9 @@ jobs:
             }
 
             const finalData =
-              Array.from(unique.values());
+              Array.from(
+                unique.values()
+              );
 
             fs.writeFileSync(
               "data/listings.json",
@@ -815,16 +889,10 @@ jobs:
           })();
           EOF
 
-      # ---------------------------------------------------------
-      # 6. Run detail scraper
-      # ---------------------------------------------------------
       - name: Scrape listing details
         run: |
           node scrape-details.js
 
-      # ---------------------------------------------------------
-      # 7. Validate final JSON
-      # ---------------------------------------------------------
       - name: Validate listings
         run: |
           set -e
@@ -833,7 +901,6 @@ jobs:
 
           jq empty data/listings.json
 
-          echo ""
           echo "========================================"
           echo "FINAL RESULTS"
           echo "========================================"
@@ -853,6 +920,30 @@ jobs:
           jq '[.[] | select(.sellerType == "personal")] | length' \
             data/listings.json
 
+          echo "Age <= 14 days:"
+          jq '[.[] | select(.ageHours <= 336)] | length' \
+            data/listings.json
+
+          echo "With area:"
+          jq '[.[] | select(.area != null)] | length' \
+            data/listings.json
+
+          echo "With rooms:"
+          jq '[.[] | select(.rooms != null)] | length' \
+            data/listings.json
+
+          echo "With build year:"
+          jq '[.[] | select(.buildYear != null)] | length' \
+            data/listings.json
+
+          echo "With floor:"
+          jq '[.[] | select(.floor != null)] | length' \
+            data/listings.json
+
+          echo "With units:"
+          jq '[.[] | select(.units != null)] | length' \
+            data/listings.json
+
           echo "With description:"
           jq '[.[] | select(.description != null and .description != "")] | length' \
             data/listings.json
@@ -863,16 +954,10 @@ jobs:
 
           echo "========================================"
 
-      # ---------------------------------------------------------
-      # 8. Show sample
-      # ---------------------------------------------------------
       - name: Show sample
         run: |
           jq '.[0:3]' data/listings.json
 
-      # ---------------------------------------------------------
-      # 9. Commit
-      # ---------------------------------------------------------
       - name: Commit listings
         run: |
           set -e
