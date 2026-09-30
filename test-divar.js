@@ -1,6 +1,33 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 
+const SOURCE_URL = "https://divar.ir/s/tehran/buy-residential";
+
+function cleanNumber(text) {
+  if (!text) return null;
+
+  const digits = text
+    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    .replace(/[^\d]/g, "");
+
+  return digits ? Number(digits) : null;
+}
+
+function isAgency(text) {
+  if (!text) return false;
+
+  const agencyWords = [
+    "آژانس املاک",
+    "املاک ",
+    "دفتر املاک",
+    "مشاور املاک",
+    "دپارتمان املاک",
+    "بنگاه املاک"
+  ];
+
+  return agencyWords.some(word => text.includes(word));
+}
+
 (async () => {
   const browser = await chromium.launch({ headless: true });
 
@@ -10,50 +37,124 @@ const fs = require("fs");
   });
 
   try {
-    const url = "https://divar.ir/s/tehran/buy-residential";
+    console.log("Opening:", SOURCE_URL);
 
-    console.log("Opening:", url);
-
-    await page.goto(url, {
+    await page.goto(SOURCE_URL, {
       waitUntil: "domcontentloaded",
       timeout: 60000
     });
 
-    await page.waitForTimeout(7000);
+    await page.waitForTimeout(5000);
 
-    // کمی اسکرول برای بارگذاری آگهی‌های بیشتر
-    await page.mouse.wheel(0, 5000);
-    await page.waitForTimeout(3000);
-
-    const listings = await page.locator('article').evaluateAll(articles =>
+    const cards = await page.locator("article").evaluateAll(articles =>
       articles.map(article => {
-        const text = (article.innerText || "")
-          .replace(/\n+/g, "\n")
-          .trim();
-
+        const text = (article.innerText || "").trim();
         const link = article.querySelector('a[href*="/v/"]');
 
         return {
-          title: text.split("\n")[0] || null,
-          url: link ? link.href : null,
-          text
+          text,
+          url: link ? link.href : null
         };
-      })
-      .filter(x => x.url)
+      }).filter(x => x.url)
     );
 
-    console.log("Listings found:", listings.length);
+    console.log("Cards:", cards.length);
+
+    const listings = [];
+
+    for (const card of cards) {
+      console.log("\nReading:", card.url);
+
+      // حذف آگهی‌های واضحاً مشاور/آژانس
+      if (isAgency(card.text)) {
+        console.log("SKIP AGENCY");
+        continue;
+      }
+
+      const detail = await browser.newPage({
+        locale: "fa-IR",
+        viewport: { width: 1440, height: 900 }
+      });
+
+      try {
+        await detail.goto(card.url, {
+          waitUntil: "domcontentloaded",
+          timeout: 60000
+        });
+
+        await detail.waitForTimeout(2500);
+
+        const body = await detail.locator("body").innerText();
+
+        const lines = body
+          .split("\n")
+          .map(x => x.trim())
+          .filter(Boolean);
+
+        const title = lines[0] || null;
+
+        // قیمت کل
+        const priceLine = lines.find(x =>
+          x.includes("تومان") &&
+          !x.includes("ودیعه") &&
+          !x.includes("اجاره")
+        );
+
+        const price = cleanNumber(priceLine);
+
+        // اطلاعات ساختاری احتمالی صفحه جزئیات
+        const structured = {};
+
+        for (let i = 0; i < lines.length - 1; i++) {
+          const key = lines[i];
+          const value = lines[i + 1];
+
+          if (
+            [
+              "متراژ",
+              "اتاق",
+              "ساخت",
+              "طبقه",
+              "تعداد واحد",
+              "پارکینگ",
+              "انباری",
+              "آسانسور"
+            ].includes(key)
+          ) {
+            structured[key] = value;
+          }
+        }
+
+        listings.push({
+          source: "divar",
+          city: "تهران",
+          dealType: "buy",
+          propertyType: "residential",
+          title,
+          price,
+          url: card.url,
+          structured,
+          rawText: body
+        });
+
+        console.log("OK");
+
+      } catch (err) {
+        console.log("DETAIL ERROR:", err.message);
+      } finally {
+        await detail.close();
+      }
+    }
 
     fs.mkdirSync("data", { recursive: true });
 
     fs.writeFileSync(
-      "data/divar-raw.json",
+      "data/listings.json",
       JSON.stringify(
         {
           source: "divar",
-          city: "tehran",
-          category: "buy-residential",
           collectedAt: new Date().toISOString(),
+          count: listings.length,
           listings
         },
         null,
@@ -62,16 +163,13 @@ const fs = require("fs");
       "utf8"
     );
 
-    console.log("Saved: data/divar-raw.json");
-
-    console.log("\n========== SAMPLE ==========\n");
-
-    console.log(
-      JSON.stringify(listings.slice(0, 10), null, 2)
-    );
+    console.log("\n==============================");
+    console.log("FINAL LISTINGS:", listings.length);
+    console.log("Saved: data/listings.json");
+    console.log("==============================");
 
   } catch (error) {
-    console.error("SCRAPER FAILED:");
+    console.error("COLLECTOR FAILED:");
     console.error(error);
     process.exitCode = 1;
   } finally {
