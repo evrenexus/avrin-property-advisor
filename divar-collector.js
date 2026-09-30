@@ -246,8 +246,8 @@ async function getListingLinks(page, city) {
 }
 
 async function readListing(page, url) {
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
-  await page.waitForTimeout(1800);
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 15000 });
+  await page.waitForTimeout(1000);
   const rawText = await page.locator("body").innerText();
   const lines = rawText.split("\n").map(clean).filter(Boolean);
 
