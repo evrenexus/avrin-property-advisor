@@ -213,7 +213,24 @@ async function getCitySlugs(page) {
     }
   }
 
-  // Divar's menu endpoint is used to discover city slugs.
+  // Divar's public city-assets endpoint provides the complete city slug list.
+  try {
+    const response = await page.request.get(
+      "https://open-api.divar.ir/v1/open-platform/assets/city",
+      { timeout: 30000 }
+    );
+
+    if (response.ok()) {
+      const data = await response.json();
+      for (const city of (data.cities || [])) {
+        if (city && typeof city.slug === "string" && /^[a-z0-9-]{2,60}$/.test(city.slug)) {
+          candidates.add(city.slug);
+        }
+      }
+    }
+  } catch (_) {}
+
+  // Keep the legacy menu endpoint as a fallback/source of any additional slugs.
   try {
     const response = await page.request.get(
       "https://api.divar.ir/v8/my-divar/web/menu",
