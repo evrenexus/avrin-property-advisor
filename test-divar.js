@@ -249,8 +249,8 @@ async function readListing(page, url) {
 
   const daysOld = ageInDays(publishedText);
 
-  // آگهی‌های قدیمی‌تر از 28 روز حذف شوند.
-  if (daysOld !== null && daysOld > 28) {
+  // آگهی‌های قدیمی‌تر از ۱۴ روز حذف شوند.
+  if (daysOld !== null && daysOld > 14) {
     return null;
   }
 
