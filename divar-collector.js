@@ -3,7 +3,8 @@ const fs = require("fs");
 
 const MAX_AGE_HOURS = 336;
 const MAX_LISTING_LINKS_PER_CITY = 50;
-const CONCURRENCY_DELAY_MS = 500;
+const CONCURRENCY_DELAY_MS = 300;
+const DETAIL_CONCURRENCY = 6;
 
 function normalizeDigits(value = "") {
   return String(value)
@@ -315,16 +316,41 @@ async function readListing(page, url) {
         continue;
       }
 
-      for (const item of links) {
-        if (seen.has(item.url)) continue;
+      const queue = links.filter(item => {
+        if (seen.has(item.url)) return false;
         seen.add(item.url);
-        try {
-          const listing = await readListing(page, item.url);
+        return true;
+      });
+
+      // Read detail pages concurrently instead of opening them one-by-one.
+      // This keeps the same structured-field extraction rules while cutting
+      // collection time dramatically.
+      for (let i = 0; i < queue.length; i += DETAIL_CONCURRENCY) {
+        const batch = queue.slice(i, i + DETAIL_CONCURRENCY);
+        const results = await Promise.all(
+          batch.map(async item => {
+            const detailPage = await browser.newPage({
+              locale: "fa-IR",
+              viewport: { width: 1440, height: 900 }
+            });
+            try {
+              return await readListing(detailPage, item.url);
+            } catch (e) {
+              console.log("LISTING ERROR:", item.url, e.message);
+              return null;
+            } finally {
+              await detailPage.close();
+            }
+          })
+        );
+
+        for (const listing of results) {
           if (listing) all.push(listing);
-        } catch (e) {
-          console.log("LISTING ERROR:", item.url, e.message);
         }
-        await page.waitForTimeout(CONCURRENCY_DELAY_MS);
+
+        if (i + DETAIL_CONCURRENCY < queue.length) {
+          await page.waitForTimeout(CONCURRENCY_DELAY_MS);
+        }
       }
     }
 
