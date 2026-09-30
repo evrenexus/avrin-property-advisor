@@ -297,9 +297,8 @@ async function readListing(page, url) {
   const sellerType = detectSellerType(lines);
   if (sellerType === "agency") return null;
 
-  // If publication age is known, enforce the 14-day rule.
-  // Unknown age is retained for now rather than silently discarding a valid listing.
-  if (age !== null && age > MAX_AGE_HOURS) return null;
+  // Only listings with a known publication age and age <= 14 days are accepted.
+  if (age === null || age > MAX_AGE_HOURS) return null;
 
   const propertyType = extractPropertyType(lines);
   return {
