@@ -336,11 +336,11 @@ async function readListing(page, url) {
 
   try {
     console.log("Discovering Divar cities...");
-    const cities = await getCitySlugs(page);
+    const cities = await getCities(page);
     console.log("CITY COUNT:", cities.length);
 
     for (const city of cities) {
-      console.log("CITY:", city);
+      console.log("CITY:", city.slug);
       let links = [];
       try {
         links = await getListingLinks(page, city.slug);
