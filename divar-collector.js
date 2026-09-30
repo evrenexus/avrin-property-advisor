@@ -1,4 +1,3 @@
-const { chromium } = require("playwright");
 const fs = require("fs");
 
 const MAX_AGE_HOURS = 336;
@@ -191,10 +190,10 @@ function buildDisplayTitle({ propertyType, area, rooms, neighborhood, city, pric
   return title;
 }
 
-async function getCities(page) {
+
+async function getCities() {
   const cachePath = "data/cities.json";
 
-  // Use the cached city list on subsequent runs.
   if (fs.existsSync(cachePath)) {
     try {
       const cached = JSON.parse(fs.readFileSync(cachePath, "utf8"));
@@ -206,7 +205,7 @@ async function getCities(page) {
         console.log("Using cached city list:", cached.length);
         return cached;
       }
-      console.log("City cache has no Divar IDs; refreshing city list.");
+      console.log("City cache is missing Divar IDs; refreshing.");
     } catch (e) {
       console.log("CITY CACHE ERROR:", e.message);
     }
@@ -216,9 +215,11 @@ async function getCities(page) {
 
   async function loadCities(url) {
     try {
-      const response = await page.request.get(url, { timeout: 30000 });
-      if (!response.ok()) {
-        console.log("CITY API STATUS:", url, response.status());
+      const response = await fetch(url, {
+        headers: { "User-Agent": "Mozilla/5.0" }
+      });
+      if (!response.ok) {
+        console.log("CITY API STATUS:", url, response.status);
         return;
       }
 
@@ -230,11 +231,14 @@ async function getCities(page) {
         const slug = city.slug || city.city_slug || city.citySlug;
         const display = city.display || city.name || city.title || slug;
         const id = city.id ?? city.city_id ?? city.cityId;
+
         if (
           typeof slug === "string" &&
-          /^[a-z0-9-]{2,60}$/.test(slug)
+          /^[a-z0-9-]{2,60}$/.test(slug) &&
+          id != null
         ) {
           citiesBySlug.set(slug, {
+            id,
             slug,
             display: typeof display === "string" ? display : slug
           });
@@ -245,19 +249,11 @@ async function getCities(page) {
     }
   }
 
-  // Divar's city API provides the authoritative city list.
-  // We use the unauthenticated endpoint that is already returning the full
-  // Divar city set in this collector.
   await loadCities("https://api.divar.ir/v8/places/cities");
 
-  // Official Open Platform endpoint is also attempted when available.
-  await loadCities("https://open-api.divar.ir/v1/open-platform/assets/city");
-
-  let cities = [...citiesBySlug.values()];
-
+  const cities = [...citiesBySlug.values()];
   if (!cities.length) {
-    console.log("CITY API returned no cities; using Tehran fallback.");
-    cities = [{ slug: "tehran", display: "تهران" }];
+    throw new Error("Divar city API returned no usable cities.");
   }
 
   fs.mkdirSync("data", { recursive: true });
@@ -266,7 +262,8 @@ async function getCities(page) {
 
   return cities;
 }
-async function getListingLinks(page, city) {
+
+async function getListingLinks(city) {
   if (!city || city.id == null) {
     throw new Error("City ID is missing for " + (city?.slug || "unknown city"));
   }
@@ -285,33 +282,29 @@ async function getListingLinks(page, city) {
         search_data: {
           form_data: {
             data: {
-              category: {
-                str: { value: category }
-              }
+              category: { str: { value: category } }
             }
           }
         }
       };
 
-      if (paginationData) {
-        body.pagination_data = paginationData;
-      }
+      if (paginationData) body.pagination_data = paginationData;
 
-      const response = await page.request.post(
+      const response = await fetch(
         "https://api.divar.ir/v8/postlist/w/search",
         {
-          data: body,
+          method: "POST",
           headers: {
             "User-Agent": "Mozilla/5.0",
             "Content-Type": "application/json"
           },
-          timeout: 30000
+          body: JSON.stringify(body)
         }
       );
 
-      if (!response.ok()) {
+      if (!response.ok) {
         throw new Error(
-          "Divar list API " + response.status() + " for " + city.slug
+          "Divar list API " + response.status + " for " + city.slug
         );
       }
 
@@ -323,7 +316,6 @@ async function getListingLinks(page, city) {
 
         const payload = widget?.data?.action?.payload || {};
         const token = payload.token;
-
         if (!token || seen.has(token)) continue;
 
         seen.add(token);
@@ -332,7 +324,9 @@ async function getListingLinks(page, city) {
           token,
           category,
           title: payload?.web_info?.title || "",
-          neighborhood: payload?.web_info?.district_persian || ""
+          neighborhood: payload?.web_info?.district_persian || "",
+          city: payload?.web_info?.city_persian || city.display || "",
+          publishedAt: widget.sort_date || null
         });
 
         if (result.length >= MAX_LISTING_LINKS_PER_CITY) break;
@@ -343,17 +337,290 @@ async function getListingLinks(page, city) {
 
       paginationData = pagination.data;
       pageCount++;
-      await page.waitForTimeout(500);
+      await new Promise(resolve => setTimeout(resolve, 250));
     }
   }
 
-  console.log(
-    "LIST API:",
-    city.slug,
-    "=>",
-    result.length,
-    "listing links"
-  );
-
+  console.log("LIST API:", city.slug, "=>", result.length, "listing links");
   return result;
 }
+
+function collectWidgetObjects(detail) {
+  const widgets = [];
+  if (detail && Array.isArray(detail.sections)) {
+    for (const section of detail.sections) {
+      if (Array.isArray(section?.widgets)) widgets.push(...section.widgets);
+    }
+  }
+
+  function findModal(obj) {
+    if (!obj || typeof obj !== "object") return null;
+    if (
+      obj.modal_page &&
+      obj.modal_page.title === "ویژگی‌ها و امکانات" &&
+      Array.isArray(obj.modal_page.widget_list)
+    ) {
+      return obj.modal_page.widget_list;
+    }
+    if (Array.isArray(obj)) {
+      for (const item of obj) {
+        const found = findModal(item);
+        if (found) return found;
+      }
+    } else {
+      for (const value of Object.values(obj)) {
+        const found = findModal(value);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  const modal = findModal(detail);
+  if (modal) widgets.push(...modal);
+  return widgets;
+}
+
+function extractStructuredLines(detail) {
+  const lines = [];
+
+  for (const widget of collectWidgetObjects(detail)) {
+    const wt = widget?.widget_type;
+    const data = widget?.data || {};
+
+    if (wt === "GROUP_INFO_ROW") {
+      for (const item of data.items || []) {
+        if (item?.title) lines.push(clean(item.title));
+        if (item?.value != null) lines.push(clean(item.value));
+      }
+    } else if (wt === "UNEXPANDABLE_ROW") {
+      if (data.title) lines.push(clean(data.title));
+      if (data.value != null) lines.push(clean(data.value));
+    } else if (wt === "FEATURE_ROW") {
+      if (data.title) lines.push(clean(data.title));
+    } else if (wt === "GROUP_FEATURE_ROW") {
+      for (const item of data.items || []) {
+        if (item?.title) lines.push(clean(item.title));
+      }
+    } else if (wt === "DESCRIPTION_ROW") {
+      if (data.text) lines.push(clean(data.text));
+    }
+  }
+
+  return lines.filter(Boolean);
+}
+
+function collectAllText(detail) {
+  const out = [];
+
+  function walk(value) {
+    if (typeof value === "string") {
+      const s = clean(value);
+      if (s) out.push(s);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) walk(item);
+      return;
+    }
+    if (value && typeof value === "object") {
+      for (const item of Object.values(value)) walk(item);
+    }
+  }
+
+  walk(detail);
+  return out;
+}
+
+async function readListing(item) {
+  const response = await fetch(
+    "https://api.divar.ir/v8/posts-v2/web/" + encodeURIComponent(item.token),
+    { headers: { "User-Agent": "Mozilla/5.0" } }
+  );
+
+  if (!response.ok) {
+    throw new Error("Divar detail API " + response.status());
+  }
+
+  const detail = await response.json();
+  const lines = extractStructuredLines(detail);
+
+  const area = extractArea(lines);
+  const buildYear = extractBuildYear(lines);
+  const rooms = extractRooms(lines);
+  const price = extractPrice(lines);
+  const pricePerMeter = extractPricePerMeter(lines);
+  const floor = extractFloor(lines);
+  const units = extractUnits(lines);
+
+  const publishedAt = item.publishedAt ? new Date(item.publishedAt) : null;
+  const age = publishedAt && !Number.isNaN(publishedAt.getTime())
+    ? Math.max(0, (Date.now() - publishedAt.getTime()) / 3600000)
+    : null;
+
+  // The publication timestamp comes from Divar's list API, not from title text.
+  // This is the authoritative age check used by this collector.
+  if (age === null || age > MAX_AGE_HOURS) return null;
+
+  const location = {
+    city: item.city || null,
+    neighborhood: item.neighborhood || null
+  };
+
+  const allText = collectAllText(detail);
+  const sellerText = allText.slice(0, 250).join(" ");
+  const sellerType =
+    /آژانس املاک|مشاور املاک|دفتر املاک|بنگاه املاک|مشاور شما/.test(sellerText)
+      ? "agency"
+      : "personal";
+
+  if (sellerType === "agency") return null;
+
+  const propertyType = extractPropertyType(lines);
+  return {
+    displayTitle: buildDisplayTitle({
+      propertyType,
+      area,
+      rooms,
+      neighborhood: location.neighborhood,
+      city: location.city,
+      price
+    }),
+    propertyType,
+    dealType: "buy",
+    area,
+    rooms,
+    buildYear,
+    floor,
+    units,
+    price,
+    pricePerMeter,
+    city: location.city,
+    neighborhood: location.neighborhood,
+    sellerType,
+    verified: allText.some(x => /تأیید شده|تایید شده|احراز هویت شده/.test(x)),
+    publishedText: item.publishedAt || null,
+    publishedAt: item.publishedAt || null,
+    ageHours: Math.round(age * 100) / 100,
+    ageStatus: "known",
+    source: "divar",
+    url: item.url,
+    token: item.token,
+    originalTitle: null,
+    descriptionUsed: false
+  };
+}
+
+(async () => {
+  const progressPath = "data/collector-progress.json";
+  let all = [];
+  let completedCities = new Set();
+
+  if (fs.existsSync(progressPath)) {
+    try {
+      const progress = JSON.parse(fs.readFileSync(progressPath, "utf8"));
+      if (Array.isArray(progress.listings)) all = progress.listings;
+      if (Array.isArray(progress.completedCities)) {
+        completedCities = new Set(progress.completedCities);
+      }
+      console.log(
+        "RESUME: completed cities =",
+        completedCities.size,
+        "listings =",
+        all.length
+      );
+    } catch (e) {
+      console.log("PROGRESS CACHE ERROR:", e.message);
+    }
+  }
+
+  const seen = new Set(all.map(item => item.token || item.url).filter(Boolean));
+
+  try {
+    console.log("Discovering Divar cities...");
+    const cities = await getCities();
+    console.log("CITY COUNT:", cities.length);
+
+    for (const city of cities) {
+      if (completedCities.has(city.slug)) {
+        console.log("CITY SKIP:", city.slug);
+        continue;
+      }
+
+      console.log("CITY:", city.slug);
+
+      let links = [];
+      try {
+        links = await getListingLinks(city);
+      } catch (e) {
+        console.log("CITY ERROR:", city.slug, e.message);
+        continue;
+      }
+
+      const queue = links.filter(item => {
+        const key = item.token || item.url;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      for (let i = 0; i < queue.length; i += DETAIL_CONCURRENCY) {
+        const batch = queue.slice(i, i + DETAIL_CONCURRENCY);
+
+        const results = await Promise.all(
+          batch.map(async item => {
+            try {
+              return await readListing(item);
+            } catch (e) {
+              console.log("LISTING ERROR:", item.token, e.message);
+              return null;
+            }
+          })
+        );
+
+        for (const listing of results) {
+          if (listing) all.push(listing);
+        }
+
+        if (i + DETAIL_CONCURRENCY < queue.length) {
+          await new Promise(resolve =>
+            setTimeout(resolve, CONCURRENCY_DELAY_MS)
+          );
+        }
+      }
+
+      completedCities.add(city.slug);
+
+      fs.mkdirSync("data", { recursive: true });
+      fs.writeFileSync(
+        progressPath,
+        JSON.stringify(
+          {
+            updatedAt: new Date().toISOString(),
+            completedCities: [...completedCities],
+            listings: all
+          },
+          null,
+          2
+        ),
+        "utf8"
+      );
+
+      console.log(
+        "CHECKPOINT:",
+        city.slug,
+        "completed;",
+        "LISTINGS:",
+        all.length
+      );
+    }
+
+    fs.mkdirSync("data", { recursive: true });
+    fs.writeFileSync("data/listings.json", JSON.stringify(all, null, 2), "utf8");
+    fs.rmSync(progressPath, { force: true });
+
+    console.log("FINAL COUNT:", all.length);
+  } finally {
+    // No browser to close: collection now uses Divar's public APIs directly.
+  }
+})();
