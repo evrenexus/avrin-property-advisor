@@ -10,18 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      # --------------------------------------------------
-      # 1. Checkout
-      # --------------------------------------------------
       - name: Checkout
         uses: actions/checkout@v4
 
-
-      # --------------------------------------------------
-      # 2. Install browser dependencies
-      # --------------------------------------------------
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -32,22 +24,16 @@ jobs:
           npm install playwright
           npx playwright install --with-deps chromium
 
-
-      # --------------------------------------------------
-      # 3. Collect Divar listings through Apify
-      # --------------------------------------------------
       - name: Collect Divar listings
-        id: collect
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: |
           set -e
 
           mkdir -p data
-          rm -f data/part-*.json
           rm -f data/raw-*.json
-
-          echo "Starting Avrin Divar collection..."
+          rm -f data/part-*.json
+          rm -f data/raw-listings.json
 
           cities=("tehran" "mashhad" "tabriz")
           types=("sale" "rent")
@@ -61,11 +47,10 @@ jobs:
               TYPE="${types[$TYPE_INDEX]}"
               QUERY="${queries[$TYPE_INDEX]}"
 
-              echo "----------------------------------------"
+              echo "========================================"
               echo "City: $CITY"
               echo "Type: $TYPE"
-              echo "Query: $QUERY"
-              echo "----------------------------------------"
+              echo "========================================"
 
               RESPONSE=$(curl -sS --fail-with-body \
                 -X POST \
@@ -88,12 +73,7 @@ jobs:
                 exit 1
               fi
 
-              echo "Run ID: $RUN_ID"
-
-              STATUS=""
-
               for i in {1..60}; do
-
                 RESPONSE_STATUS=$(curl -sS \
                   "https://api.apify.com/v2/actor-runs/${RUN_ID}" \
                   -H "Authorization: Bearer ${APIFY_TOKEN}")
@@ -109,8 +89,6 @@ jobs:
                 if [ "$STATUS" = "FAILED" ] || \
                    [ "$STATUS" = "ABORTED" ] || \
                    [ "$STATUS" = "TIMED-OUT" ]; then
-
-                  echo "Apify run failed."
                   echo "$RESPONSE_STATUS"
                   exit 1
                 fi
@@ -146,518 +124,61 @@ jobs:
             done
           done
 
-
-      # --------------------------------------------------
-      # 4. Merge initial listings
-      # --------------------------------------------------
-      - name: Merge raw listings
-        run: |
-          set -e
-
           jq -s 'add' data/part-*.json > data/raw-listings.json
+          rm -f data/part-*.json
 
           echo "Raw listings:"
           jq 'length' data/raw-listings.json
 
-          rm -f data/part-*.json
-
-
-      # --------------------------------------------------
-      # 5. Read individual Divar pages
-      # --------------------------------------------------
-      - name: Read Divar listing pages
+      - name: Scrape and filter listings
         run: |
-          set -e
+          node scrape-details.js
 
-          cat > scraper.js <<'NODE'
-          const fs = require("fs");
-          const { chromium } = require("playwright");
-
-          const input = JSON.parse(
-            fs.readFileSync("data/raw-listings.json", "utf8")
-          );
-
-          const output = [];
-
-          function cleanText(value) {
-            if (!value) return null;
-
-            return String(value)
-              .replace(/\u200c/g, " ")
-              .replace(/\s+/g, " ")
-              .trim();
-          }
-
-          function normalizeDigits(value) {
-            if (!value) return value;
-
-            return String(value)
-              .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-              .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-          }
-
-          function numberFromText(value) {
-            if (!value) return null;
-
-            const normalized = normalizeDigits(value)
-              .replace(/,/g, "")
-              .replace(/٬/g, "")
-              .replace(/[^\d]/g, "");
-
-            if (!normalized) return null;
-
-            return Number(normalized);
-          }
-
-          function findValue(text, patterns) {
-            for (const pattern of patterns) {
-              const match = text.match(pattern);
-
-              if (match && match[1]) {
-                return cleanText(match[1]);
-              }
-            }
-
-            return null;
-          }
-
-          function extractSpec(text, labels) {
-            for (const label of labels) {
-
-              const regex = new RegExp(
-                label +
-                "\\s*[:：]?\\s*" +
-                "([^\\n|]+)",
-                "i"
-              );
-
-              const match = text.match(regex);
-
-              if (match && match[1]) {
-                return cleanText(match[1]);
-              }
-            }
-
-            return null;
-          }
-
-          async function main() {
-
-            const browser = await chromium.launch({
-              headless: true
-            });
-
-            const context = await browser.newContext({
-              locale: "fa-IR",
-              viewport: {
-                width: 1365,
-                height: 900
-              },
-              userAgent:
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
-                "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
-            });
-
-            const page = await context.newPage();
-
-            let counter = 0;
-
-            for (const item of input) {
-
-              counter++;
-
-              console.log(
-                `\n[${counter}/${input.length}] ${item.url}`
-              );
-
-              if (!item.url) {
-                console.log("NO URL - SKIP");
-                continue;
-              }
-
-              try {
-
-                await page.goto(item.url, {
-                  waitUntil: "domcontentloaded",
-                  timeout: 30000
-                });
-
-                await page.waitForTimeout(2500);
-
-                const bodyText = await page.locator("body").innerText();
-
-                const title =
-                  cleanText(
-                    await page.locator("h1").first().textContent()
-                      .catch(() => null)
-                  ) ||
-                  item.title ||
-                  null;
-
-                // ------------------------------------------------
-                // Seller classification
-                // ------------------------------------------------
-
-                const fullText = bodyText.toLowerCase();
-
-                let sellerType = "unknown";
-
-                const agencyWords = [
-                  "مشاور املاک",
-                  "املاک",
-                  "بنگاه",
-                  "دفتر املاک",
-                  "کارشناس فروش",
-                  "کارشناس املاک",
-                  "آژانس املاک",
-                  "مشاور ملک"
-                ];
-
-                const personalWords = [
-                  "شخصی",
-                  "فروشنده شخصی",
-                  "مالک",
-                  "مالک هستم",
-                  "مستقیم از مالک"
-                ];
-
-                const hasAgencySignal =
-                  agencyWords.some(word =>
-                    fullText.includes(word)
-                  );
-
-                const hasPersonalSignal =
-                  personalWords.some(word =>
-                    fullText.includes(word)
-                  );
-
-                if (hasAgencySignal) {
-                  sellerType = "agency";
-                } else if (hasPersonalSignal) {
-                  sellerType = "personal";
-                }
-
-                // ------------------------------------------------
-                // Property fields
-                // ------------------------------------------------
-
-                const areaText = extractSpec(
-                  bodyText,
-                  [
-                    "متراژ",
-                    "زیربنا",
-                    "مساحت"
-                  ]
-                );
-
-                const roomsText = extractSpec(
-                  bodyText,
-                  [
-                    "تعداد اتاق",
-                    "اتاق"
-                  ]
-                );
-
-                const yearText = extractSpec(
-                  bodyText,
-                  [
-                    "سال ساخت"
-                  ]
-                );
-
-                const floorText = extractSpec(
-                  bodyText,
-                  [
-                    "طبقه"
-                  ]
-                );
-
-                const unitsText = extractSpec(
-                  bodyText,
-                  [
-                    "تعداد واحد"
-                  ]
-                );
-
-                const usageText = extractSpec(
-                  bodyText,
-                  [
-                    "نوع کاربری",
-                    "کاربری"
-                  ]
-                );
-
-                const transactionText = extractSpec(
-                  bodyText,
-                  [
-                    "نوع معامله"
-                  ]
-                );
-
-                // ------------------------------------------------
-                // Description
-                // ------------------------------------------------
-
-                let description = null;
-
-                const descriptionSelectors = [
-                  '[data-testid="description"]',
-                  '[class*="description"]',
-                  '[class*="Description"]'
-                ];
-
-                for (const selector of descriptionSelectors) {
-
-                  const locator = page.locator(selector).first();
-
-                  if (await locator.count()) {
-
-                    const txt =
-                      cleanText(
-                        await locator.textContent().catch(() => null)
-                      );
-
-                    if (txt && txt.length > 20) {
-                      description = txt;
-                      break;
-                    }
-                  }
-                }
-
-                // fallback:
-                if (!description) {
-
-                  const marker =
-                    bodyText.indexOf("توضیحات");
-
-                  if (marker >= 0) {
-
-                    description =
-                      cleanText(
-                        bodyText.substring(marker + 9, marker + 2500)
-                      );
-                  }
-                }
-
-                // ------------------------------------------------
-                // Images
-                // ------------------------------------------------
-
-                const images = await page.locator("img").evaluateAll(
-                  imgs =>
-                    imgs
-                      .map(img =>
-                        img.getAttribute("src") ||
-                        img.getAttribute("data-src") ||
-                        img.getAttribute("data-original")
-                      )
-                      .filter(Boolean)
-                      .filter(src =>
-                        src.includes("divarcdn") ||
-                        src.includes("divar.ir")
-                      )
-                );
-
-                const uniqueImages = [
-                  ...new Set(images)
-                ];
-
-                // ------------------------------------------------
-                // Price
-                // ------------------------------------------------
-
-                let price =
-                  item.price ??
-                  null;
-
-                const priceText =
-                  item.priceText ||
-                  findValue(bodyText, [
-                    /قیمت\s*([^\n]+)/i,
-                    /قیمت کل\s*([^\n]+)/i
-                  ]);
-
-                if (!price && priceText) {
-                  price = numberFromText(priceText);
-                }
-
-                // ------------------------------------------------
-                // District
-                // ------------------------------------------------
-
-                const district =
-                  item.district ||
-                  findValue(bodyText, [
-                    /محله\s*[:：]?\s*([^\n]+)/i
-                  ]);
-
-                // ------------------------------------------------
-                // Store
-                // ------------------------------------------------
-
-                const record = {
-
-                  id: item.token || null,
-
-                  title,
-
-                  url: item.url,
-
-                  city:
-                    item.city ||
-                    item.sourceCity ||
-                    null,
-
-                  district,
-
-                  dealType:
-                    item.dealType ||
-                    null,
-
-                  sellerType,
-
-                  propertyType:
-                    usageText,
-
-                  buildYear:
-                    yearText
-                      ? numberFromText(yearText)
-                      : null,
-
-                  units:
-                    unitsText
-                      ? numberFromText(unitsText)
-                      : null,
-
-                  floor:
-                    floorText,
-
-                  area:
-                    areaText
-                      ? numberFromText(areaText)
-                      : null,
-
-                  rooms:
-                    roomsText
-                      ? numberFromText(roomsText)
-                      : null,
-
-                  price,
-
-                  priceText:
-                    priceText || null,
-
-                  description,
-
-                  images:
-                    uniqueImages,
-
-                  imageCount:
-                    uniqueImages.length,
-
-                  source:
-                    "divar",
-
-                  scrapedAt:
-                    new Date().toISOString()
-                };
-
-                // ------------------------------------------------
-                // Important:
-                // Only personal listings survive
-                // ------------------------------------------------
-
-                if (sellerType !== "personal") {
-
-                  console.log(
-                    `SKIP sellerType=${sellerType}`
-                  );
-
-                  continue;
-                }
-
-                output.push(record);
-
-                console.log(
-                  `ACCEPT PERSONAL: ${title}`
-                );
-
-              } catch (error) {
-
-                console.log(
-                  `FAILED: ${item.url}`
-                );
-
-                console.log(
-                  error.message
-                );
-
-                // Do NOT stop the entire workflow
-                continue;
-              }
-            }
-
-            await browser.close();
-
-            fs.writeFileSync(
-              "data/listings.json",
-              JSON.stringify(output, null, 2),
-              "utf8"
-            );
-
-            console.log(
-              `\nFinal personal listings: ${output.length}`
-            );
-          }
-
-          main().catch(error => {
-            console.error(error);
-            process.exit(1);
-          });
-          NODE
-
-          node scraper.js
-
-
-      # --------------------------------------------------
-      # 6. Validate final data
-      # --------------------------------------------------
       - name: Validate listings
         run: |
           set -e
 
           test -f data/listings.json
+          jq empty data/listings.json
 
           echo "========================================"
-          echo "FINAL LISTINGS"
+          echo "FINAL RESULTS"
           echo "========================================"
 
+          echo "Total:"
           jq 'length' data/listings.json
 
-          echo "----------------------------------------"
+          echo "Sale:"
+          jq '[.[] | select(.dealType == "sale")] | length' data/listings.json
+
+          echo "Rent:"
+          jq '[.[] | select(.dealType == "rent")] | length' data/listings.json
 
           echo "Personal:"
-          jq '[.[] | select(.sellerType == "personal")] | length' \
-            data/listings.json
+          jq '[.[] | select(.sellerType == "personal")] | length' data/listings.json
 
-          echo "----------------------------------------"
+          echo "Age <= 14 days:"
+          jq '[.[] | select(.ageHours <= 336)] | length' data/listings.json
 
-          echo "Agency:"
-          jq '[.[] | select(.sellerType == "agency")] | length' \
-            data/listings.json
+          echo "With area:"
+          jq '[.[] | select(.area != null)] | length' data/listings.json
 
-          echo "----------------------------------------"
+          echo "With rooms:"
+          jq '[.[] | select(.rooms != null)] | length' data/listings.json
 
-          echo "Unknown:"
-          jq '[.[] | select(.sellerType == "unknown")] | length' \
-            data/listings.json
+          echo "With build year:"
+          jq '[.[] | select(.buildYear != null)] | length' data/listings.json
 
-          echo "========================================"
+          echo "With floor:"
+          jq '[.[] | select(.floor != null)] | length' data/listings.json
 
+          echo "With units:"
+          jq '[.[] | select(.units != null)] | length' data/listings.json
 
-      # --------------------------------------------------
-      # 7. Commit
-      # --------------------------------------------------
+      - name: Show sample
+        run: |
+          jq '.[0:3]' data/listings.json
+
       - name: Commit listings
         run: |
           set -e
@@ -668,13 +189,8 @@ jobs:
           git add data/listings.json
 
           if git diff --cached --quiet; then
-
             echo "No changes."
-
           else
-
-            git commit -m "Update Avrin personal listings"
-
+            git commit -m "Update Avrin listings"
             git push
-
           fi
