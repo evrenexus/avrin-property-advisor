@@ -26,7 +26,7 @@
 
 <script>
 const params=new URLSearchParams(location.search);
-const service=params.get('service')||'buy';
+const service='buy';
 const root=document.getElementById('root');
 const bar=document.getElementById('bar');
 const step=document.getElementById('step');
@@ -53,10 +53,10 @@ function maintenance(){
 
 function renderBudget(){
  step.textContent='خرید · مرحله ۱ از ۵'; bar.style.width='20%';
- root.innerHTML='<div class="card"><div class="eyebrow">خرید ملک</div><h1 class="title">بودجه خرید خود را مشخص کنید</h1><p class="desc">برای شروع جستجو، محدوده بودجه را انتخاب کنید.</p><div class="grid">'+budgets.map((x,i)=>'<button class="choice '+(state.budget===x[0]?'selected':'')+'" onclick="chooseBudget('+i+')">'+x[0]+'</button>').join('')+'</div><div style="margin-top:18px"><input id="custom" class="input" inputmode="numeric" placeholder="یا حداکثر بودجه را به تومان وارد کنید"></div><div class="actions"><button class="btn primary" onclick="customBudget()">ادامه</button></div></div>';
+ root.innerHTML='<div class="card"><div class="eyebrow">خرید ملک</div><h1 class="title">بودجه خرید خود را مشخص کنید</h1><p class="desc">برای شروع جستجو، محدوده بودجه را انتخاب کنید.</p><div class="grid">'+budgets.map((x,i)=>'<button class="choice '+(state.budget===x[0]?'selected':'')+'" onclick="chooseBudget('+i+')">'+x[0]+'</button>').join('')+'</div><div style="margin-top:18px"><input id="custom" class="input" inputmode="numeric" placeholder="یا حداکثر بودجه را به میلیارد تومان وارد کنید؛ مثلاً ۱۲.۵"></div><div class="actions"><button class="btn primary" onclick="customBudget()">ادامه</button></div></div>';
 }
 function chooseBudget(i){state.budget=budgets[i][0];state.maxPrice=budgets[i][1];renderType()}
-function customBudget(){const n=Number((document.getElementById('custom').value||'').replace(/[^0-9]/g,''));if(!n){alert('لطفاً بودجه را انتخاب یا وارد کنید.');return}state.budget='تا '+n.toLocaleString('fa-IR')+' تومان';state.maxPrice=n;renderType()}
+function customBudget(){const raw=(document.getElementById('custom').value||'').replace(/,/g,'.').replace(/[^0-9.]/g,'');const billion=Number(raw);if(!billion||billion<=0){alert('لطفاً بودجه را به میلیارد تومان وارد کنید؛ مثلاً ۱۲.۵');return}state.budget='تا '+billion.toLocaleString('fa-IR')+' میلیارد تومان';state.maxPrice=billion*1000000000;renderType()}
 
 function renderType(){
  step.textContent='خرید · مرحله ۲ از ۵'; bar.style.width='40%';
@@ -120,7 +120,7 @@ function show(out){
  root.innerHTML='<div class="card"><div class="eyebrow">AVRIN MATCH</div><h1 class="title">'+fa(out.length)+' گزینه منطبق پیدا شد</h1><p class="desc">نتایج بر اساس اطلاعات ساختاری آگهی‌ها فیلتر شده‌اند. عنوان آگهی و متن توضیحات مبنای استخراج مشخصات نیست.</p><div class="summary">'+tags.map(x=>'<span class="tag">'+esc(x)+'</span>').join('')+'</div><div class="list">'+(out.length?out.map(x=>'<article class="listing"><div class="ltop"><div class="ltitle">'+esc(title(x))+'</div><div class="price">'+esc(x.priceText||x.price||'قیمت توافقی')+'</div></div><div class="meta"><span>'+esc(getCity(x)||'شهر نامشخص')+'</span><span>'+esc(getArea(x)?fa(getArea(x))+' متر':'متراژ نامشخص')+'</span><span>'+esc(getRooms(x)||'اتاق نامشخص')+'</span><span>'+esc(x.buildYear||x.age||'سن نامشخص')+'</span></div><div class="source">منبع: دیوار</div></article>').join(''):'<div class="notice">در آرشیو فعلی گزینه‌ای با این معیارها پیدا نشد.</div>')+'</div><div class="actions"><button class="btn secondary" onclick="renderBudget()">ویرایش جستجو</button></div></div>';
 }
 
-if(service==='rent')maintenance();else renderBudget();
+renderBudget();
 </script>
 </body>
 </html>
