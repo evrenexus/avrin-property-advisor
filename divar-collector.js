@@ -224,6 +224,7 @@ async function getCities(page) {
         if (!city || typeof city !== "object") continue;
         const slug = city.slug || city.city_slug || city.citySlug;
         const display = city.display || city.name || city.title || slug;
+        const id = city.id ?? city.city_id ?? city.cityId;
         if (
           typeof slug === "string" &&
           /^[a-z0-9-]{2,60}$/.test(slug)
@@ -261,185 +262,93 @@ async function getCities(page) {
   return cities;
 }
 async function getListingLinks(page, city) {
-  const url = `https://divar.ir/s/${city}/buy-residential`;
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
-  await page.waitForTimeout(3000);
-  return await page.locator('a[href*="/v/"]').evaluateAll((links, limit) => {
-    const seen = new Set();
-    const result = [];
-    for (const a of links) {
-      const href = a.href;
-      if (!href || seen.has(href)) continue;
-      seen.add(href);
-      result.push({ url: href });
-      if (result.length >= limit) break;
-    }
-    return result;
-  }, MAX_LISTING_LINKS_PER_CITY);
-}
-
-async function readListing(page, url) {
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 15000 });
-  await page.waitForTimeout(1000);
-  const rawText = await page.locator("body").innerText();
-  const lines = rawText.split("\n").map(clean).filter(Boolean);
-
-  const area = extractArea(lines);
-  const buildYear = extractBuildYear(lines);
-  const rooms = extractRooms(lines);
-  const price = extractPrice(lines);
-  const pricePerMeter = extractPricePerMeter(lines);
-  const floor = extractFloor(lines);
-  const units = extractUnits(lines);
-  const location = extractLocation(lines);
-  const publishedText = extractPublishedText(lines);
-  const age = ageHours(publishedText);
-
-  // Title and description are not used for property specifications.
-  const sellerType = detectSellerType(lines);
-  if (sellerType === "agency") return null;
-
-  // Only listings with a known publication age and age <= 14 days are accepted.
-  if (age === null || age > MAX_AGE_HOURS) return null;
-
-  const propertyType = extractPropertyType(lines);
-  return {
-    displayTitle: buildDisplayTitle({ propertyType, area, rooms, neighborhood: location.neighborhood, city: location.city, price }),
-    propertyType,
-    dealType: "buy",
-    area,
-    rooms,
-    buildYear,
-    floor,
-    units,
-    price,
-    pricePerMeter,
-    city: location.city,
-    neighborhood: location.neighborhood,
-    sellerType,
-    verified: detectVerified(lines),
-    publishedText,
-    ageHours: age,
-    ageStatus: age === null ? "unknown" : "known",
-    source: "divar",
-    url,
-    originalTitle: null,
-    descriptionUsed: false
-  };
-}
-
-(async () => {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage({ locale: "fa-IR", viewport: { width: 1440, height: 900 } });
-  const progressPath = "data/collector-progress.json";
-  let all = [];
-  let completedCities = new Set();
-
-  if (fs.existsSync(progressPath)) {
-    try {
-      const progress = JSON.parse(fs.readFileSync(progressPath, "utf8"));
-      if (Array.isArray(progress.listings)) all = progress.listings;
-      if (Array.isArray(progress.completedCities)) {
-        completedCities = new Set(progress.completedCities);
-      }
-      console.log("RESUME: completed cities =", completedCities.size);
-      console.log("RESUME: listings =", all.length);
-    } catch (e) {
-      console.log("PROGRESS CACHE ERROR:", e.message);
-    }
+  if (!city || city.id == null) {
+    throw new Error("City ID is missing for " + (city?.slug || "unknown city"));
   }
 
-  const seen = new Set(all.map(item => item.url).filter(Boolean));
+  const categories = ["apartment-sell", "house-villa-sell"];
+  const seen = new Set();
+  const result = [];
 
-  try {
-    console.log("Discovering Divar cities...");
-    const cities = await getCities(page);
-    console.log("CITY COUNT:", cities.length);
+  for (const category of categories) {
+    let paginationData = null;
+    let pageCount = 0;
 
-    for (const city of cities) {
-      if (completedCities.has(city.slug)) {
-        console.log("CITY SKIP (already completed):", city.slug);
-        continue;
-      }
-
-      console.log("CITY:", city.slug);
-      let links = [];
-      try {
-        links = await getListingLinks(page, city.slug);
-      } catch (e) {
-        console.log("CITY ERROR:", city, e.message);
-        continue;
-      }
-
-      const queue = links.filter(item => {
-        if (seen.has(item.url)) return false;
-        seen.add(item.url);
-        return true;
-      });
-
-      for (let i = 0; i < queue.length; i += DETAIL_CONCURRENCY) {
-        const batch = queue.slice(i, i + DETAIL_CONCURRENCY);
-        const results = await Promise.all(
-          batch.map(async item => {
-            const detailPage = await browser.newPage({
-              locale: "fa-IR",
-              viewport: { width: 1440, height: 900 }
-            });
-            try {
-              return await readListing(detailPage, item.url);
-            } catch (e) {
-              console.log("LISTING ERROR:", item.url, e.message);
-              return null;
-            } finally {
-              await detailPage.close();
+    while (result.length < MAX_LISTING_LINKS_PER_CITY && pageCount < 20) {
+      const body = {
+        city_ids: [String(city.id)],
+        search_data: {
+          form_data: {
+            data: {
+              category: {
+                str: { value: category }
+              }
             }
-          })
-        );
-
-        for (const listing of results) {
-          if (listing) all.push(listing);
+          }
         }
+      };
 
-        if (i + DETAIL_CONCURRENCY < queue.length) {
-          await page.waitForTimeout(CONCURRENCY_DELAY_MS);
-        }
+      if (paginationData) {
+        body.pagination_data = paginationData;
       }
 
-      completedCities.add(city.slug);
-      fs.mkdirSync("data", { recursive: true });
-      fs.writeFileSync(
-        progressPath,
-        JSON.stringify(
-          {
-            updatedAt: new Date().toISOString(),
-            completedCities: [...completedCities],
-            listings: all
+      const response = await page.request.post(
+        "https://api.divar.ir/v8/postlist/w/search",
+        {
+          data: body,
+          headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Content-Type": "application/json"
           },
-          null,
-          2
-        ),
-        "utf8"
+          timeout: 30000
+        }
       );
 
-      console.log("CHECKPOINT:", city.slug, "completed;", "LISTINGS:", all.length);
+      if (!response.ok()) {
+        throw new Error(
+          "Divar list API " + response.status() + " for " + city.slug
+        );
+      }
 
-      // Push every city checkpoint so a later run can resume from the last
-      // completed city even if the workflow times out or fails.
-      const { execFileSync } = require("child_process");
-      execFileSync("git", ["add", progressPath], { stdio: "inherit" });
-      execFileSync(
-        "git",
-        ["commit", "-m", `Checkpoint listings: ${city.slug}`],
-        { stdio: "inherit" }
-      );
-      execFileSync("git", ["push"], { stdio: "inherit" });
+      const data = await response.json();
+      const widgets = Array.isArray(data.list_widgets) ? data.list_widgets : [];
+
+      for (const widget of widgets) {
+        if (widget.widget_type !== "POST_ROW") continue;
+
+        const payload = widget?.data?.action?.payload || {};
+        const token = payload.token;
+
+        if (!token || seen.has(token)) continue;
+
+        seen.add(token);
+        result.push({
+          url: "https://divar.ir/v/" + token,
+          token,
+          category,
+          title: payload?.web_info?.title || "",
+          neighborhood: payload?.web_info?.district_persian || ""
+        });
+
+        if (result.length >= MAX_LISTING_LINKS_PER_CITY) break;
+      }
+
+      const pagination = data.pagination || {};
+      if (!pagination.has_next_page || !pagination.data) break;
+
+      paginationData = pagination.data;
+      pageCount++;
+      await page.waitForTimeout(500);
     }
-
-    fs.mkdirSync("data", { recursive: true });
-    fs.writeFileSync("data/listings.json", JSON.stringify(all, null, 2), "utf8");
-    fs.rmSync(progressPath, { force: true });
-    console.log("FINAL COUNT:", all.length);
-  } finally {
-    await browser.close();
   }
-})();
+
+  console.log(
+    "LIST API:",
+    city.slug,
+    "=>",
+    result.length,
+    "listing links"
+  );
+
+  return result;
+}
