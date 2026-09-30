@@ -21,29 +21,31 @@ const { chromium } = require("playwright");
     const articles = page.locator("article");
     const count = await articles.count();
 
-    console.log(`ARTICLE COUNT: ${count}`);
+    console.log("ARTICLE COUNT:", count);
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < Math.min(count, 3); i++) {
       const article = articles.nth(i);
 
       console.log(`\n========== ARTICLE ${i + 1} ==========`);
 
-      console.log(
-        "TEXT:",
-        await article.innerText().catch(() => "")
-      );
+      const title = await article.locator("h2, h3").first()
+        .innerText()
+        .catch(() => "");
 
-      const links = await article.locator("a").evaluateAll(els =>
-        els.map(a => ({
-          text: (a.innerText || "").trim(),
-          href: a.href
-        }))
-      );
+      const text = await article.innerText().catch(() => "");
 
-      console.log("LINKS:", JSON.stringify(links, null, 2));
+      const link = await article.locator("a").first()
+        .getAttribute("href")
+        .catch(() => null);
+
+      console.log("TITLE:", title);
+      console.log("LINK:", link);
+      console.log("FULL TEXT:");
+      console.log(text);
     }
 
   } catch (error) {
+    console.error("TEST FAILED:");
     console.error(error);
     process.exitCode = 1;
   } finally {
