@@ -2,8 +2,10 @@ const fs = require("fs");
 
 const MAX_AGE_HOURS = 336;
 const MAX_LISTING_LINKS_PER_CITY = 50;
-const CONCURRENCY_DELAY_MS = 300;
-const DETAIL_CONCURRENCY = 10; // bounded concurrency for GitHub Actions
+const CONCURRENCY_DELAY_MS = 2000;
+const DETAIL_CONCURRENCY = 2; // keep Divar detail requests below public rate limits
+const DETAIL_MAX_RETRIES = 5;
+const DETAIL_RETRY_BASE_MS = 5000;
 
 function normalizeDigits(value = "") {
   return String(value)
@@ -433,13 +435,37 @@ function collectAllText(detail) {
 }
 
 async function readListing(item) {
-  const response = await fetch(
-    "https://api.divar.ir/v8/posts-v2/web/" + encodeURIComponent(item.token),
-    { headers: { "User-Agent": "Mozilla/5.0" } }
-  );
+  let response;
 
-  if (!response.ok) {
-    throw new Error("Divar detail API " + response.status);
+  for (let attempt = 0; attempt <= DETAIL_MAX_RETRIES; attempt++) {
+    response = await fetch(
+      "https://api.divar.ir/v8/posts-v2/web/" + encodeURIComponent(item.token),
+      { headers: { "User-Agent": "Mozilla/5.0" } }
+    );
+
+    if (response.ok) break;
+
+    if (response.status !== 429 || attempt === DETAIL_MAX_RETRIES) {
+      throw new Error("Divar detail API " + response.status);
+    }
+
+    const retryAfter = Number(response.headers.get("retry-after"));
+    const waitMs = Number.isFinite(retryAfter) && retryAfter > 0
+      ? retryAfter * 1000
+      : DETAIL_RETRY_BASE_MS * Math.pow(2, attempt);
+
+    console.log(
+      "DETAIL RATE LIMIT:",
+      item.token,
+      "waiting",
+      Math.round(waitMs / 1000) + "s",
+      "retry",
+      attempt + 1,
+      "of",
+      DETAIL_MAX_RETRIES
+    );
+
+    await new Promise(resolve => setTimeout(resolve, waitMs));
   }
 
   const detail = await response.json();
