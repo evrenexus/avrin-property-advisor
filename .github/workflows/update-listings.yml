@@ -15,7 +15,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -26,15 +26,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Playwright
-        run: |
-          npm init -y
-          npm install playwright
-          npx playwright install --with-deps chromium
-
-      - name: Collect Divar listings
-        run: |
-          node divar-collector.js
+      - name: Collect Divar listings (Tehran pilot)
+        env:
+          AVRIN_CITY: tehran
+          AVRIN_MAX_LINKS: 30
+        run: node divar-collector.js
 
       - name: Validate listings
         run: |
