@@ -21,6 +21,8 @@
 </div></main>
 <script>
 const $=id=>document.getElementById(id),root=$("root"),count=$("count");
+window.addEventListener("error",e=>{root.innerHTML='<div class="search notice">خطا: '+String(e.message||"خطای JavaScript")+' @ '+String(e.lineno||"")+'</div>'});
+window.addEventListener("unhandledrejection",e=>{root.innerHTML='<div class="search notice">خطا: '+String(e.reason||"خطای ناشناخته")+'</div>'});
 const cities=["تهران","کرج","مشهد","شیراز","اصفهان","تبریز","خوی","کیش","قشم","چابهار"];
 let listings=[];
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
@@ -65,8 +67,11 @@ async function init(){
   const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),10000);
   const r=await fetch("./data/listings.json?"+Date.now(),{cache:"no-store",signal:ctl.signal});
   clearTimeout(timer);
-  if(!r.ok)throw Error(r.status);
-  listings=await r.json();render()
+  const raw=await r.text();
+  if(!r.ok)throw Error("HTTP "+r.status+" — "+raw.slice(0,200));
+  try{listings=JSON.parse(raw)}catch(e){throw Error("JSON نامعتبر — "+raw.slice(0,200))}
+  if(!Array.isArray(listings))throw Error("ساختار آرشیو آرایه نیست");
+  render()
  }catch(e){root.innerHTML='<div class="search notice">آرشیو آگهی‌ها در دسترس نیست. لطفاً دوباره تلاش کنید.</div>';count.textContent="خطا"}
 }
 $("searchBtn").onclick=searchBudget;
