@@ -38,6 +38,7 @@ function area(x){return num(x.area)}
 function rooms(x){return x.rooms===null||x.rooms===undefined?"":num(x.rooms)}
 function priceText(x){const p=price(x);if(!p)return"قیمت توافقی";if(p>=1e9)return fa((p/1e9).toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
 function image(x){return Array.isArray(x.images)&&x.images.length?x.images[0]:""}
+function timestamp(v){if(v===null||v===undefined||v==="")return 0;const s=String(v).trim();if(/^\d+(\.\d+)?$/.test(s)){const n=Number(s);return n<1e12?n*1000:n}const d=Date.parse(s);return Number.isFinite(d)?d:0}
 function recent(x){return !(Number.isFinite(Number(x.ageHours))&&Number(x.ageHours)>336)}
 function matches(x){
  const c=$("city").value,b=num($("budget").value)*1e9,minA=num($("minArea").value),maxA=num($("maxArea").value),r=$("rooms").value,t=$("type").value;
@@ -47,7 +48,7 @@ function matches(x){
 }
 function sortData(a){
  const mode=$("sort").value;
- return [...a].sort((x,y)=>mode==="cheap"?price(x)-price(y):mode==="area"?area(y)-area(x):mode==="ppm"?num(x.pricePerMeter)-num(y.pricePerMeter):(new Date(y.publishedAt||0)-new Date(x.publishedAt||0)));
+ return [...a].sort((x,y)=>mode==="cheap"?price(x)-price(y):mode==="area"?area(y)-area(x):mode==="ppm"?num(x.pricePerMeter)-num(y.pricePerMeter):timestamp(y.publishedAt)-timestamp(x.publishedAt));
 }
 function card(x){
  const im=image(x),link=x.sourceUrl||"#",title=x.displayTitle||[x.propertyType,area(x)?fa(area(x))+" متر":"",rooms(x)!==""?fa(rooms(x))+" خوابه":"",x.city].filter(Boolean).join("، ");
@@ -56,7 +57,7 @@ function card(x){
 function render(){
  const filtered=sortData(listings.filter(matches)),limit=Number($("limit").value),res=filtered.slice(0,limit);
  count.textContent=fa(filtered.length)+" نتیجه";
- root.innerHTML='<div class="search"><div class="summary"><span class="tag">۱۷۱ آگهی در آرشیو فعلی</span><span class="tag">فقط خرید</span><span class="tag">آگهی شخصی</span><span class="tag">حداکثر ۱۴ روز</span></div><div class="list">'+(res.length?res.map(card).join(""):'<div class="notice empty">با این فیلترها آگهی منطبق پیدا نشد.</div>')+'</div></div>';
+ root.innerHTML='<div class="search"><div class="summary"><span class="tag">'+fa(listings.length)+" آگهی در آرشیو فعلی</span><span class="tag">فقط خرید</span><span class="tag">آگهی شخصی</span><span class="tag">حداکثر ۱۴ روز</span></div><div class="list">'+(res.length?res.map(card).join(""):'<div class="notice empty">با این فیلترها آگهی منطبق پیدا نشد.</div>')+'</div></div>';
 }
 function reset(){["budget","minArea","maxArea"].forEach(id=>$(id).value="");["city","rooms","type"].forEach(id=>$(id).value="");$("sort").value="new";$("limit").value="20";render()}
 async function init(){
