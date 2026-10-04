@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "slug": "tehran",
+    "display": "تهران"
+  },
+  {
+    "id": 3,
+    "slug": "mashhad",
+    "display": "مشهد"
+  },
+  {
+    "id": 2,
+    "slug": "karaj",
+    "display": "کرج"
+  },
+  {
+    "id": 6,
+    "slug": "shiraz",
+    "display": "شیراز"
+  },
+  {
+    "id": 4,
+    "slug": "isfahan",
+    "display": "اصفهان"
+  },
+  {
+    "id": 5,
+    "slug": "tabriz",
+    "display": "تبریز"
+  },
+  {
+    "id": 747,
+    "slug": "chabahar",
+    "display": "چابهار"
+  },
+  {
+    "id": 767,
+    "slug": "khoy",
+    "display": "خوی"
+  },
+  {
+    "id": 660,
+    "slug": "qeshm",
+    "display": "قشم"
+  },
+  {
+    "id": 33,
+    "slug": "kish",
+    "display": "کیش"
+  }
+]
