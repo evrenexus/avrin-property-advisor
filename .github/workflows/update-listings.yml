@@ -50,6 +50,17 @@ jobs:
             echo "No archive changes."
           else
             git commit -m "Refresh Avrin property archive"
-            git pull --rebase origin main
-            git push
+            for attempt in 1 2 3 4 5; do
+              echo "Publish attempt $attempt/5"
+              git fetch origin main
+              git rebase origin/main
+              if git push origin HEAD:main; then
+                echo "Archive published successfully."
+                exit 0
+              fi
+              echo "Push raced with another main update; retrying..."
+              sleep 3
+            done
+            echo "Unable to publish after 5 attempts."
+            exit 1
           fi
