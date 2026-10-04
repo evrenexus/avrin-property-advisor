@@ -142,10 +142,23 @@ async function getCities(){
   const data=await r.json(),raw=Array.isArray(data)?data:(data.cities||data.data||[]);
   const cities=raw.map(c=>({id:c.id??c.city_id??c.cityId,slug:c.slug||c.city_slug||c.citySlug,display:c.display||c.name||c.title||c.slug}))
     .filter(c=>c.id!=null&&typeof c.slug==="string");
-  if(!cities.length)throw new Error("No Divar cities returned");
-  fs.mkdirSync("data",{recursive:true});
-  fs.writeFileSync("data/cities.json",JSON.stringify(cities,null,2));
-  return cities;
+  // Avrin scope: selected major markets only (plus key surrounding cities).
+  const selectedCities = new Set([
+    "تهران","کرج","مشهد","شیراز","اصفهان","تبریز","قم","ارومیه","اردبیل","زنجان","قزوین","خوی","سلماس",
+    "رشت","بندر انزلی","انزلی","لاهیجان","لنگرود","رودسر","آستارا","تالش",
+    "ساری","بابل","آمل","قائم شهر","نکا","نوشهر","چالوس","رامسر","تنکابن","محمودآباد","فریدونکنار",
+    "گرگان","همدان","کرمان","یزد","چابهار","قشم","کیش","بندرعباس","اهواز","یاسوج","شهرکرد",
+    "اسلامشهر","شهریار","قدس","ملارد","رباط کریم","پرند","پاکدشت","ورامین","قرچک","پردیس","بومهن","دماوند","رودهن","شمیرانات","لواسان",
+    "فردیس","نظرآباد","هشتگرد","ساوجبلاغ","محمدشهر","مشکین دشت","ماهدشت","کمالشهر","طالقان"
+  ]);
+  const normalizedSelected = value => clean(value).replace(/[\u200c]/g, " ").replace(/\s+/g, " ").trim();
+  const filtered = cities.filter(c => selectedCities.has(normalizedSelected(c.display)));
+  if(!filtered.length)throw new Error("No selected Divar cities matched");
+  console.log("AVRIN SELECTED CITIES", filtered.length, filtered.map(c=>c.display).join(" | "));
+  const selectedIds = new Set(filtered.map(c=>String(c.id)));
+  const finalCities = cities.filter(c=>selectedIds.has(String(c.id)));
+  fs.writeFileSync("data/cities.json",JSON.stringify(finalCities,null,2));
+  return finalCities;
 }
 async function getListingLinks(city){
   const result=[],seen=new Set();
