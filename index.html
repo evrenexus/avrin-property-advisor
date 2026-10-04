@@ -32,7 +32,7 @@ function rooms(x){return x.rooms===null||x.rooms===undefined?"":num(x.rooms)}
 function priceText(x){const p=price(x);if(!p)return"قیمت توافقی";if(p>=1e9)return fa((p/1e9).toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
 function ppmText(x){const p=num(x.pricePerMeter);if(!p)return"";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:1}))+" میلیون تومان / متر"}
 function ageText(x){const h=Number(x.ageHours);if(!Number.isFinite(h)||h<0)return"";if(h<1)return"کمتر از یک ساعت پیش";if(h<24)return fa(Math.floor(h))+" ساعت پیش";return fa(Math.floor(h/24))+" روز پیش"}
-function image(x){if(!Array.isArray(x.images))return"";const u=x.images.find(v=>typeof v==="string"&&/^https?:\\/\\/s\\d+\\.divarcdn\\.com\\/static\\/photo\\//i.test(v)&&!/widget-icons/i.test(v));return u||""}
+function image(x){if(!Array.isArray(x.images))return"";const u=x.images.find(v=>typeof v==="string"&&/^https?:\/\/s\d+\.divarcdn\.com\/static\/photo\//i.test(v)&&!/widget-icons/i.test(v));return u||""}
 function timestamp(v){if(v===null||v===undefined||v==="")return 0;const s=String(v).trim();if(/^\d+(\.\d+)?$/.test(s)){const n=Number(s);return n<1e12?n*1000:n}const d=Date.parse(s);return Number.isFinite(d)?d:0}
 function recent(x){return !(Number.isFinite(Number(x.ageHours))&&Number(x.ageHours)>336)}
 function matches(x){
