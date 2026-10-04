@@ -63,8 +63,7 @@ async function init(){
  if(qb>=1&&qb<=999)$("budget").value=qb;
  try{
   const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),10000);
-  let r=await fetch("https://evrenexus.github.io/avrin-property-advisor/data/listings.json?"+Date.now(),{cache:"no-store",signal:ctl.signal});
-  if(!r.ok)r=await fetch("https://raw.githubusercontent.com/evrenexus/avrin-property-advisor/main/data/listings.json?"+Date.now(),{cache:"no-store",signal:ctl.signal});
+  const r=await fetch("./data/listings.json?"+Date.now(),{cache:"no-store",signal:ctl.signal});
   clearTimeout(timer);
   if(!r.ok)throw Error(r.status);
   listings=await r.json();render()
