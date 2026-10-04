@@ -68,6 +68,23 @@ function extractUnits(lines){
   }
   return null;
 }
+function extractImages(detail){
+  const images=[];
+  const seen=new Set();
+  function walk(v){
+    if(!v||typeof v!=="object")return;
+    if(Array.isArray(v)){v.forEach(walk);return}
+    for(const [k,val] of Object.entries(v)){
+      if(typeof val==="string" && /image|photo|url|src/i.test(k) && /^https?:\\/\\//.test(val)){
+        if(/\\.(jpg|jpeg|png|webp)(?:\\?|$)/i.test(val) || /images|image|photo|media/i.test(val)){
+          if(!seen.has(val)){seen.add(val);images.push(val)}
+        }
+      } else if(val&&typeof val==="object") walk(val);
+    }
+  }
+  walk(detail);
+  return images.slice(0,20);
+}
 function collectWidgets(detail){
   const widgets=[];
   if(Array.isArray(detail?.sections))for(const section of detail.sections)
@@ -194,7 +211,7 @@ async function readListing(item){
       const ageHours=published?Math.max(0,(Date.now()-published.getTime())/3600000):null;
       if(ageHours!==null&&ageHours>MAX_AGE_HOURS)return null;
       const type=propertyType(lines);
-      return {id:item.token,displayTitle:displayTitle({type,area,rooms,city:item.city,neighborhood:item.neighborhood}),propertyType:type,dealType:"buy",area,rooms,buildYear:extractBuildYear(lines),floor:extractFloor(lines),units:extractUnits(lines),price,pricePerMeter:extractPricePerMeter(lines),city:item.city,neighborhood:item.neighborhood,sellerType:"personal",verified:text.some(x=>/تأیید شده|تایید شده|احراز هویت شده/.test(x)),publishedAt:item.publishedAt,ageHours:ageHours===null?null:Math.round(ageHours*100)/100,source:"divar",sourceUrl:item.url,token:item.token};
+      return {id:item.token,displayTitle:displayTitle({type,area,rooms,city:item.city,neighborhood:item.neighborhood}),propertyType:type,dealType:"buy",area,rooms,buildYear:extractBuildYear(lines),floor:extractFloor(lines),units:extractUnits(lines),price,pricePerMeter:extractPricePerMeter(lines),city:item.city,neighborhood:item.neighborhood,sellerType:"personal",verified:text.some(x=>/تأیید شده|تایید شده|احراز هویت شده/.test(x)),images:extractImages(detail),publishedAt:item.publishedAt,ageHours:ageHours===null?null:Math.round(ageHours*100)/100,source:"divar",sourceUrl:item.url,token:item.token};
     }
     if(r.status!==429||attempt===DETAIL_MAX_RETRIES)throw new Error("Detail HTTP "+r.status);
     const ra=Number(r.headers.get("retry-after"));
