@@ -1,90 +1,68 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>موتور جستجوی املاک اورین نکسوس</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avrin Property Advisor</title>
 <style>
-:root{--bg:#070b10;--panel:#111923;--line:#263547;--text:#edf3f8;--muted:#91a2b5;--accent:#46c6a7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}
-.app{min-height:100vh;background:linear-gradient(145deg,#0b1017,#0d141d 55%,#101a23);padding:28px 16px}.wrap{max-width:850px;margin:auto}
-.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border:1px solid #3b5a67;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-weight:800}.brand b{font-size:17px}.brand span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.bar{height:5px;background:#18232f;border-radius:8px;overflow:hidden;margin-bottom:22px}.bar i{display:block;height:100%;background:var(--accent);width:100%}
-.card{background:rgba(17,25,35,.96);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 18px 50px #0006}.eyebrow{color:var(--accent);font-size:12px;margin-bottom:10px}.title{font-size:24px;font-weight:800;line-height:1.6;margin:0 0 8px}.desc{color:#b4c0cd;line-height:2;font-size:13px;margin:0 0 18px}
-.summary{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}.tag{border:1px solid #2d4052;background:#0d151e;color:#b9c8d5;border-radius:20px;padding:7px 10px;font-size:11px}
-.list{display:grid;gap:10px}.listing{border:1px solid #29394a;background:#0c141d;border-radius:15px;padding:16px}.ltop{display:flex;justify-content:space-between;gap:12px}.ltitle{font-weight:800;line-height:1.7;font-size:14px}.price{color:var(--accent);font-weight:800;white-space:nowrap;font-size:13px}.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.meta span{font-size:10px;color:#aebdca;background:#16212d;border-radius:8px;padding:6px 8px}.source{color:#62778b;font-size:10px;margin-top:9px}.source a{color:#7893a8;text-decoration:none}.source a:hover{color:var(--accent)}
-.notice{background:#15231f;border:1px solid #2e5b50;color:#a9d8cc;padding:14px;border-radius:11px;font-size:12px;line-height:2;margin-top:12px}.loading{text-align:center;padding:50px 10px}.spinner{width:34px;height:34px;border:3px solid #294052;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}@keyframes spin{to{transform:rotate(360deg)}}
-.actions{display:flex;gap:9px;margin-top:22px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 18px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block}.primary{background:var(--accent);color:#07120f}.secondary{background:#1a2735;color:#d8e1e9;border:1px solid #304254}
-.foot{text-align:center;color:#596b7d;font-size:10px;margin-top:18px}
-@media(max-width:600px){.app{padding:18px 10px}.card{padding:19px}.title{font-size:20px}.ltop{display:block}.price{display:block;margin-top:7px}}
+:root{--bg:#071018;--panel:#101a24;--panel2:#0c151e;--line:#263746;--text:#eef5f8;--muted:#91a4b4;--accent:#46c6a7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}.app{min-height:100vh;padding:24px 12px;background:linear-gradient(145deg,#071018,#0d1720 60%,#101b24)}.wrap{max-width:1100px;margin:auto}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{display:flex;gap:11px;align-items:center}.logo{width:44px;height:44px;border:1px solid #3d5c69;border-radius:13px;display:grid;place-items:center;color:var(--accent);font-weight:900}.brand b{font-size:18px}.brand span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.count{color:var(--muted);font-size:12px}.search{background:rgba(16,26,36,.97);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:18px;box-shadow:0 18px 50px #0005}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.field select,.field input{width:100%;height:44px;background:#0a131c;border:1px solid #2b3d4c;border-radius:10px;color:var(--text);padding:0 11px;font-family:inherit;outline:none}.field select:focus,.field input:focus{border-color:var(--accent)}.actions{display:flex;gap:9px;margin-top:12px}.btn{height:44px;border:0;border-radius:10px;padding:0 20px;cursor:pointer;font-family:inherit;font-weight:800}.primary{background:var(--accent);color:#07120f}.secondary{background:#192735;color:#dbe5eb;border:1px solid #304354}.summary{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}.tag{border:1px solid #2d4052;background:#0d151e;color:#b9c8d5;border-radius:20px;padding:7px 10px;font-size:11px}.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.listing{border:1px solid #293b4b;background:#0b141d;border-radius:15px;overflow:hidden}.photo{height:190px;background:#101b25;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.photo .noimg{height:100%;display:grid;place-items:center;color:#617586;font-size:12px}.body{padding:15px}.ltop{display:flex;justify-content:space-between;gap:10px}.ltitle{font-weight:800;line-height:1.7;font-size:14px}.price{color:var(--accent);font-weight:900;white-space:nowrap;font-size:13px}.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.meta span{font-size:10px;color:#aebdca;background:#16212d;border-radius:8px;padding:6px 8px}.source{color:#62778b;font-size:10px;margin-top:10px}.source a{color:#8ca6b8;text-decoration:none}.source a:hover{color:var(--accent)}.notice{background:#15231f;border:1px solid #2e5b50;color:#a9d8cc;padding:14px;border-radius:11px;font-size:12px;line-height:2}.empty{grid-column:1/-1}.foot{text-align:center;color:#596b7d;font-size:10px;margin-top:18px}.loading{text-align:center;padding:45px}.spinner{width:34px;height:34px;border:3px solid #294052;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 15px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.list{grid-template-columns:1fr}}@media(max-width:500px){.app{padding:15px 9px}.grid{grid-template-columns:1fr}.search{padding:15px}.head{align-items:flex-start}.photo{height:180px}}
 </style>
 </head>
-<body>
-<main class="app"><div class="wrap">
-<header class="head"><div class="brand"><div class="logo">E</div><div><b>Evren Nexus</b><span>موتور جستجوی املاک اورین نکسوس</span></div></div><div id="count">نتایج خرید</div></header>
-<div class="bar"><i></i></div>
-<section id="root"></section>
-<footer class="foot">Evren Nexus · Avrin Property Search</footer>
+<body><main class="app"><div class="wrap">
+<header class="head"><div class="brand"><div class="logo">A</div><div><b>Avrin Property Advisor</b><span>موتور جستجوی املاک Evren Nexus</span></div></div><div class="count" id="count">در حال بارگذاری</div></header>
+<section class="search">
+<div class="grid">
+<div class="field"><label>شهر</label><select id="city"><option value="">همه شهرها</option></select></div>
+<div class="field"><label>حداکثر بودجه (میلیارد تومان)</label><input id="budget" type="number" min="0" step=".1" placeholder="مثلاً 5"></div>
+<div class="field"><label>حداقل متراژ</label><input id="minArea" type="number" min="0" placeholder="مثلاً 80"></div>
+<div class="field"><label>حداکثر متراژ</label><input id="maxArea" type="number" min="0" placeholder="مثلاً 180"></div>
+<div class="field"><label>تعداد اتاق</label><select id="rooms"><option value="">همه</option><option value="0">بدون اتاق</option><option value="1">۱</option><option value="2">۲</option><option value="3">۳</option><option value="4">۴</option><option value="5">۵+</option></select></div>
+<div class="field"><label>نوع ملک</label><select id="type"><option value="">همه</option><option value="آپارتمان">آپارتمان</option><option value="خانه و ویلا">خانه و ویلا</option><option value="زمین و کلنگی">زمین و کلنگی</option><option value="املاک تجاری">تجاری</option></select></div>
+<div class="field"><label>مرتب‌سازی</label><select id="sort"><option value="new">جدیدترین</option><option value="cheap">ارزان‌ترین</option><option value="area">بیشترین متراژ</option><option value="ppm">کمترین قیمت هر متر</option></select></div>
+<div class="field"><label>تعداد نتیجه</label><select id="limit"><option>20</option><option>50</option><option>100</option></select></div>
+</div>
+<div class="actions"><button class="btn primary" id="searchBtn">جستجوی ملک</button><button class="btn secondary" id="resetBtn">پاک کردن فیلترها</button></div>
+</section>
+<section id="root"><div class="search loading"><div class="spinner"></div>در حال خواندن آرشیو Avrin...</div></section>
+<footer class="foot">Evren Nexus · Avrin Property Advisor · منبع داده: Divar</footer>
 </div></main>
-
 <script>
-const params=new URLSearchParams(location.search);
-const root=document.getElementById("root");
-const count=document.getElementById("count");
-
+const $=id=>document.getElementById(id),root=$("root"),count=$("count");
+const cities=["تهران","کرج","مشهد","شیراز","اصفهان","تبریز","خوی","کیش","قشم","چابهار"];
+let listings=[];
 function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 function fa(n){return String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])}
-function normalizeDigits(v){return String(v??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d))}
-function num(v){const s=normalizeDigits(v).replace(/,/g,"").replace(/٫/g,".");const n=Number(String(s).replace(/[^0-9.]/g,""));return Number.isFinite(n)?n:0}
-function getPrice(x){return num(x.price??x.priceValue??x.totalPrice??x.amount)}
-function getArea(x){return num(x.area??x.area_m2??x.meterage??x.size)}
-function getRooms(x){return x.rooms??x.roomCount??x.bedrooms??""}
-function getCity(x){return x.city??x.cityName??""}
-function getType(x){return x.propertyType??x.property_type??x.category??x.type??""}
-function getBuildYear(x){return num(x.buildYear??x.build_year??x.year)}
-function getFloor(x){return x.floor??x.floorNumber??""}
-function getSellerType(x){return x.sellerType??x.seller_type??x.ownerType??""}
-function getPublished(x){return x.publishedAt??x.published_at??x.createdAt??x.created_at??x.date??""}
-function getLink(x){return x.url??x.link??x.divarUrl??x.divar_url??""}
-
-function isAgency(x){const s=String(getSellerType(x)).toLowerCase();return /agency|broker|consult|مشاور|املاک|آژانس/.test(s)}
-function isOlderThan14Days(x){const age=Number(x.ageHours);if(Number.isFinite(age))return age>14*24;const raw=getPublished(x);if(!raw)return false;const d=new Date(raw);return !isNaN(d)&&Date.now()-d.getTime()>14*24*60*60*1000}
-function generatedTitle(x){const type=getType(x)||"ملک";const area=getArea(x);const rooms=getRooms(x);const city=getCity(x);return [type,area?fa(area)+" مترمربع":"",rooms?String(rooms)+" خوابه":"",city||""].filter(Boolean).join("، ")}
-function priceText(x){const p=getPrice(x);if(!p)return x.priceText||"قیمت توافقی";const billion=p/1000000000;return billion>=1?fa(billion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان":fa((p/1000000).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
-function budgetFromUrl(){const raw=params.get("budget");if(raw===null)return null;const n=num(raw);if(!n||n<1||n>9999)return null;return n}
-
-function renderError(message){
- count.textContent="جستجوی خرید";
- root.innerHTML='<div class="card"><div class="eyebrow">AVRIN PROPERTY</div><h1 class="title">اطلاعات جستجو کامل نیست</h1><p class="desc">'+esc(message)+'</p><div class="actions"><a class="btn primary" href="https://evrenexus.blogfa.com/">بازگشت به جستجو</a></div></div>';
+function num(v){const n=Number(String(v??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/,/g,""));return Number.isFinite(n)?n:0}
+function price(x){return num(x.price)}
+function area(x){return num(x.area)}
+function rooms(x){return x.rooms===null||x.rooms===undefined?"":num(x.rooms)}
+function priceText(x){const p=price(x);if(!p)return"قیمت توافقی";if(p>=1e9)return fa((p/1e9).toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
+function image(x){return Array.isArray(x.images)&&x.images.length?x.images[0]:""}
+function recent(x){return !(Number.isFinite(Number(x.ageHours))&&Number(x.ageHours)>336)}
+function matches(x){
+ const c=$("city").value,b=num($("budget").value)*1e9,minA=num($("minArea").value),maxA=num($("maxArea").value),r=$("rooms").value,t=$("type").value;
+ if(c&&x.city!==c)return false;if(b&&price(x)>b)return false;if(minA&&area(x)<minA)return false;if(maxA&&area(x)>maxA)return false;
+ if(r&&r!=="5"&&rooms(x)!==Number(r))return false;if(r==="5"&&rooms(x)<5)return false;if(t&&x.propertyType!==t)return false;
+ return recent(x)&&x.sellerType==="personal";
 }
-
+function sortData(a){
+ const mode=$("sort").value;
+ return [...a].sort((x,y)=>mode==="cheap"?price(x)-price(y):mode==="area"?area(y)-area(x):mode==="ppm"?num(x.pricePerMeter)-num(y.pricePerMeter):(new Date(y.publishedAt||0)-new Date(x.publishedAt||0)));
+}
 function card(x){
- const link=getLink(x);
- return '<article class="listing"><div class="ltop"><div class="ltitle">'+esc(generatedTitle(x))+'</div><div class="price">'+esc(priceText(x))+'</div></div><div class="meta">'+
- (getCity(x)?'<span>شهر: '+esc(getCity(x))+'</span>':"")+
- (getArea(x)?'<span>متراژ: '+fa(getArea(x))+' متر</span>':"")+
- (getRooms(x)?'<span>اتاق: '+esc(getRooms(x))+'</span>':"")+
- (getBuildYear(x)?'<span>سال ساخت: '+fa(getBuildYear(x))+'</span>':"")+
- (getFloor(x)!==""?'<span>طبقه: '+esc(getFloor(x))+'</span>':"")+
- '</div><div class="source">منبع داده: Avrin · دیوار'+(link?' · <a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">مشاهده آگهی</a>':"")+'</div></article>';
+ const im=image(x),link=x.sourceUrl||"#",title=x.displayTitle||[x.propertyType,area(x)?fa(area(x))+" متر":"",rooms(x)!==""?fa(rooms(x))+" خوابه":"",x.city].filter(Boolean).join("، ");
+ return '<article class="listing">'+(im?'<div class="photo"><img src="'+esc(im)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class="noimg">تصویر در دسترس نیست</div>\'"></div>':'<div class="photo"><div class="noimg">بدون تصویر</div></div>')+'<div class="body"><div class="ltop"><div class="ltitle">'+esc(title)+'</div><div class="price">'+esc(priceText(x))+'</div></div><div class="meta">'+(x.city?'<span>'+esc(x.city)+'</span>':'')+(area(x)?'<span>'+fa(area(x))+' متر</span>':'')+(rooms(x)!==""?'<span>'+fa(rooms(x))+' اتاق</span>':'')+(x.buildYear?'<span>ساخت '+fa(x.buildYear)+'</span>':'')+(x.floor!==null&&x.floor!==undefined&&x.floor!==""?'<span>طبقه '+esc(x.floor)+'</span>':'')+'</div><div class="source">'+(x.neighborhood?esc(x.neighborhood)+" · ":"")+"Avrin · <a href='"+esc(link)+"' target='_blank' rel='noopener noreferrer'>مشاهده آگهی اصلی</a></div></div></article>";
 }
-
-async function loadResults(budgetBillion){
- root.innerHTML='<div class="card loading"><div class="spinner"></div><h2>در حال یافتن ملک‌های مناسب...</h2><p class="desc">آگهی‌های قدیمی‌تر از ۱۴ روز و آگهی‌های مشاوران املاک از نتایج حذف می‌شوند.</p></div>';
- try{
-  const res=await fetch("./data/listings.json?"+Date.now());
-  if(!res.ok)throw new Error("HTTP "+res.status);
-  const raw=await res.json();
-  const data=Array.isArray(raw)?raw:(Array.isArray(raw.listings)?raw.listings:[]);
-  const maxPrice=budgetBillion*1000000000;
-  const results=data.filter(x=>!isAgency(x)).filter(x=>!isOlderThan14Days(x)).filter(x=>{const p=getPrice(x);return p>0&&p<=maxPrice}).sort((a,b)=>(Number(b.ageHours)||999999)-(Number(a.ageHours)||999999)).slice(0,100);
-  count.textContent=fa(results.length)+" نتیجه";
-  root.innerHTML='<div class="card"><div class="eyebrow">AVRIN MATCH</div><h1 class="title">پیشنهادهای خرید ملک تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</h1><p class="desc">نتایج از آرشیو اختصاصی Avrin تهیه شده‌اند؛ دیوار فقط منبع دریافت داده است. مشخصات ملک فقط بر اساس فیلدهای ساختاری آگهی است؛ عنوان و توضیحات آگهی مبنای استخراج مشخصات نیستند.</p><div class="summary"><span class="tag">بودجه: تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</span><span class="tag">فقط خرید</span><span class="tag">حداکثر سن آگهی: ۱۴ روز</span><span class="tag">بدون مشاور املاک</span></div><div class="list">'+(results.length?results.map(card).join(""):'<div class="notice">در آرشیو فعلی آگهی منطبق با این بودجه پیدا نشد.</div>')+'</div><div class="actions"><a class="btn secondary" href="https://evrenexus.blogfa.com/">ویرایش بودجه</a></div></div>';
- }catch(e){renderError("آرشیو آگهی‌ها هنوز آماده یا در دسترس نیست. لطفاً بعداً دوباره امتحان کنید.")}
+function render(){
+ const filtered=sortData(listings.filter(matches)),limit=Number($("limit").value),res=filtered.slice(0,limit);
+ count.textContent=fa(filtered.length)+" نتیجه";
+ root.innerHTML='<div class="search"><div class="summary"><span class="tag">۱۷۱ آگهی در آرشیو فعلی</span><span class="tag">فقط خرید</span><span class="tag">آگهی شخصی</span><span class="tag">حداکثر ۱۴ روز</span></div><div class="list">'+(res.length?res.map(card).join(""):'<div class="notice empty">با این فیلترها آگهی منطبق پیدا نشد.</div>')+'</div></div>';
 }
-
-const budget=budgetFromUrl();
-if(budget===null){renderError("بودجه خرید در آدرس صفحه مشخص نشده یا خارج از محدوده مجاز است.")}else{loadResults(budget)}
+function reset(){["budget","minArea","maxArea"].forEach(id=>$(id).value="");["city","rooms","type"].forEach(id=>$(id).value="");$("sort").value="new";$("limit").value="20";render()}
+async function init(){
+ cities.forEach(c=>$("city").insertAdjacentHTML("beforeend",'<option value="'+esc(c)+'">'+esc(c)+'</option>'));
+ try{const r=await fetch("./data/listings.json?"+Date.now());if(!r.ok)throw Error(r.status);listings=await r.json();render()}catch(e){root.innerHTML='<div class="search notice">آرشیو آگهی‌ها در دسترس نیست.</div>';count.textContent="خطا"}
+}
+$("searchBtn").onclick=render;$("resetBtn").onclick=reset;["city","budget","minArea","maxArea","rooms","type","sort","limit"].forEach(id=>$(id).addEventListener("change",render));init();
 </script>
-</body>
-</html>
+</body></html>
