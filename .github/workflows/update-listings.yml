@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Collect Divar listings (Tehran pilot)
+      - name: Collect Divar listings (Tehran 150-listing test)
         env:
           AVRIN_CITY: tehran
-          AVRIN_MAX_LINKS: 30
+          AVRIN_MAX_LINKS: 150
         run: node divar-collector.js
 
       - name: Validate listings
