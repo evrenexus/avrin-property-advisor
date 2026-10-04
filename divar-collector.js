@@ -1,11 +1,13 @@
 const fs = require("fs");
 
 const MAX_AGE_HOURS = 336;
-const MAX_LISTING_LINKS_PER_CITY = 50;
-const CONCURRENCY_DELAY_MS = 2000;
-const DETAIL_CONCURRENCY = 2; // keep Divar detail requests below public rate limits
-const DETAIL_MAX_RETRIES = 5;
-const DETAIL_RETRY_BASE_MS = 5000;
+// Phase 1: prove a stable end-to-end collector on one city before scaling nationwide.
+const TARGET_CITY_SLUG = process.env.AVRIN_CITY || "tehran";
+const MAX_LISTING_LINKS_PER_CITY = Number(process.env.AVRIN_MAX_LINKS || 30);
+const CONCURRENCY_DELAY_MS = 1500;
+const DETAIL_CONCURRENCY = 1;
+const DETAIL_MAX_RETRIES = 2;
+const DETAIL_RETRY_BASE_MS = 4000;
 
 function normalizeDigits(value = "") {
   return String(value)
@@ -253,8 +255,10 @@ async function getCities() {
 
   await loadCities("https://api.divar.ir/v8/places/cities");
 
-  const cities = [...citiesBySlug.values()];
+  const cities = [...citiesBySlug.values()].filter(city => city.slug === TARGET_CITY_SLUG);
   if (!cities.length) {
+    throw new Error("Target city not found: " + TARGET_CITY_SLUG);
+  }
     throw new Error("Divar city API returned no usable cities.");
   }
 
@@ -563,7 +567,7 @@ async function readListing(item) {
   const seen = new Set(all.map(item => item.token || item.url).filter(Boolean));
 
   try {
-    console.log("Discovering Divar cities...");
+    console.log("Discovering target Divar city:", TARGET_CITY_SLUG);
     const cities = await getCities();
     console.log("CITY COUNT:", cities.length);
 
