@@ -61,7 +61,7 @@ function searchBudget(){
 async function init(){
  const q=new URLSearchParams(location.search),qb=Number(q.get("budget"));
  if(qb>=1&&qb<=999)$("budget").value=qb;
- try{const r=await fetch("./data/listings.json?"+Date.now());if(!r.ok)throw Error(r.status);listings=await r.json();render()}catch(e){root.innerHTML='<div class="search notice">آرشیو آگهی‌ها در دسترس نیست.</div>';count.textContent="خطا"}
+ try{const r=await fetch("https://raw.githubusercontent.com/evrenexus/avrin-property-advisor/main/data/listings.json?"+Date.now());if(!r.ok)throw Error(r.status);listings=await r.json();render()}catch(e){root.innerHTML='<div class="search notice">آرشیو آگهی‌ها در دسترس نیست.</div>';count.textContent="خطا"}
 }
 $("searchBtn").onclick=searchBudget;
 $("budget").addEventListener("keydown",e=>{if(e.key==="Enter")searchBudget()});
