@@ -1,82 +1,54 @@
-name: Update Avrin Listings
+name: Avrin Manual Listings Refresh
 
 permissions:
   contents: write
 
 on:
   workflow_dispatch:
-  push:
-    paths-ignore:
-      - "data/**"
-  schedule:
-    - cron: "0 */6 * * *"
 
 concurrency:
-  group: avrin-listings
+  group: avrin-manual-listings
   cancel-in-progress: true
 
 jobs:
-  update:
+  refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
+    timeout-minutes: 360
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Collect Divar listings (Tehran 150-listing test)
+      - name: Collect latest Divar listings
         env:
-          AVRIN_CITY: tehran
-          AVRIN_MAX_LINKS: 150
+          AVRIN_MAX_LINKS: 20
+          AVRIN_DETAIL_CONCURRENCY: 2
+          AVRIN_DETAIL_DELAY_MS: 1500
         run: node divar-collector.js
-
-      - name: Validate listings
+      - name: Validate archive
         run: |
           set -e
           test -f data/listings.json
+          test -f data/listings-meta.json
           jq empty data/listings.json
-
-          echo "Total:"
+          jq empty data/listings-meta.json
+          echo "Listings:"
           jq 'length' data/listings.json
-
           echo "Personal:"
           jq '[.[] | select(.sellerType == "personal")] | length' data/listings.json
-
-          echo "Age <= 14 days:"
-          jq '[.[] | select(.ageHours <= 336)] | length' data/listings.json
-
-          echo "With area:"
-          jq '[.[] | select(.area != null)] | length' data/listings.json
-
-          echo "With rooms:"
-          jq '[.[] | select(.rooms != null)] | length' data/listings.json
-
-          echo "With build year:"
-          jq '[.[] | select(.buildYear != null)] | length' data/listings.json
-
-          echo "With floor:"
-          jq '[.[] | select(.floor != null)] | length' data/listings.json
-
-          echo "With units:"
-          jq '[.[] | select(.units != null)] | length' data/listings.json
-
-      - name: Show sample
-        run: jq '.[0:5]' data/listings.json
-
-      - name: Commit listings
+          echo "Recent:"
+          jq '[.[] | select(.ageHours == null or .ageHours <= 336)] | length' data/listings.json
+      - name: Publish Avrin archive
         run: |
           set -e
           git config user.name "Avrin Bot"
           git config user.email "avrin-bot@users.noreply.github.com"
-          git add data/listings.json
+          git add data/listings.json data/listings-meta.json data/cities.json
           if git diff --cached --quiet; then
-            echo "No changes."
+            echo "No archive changes."
           else
-            git commit -m "Update Avrin listings"
+            git commit -m "Refresh Avrin property archive"
             git push
           fi
