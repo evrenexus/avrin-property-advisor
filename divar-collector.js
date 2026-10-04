@@ -75,8 +75,8 @@ function extractImages(detail){
     if(!v||typeof v!=="object")return;
     if(Array.isArray(v)){v.forEach(walk);return}
     for(const [k,val] of Object.entries(v)){
-      if(typeof val==="string" && /image|photo|url|src/i.test(k) && /^https?:\\/\\//.test(val)){
-        if(/\\.(jpg|jpeg|png|webp)(?:\\?|$)/i.test(val) || /images|image|photo|media/i.test(val)){
+      if(typeof val==="string" && /image|photo|url|src/i.test(k) && /^https?:\/\//.test(val)){
+        if(/\.(jpg|jpeg|png|webp)(?:\?|$)/i.test(val) || /images|image|photo|media/i.test(val)){
           if(!seen.has(val)){seen.add(val);images.push(val)}
         }
       } else if(val&&typeof val==="object") walk(val);
@@ -159,14 +159,8 @@ async function getCities(){
   const data=await r.json(),raw=Array.isArray(data)?data:(data.cities||data.data||[]);
   const cities=raw.map(c=>({id:c.id??c.city_id??c.cityId,slug:c.slug||c.city_slug||c.citySlug,display:c.display||c.name||c.title||c.slug}))
     .filter(c=>c.id!=null&&typeof c.slug==="string");
-  // Avrin scope: selected major markets only (plus key surrounding cities).
   const selectedCities = new Set([
-    "تهران","کرج","مشهد","شیراز","اصفهان","تبریز","قم","ارومیه","اردبیل","زنجان","قزوین","خوی","سلماس",
-    "رشت","بندر انزلی","انزلی","لاهیجان","لنگرود","رودسر","آستارا","تالش",
-    "ساری","بابل","آمل","قائم شهر","نکا","نوشهر","چالوس","رامسر","تنکابن","محمودآباد","فریدونکنار",
-    "گرگان","همدان","کرمان","یزد","چابهار","قشم","کیش","بندرعباس","اهواز","یاسوج","شهرکرد",
-    "اسلامشهر","شهریار","قدس","ملارد","رباط کریم","پرند","پاکدشت","ورامین","قرچک","پردیس","بومهن","دماوند","رودهن","شمیرانات","لواسان",
-    "فردیس","نظرآباد","هشتگرد","ساوجبلاغ","محمدشهر","مشکین دشت","ماهدشت","کمالشهر","طالقان"
+    "تهران","کرج","مشهد","شیراز","اصفهان","تبریز","خوی","کیش","قشم","چابهار"
   ]);
   const normalizedSelected = value => clean(value).replace(/[\u200c]/g, " ").replace(/\s+/g, " ").trim();
   const filtered = cities.filter(c => selectedCities.has(normalizedSelected(c.display)));
