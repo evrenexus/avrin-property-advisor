@@ -5,6 +5,9 @@ permissions:
 
 on:
   workflow_dispatch:
+  push:
+    paths-ignore:
+      - "data/**"
   schedule:
     - cron: "0 */6 * * *"
 
