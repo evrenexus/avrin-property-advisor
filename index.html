@@ -48,7 +48,7 @@ function getPublished(x){return x.publishedAt??x.published_at??x.createdAt??x.cr
 function getLink(x){return x.url??x.link??x.divarUrl??x.divar_url??""}
 
 function isAgency(x){const s=String(getSellerType(x)).toLowerCase();return /agency|broker|consult|مشاور|املاک|آژانس/.test(s)}
-function isOlderThan14Days(x){const raw=getPublished(x);if(!raw)return false;const d=new Date(raw);return !isNaN(d)&&Date.now()-d.getTime()>14*24*60*60*1000}
+function isOlderThan14Days(x){const age=Number(x.ageHours);if(Number.isFinite(age))return age>14*24;const raw=getPublished(x);if(!raw)return false;const d=new Date(raw);return !isNaN(d)&&Date.now()-d.getTime()>14*24*60*60*1000}
 function generatedTitle(x){const type=getType(x)||"ملک";const area=getArea(x);const rooms=getRooms(x);const city=getCity(x);return [type,area?fa(area)+" مترمربع":"",rooms?String(rooms)+" خوابه":"",city||""].filter(Boolean).join("، ")}
 function priceText(x){const p=getPrice(x);if(!p)return x.priceText||"قیمت توافقی";const billion=p/1000000000;return billion>=1?fa(billion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان":fa((p/1000000).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
 function budgetFromUrl(){const raw=params.get("budget");if(raw===null)return null;const n=num(raw);if(!n||n<1||n>9999)return null;return n}
@@ -66,7 +66,7 @@ function card(x){
  (getRooms(x)?'<span>اتاق: '+esc(getRooms(x))+'</span>':"")+
  (getBuildYear(x)?'<span>سال ساخت: '+fa(getBuildYear(x))+'</span>':"")+
  (getFloor(x)!==""?'<span>طبقه: '+esc(getFloor(x))+'</span>':"")+
- '</div><div class="source">منبع: دیوار'+(link?' · <a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">مشاهده آگهی</a>':"")+'</div></article>';
+ '</div><div class="source">منبع داده: Avrin · دیوار'+(link?' · <a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">مشاهده آگهی</a>':"")+'</div></article>';
 }
 
 async function loadResults(budgetBillion){
@@ -77,9 +77,9 @@ async function loadResults(budgetBillion){
   const raw=await res.json();
   const data=Array.isArray(raw)?raw:(Array.isArray(raw.listings)?raw.listings:[]);
   const maxPrice=budgetBillion*1000000000;
-  const results=data.filter(x=>!isAgency(x)).filter(x=>!isOlderThan14Days(x)).filter(x=>{const p=getPrice(x);return p>0&&p<=maxPrice}).sort((a,b)=>getPrice(a)-getPrice(b)).slice(0,50);
+  const results=data.filter(x=>!isAgency(x)).filter(x=>!isOlderThan14Days(x)).filter(x=>{const p=getPrice(x);return p>0&&p<=maxPrice}).sort((a,b)=>(Number(b.ageHours)||999999)-(Number(a.ageHours)||999999)).slice(0,100);
   count.textContent=fa(results.length)+" نتیجه";
-  root.innerHTML='<div class="card"><div class="eyebrow">AVRIN MATCH</div><h1 class="title">پیشنهادهای خرید ملک تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</h1><p class="desc">نتایج از آگهی‌های موجود در آرشیو دیوار استخراج شده‌اند. مشخصات ملک فقط بر اساس فیلدهای ساختاری آگهی است؛ عنوان و توضیحات آگهی مبنای استخراج مشخصات نیستند.</p><div class="summary"><span class="tag">بودجه: تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</span><span class="tag">فقط خرید</span><span class="tag">حداکثر سن آگهی: ۱۴ روز</span><span class="tag">بدون مشاور املاک</span></div><div class="list">'+(results.length?results.map(card).join(""):'<div class="notice">در آرشیو فعلی آگهی منطبق با این بودجه پیدا نشد.</div>')+'</div><div class="actions"><a class="btn secondary" href="https://evrenexus.blogfa.com/">ویرایش بودجه</a></div></div>';
+  root.innerHTML='<div class="card"><div class="eyebrow">AVRIN MATCH</div><h1 class="title">پیشنهادهای خرید ملک تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</h1><p class="desc">نتایج از آرشیو اختصاصی Avrin تهیه شده‌اند؛ دیوار فقط منبع دریافت داده است. مشخصات ملک فقط بر اساس فیلدهای ساختاری آگهی است؛ عنوان و توضیحات آگهی مبنای استخراج مشخصات نیستند.</p><div class="summary"><span class="tag">بودجه: تا '+fa(budgetBillion.toLocaleString("fa-IR",{maximumFractionDigits:2}))+' میلیارد تومان</span><span class="tag">فقط خرید</span><span class="tag">حداکثر سن آگهی: ۱۴ روز</span><span class="tag">بدون مشاور املاک</span></div><div class="list">'+(results.length?results.map(card).join(""):'<div class="notice">در آرشیو فعلی آگهی منطبق با این بودجه پیدا نشد.</div>')+'</div><div class="actions"><a class="btn secondary" href="https://evrenexus.blogfa.com/">ویرایش بودجه</a></div></div>';
  }catch(e){renderError("آرشیو آگهی‌ها هنوز آماده یا در دسترس نیست. لطفاً بعداً دوباره امتحان کنید.")}
 }
 
