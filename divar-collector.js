@@ -259,8 +259,6 @@ async function getCities() {
   if (!cities.length) {
     throw new Error("Target city not found: " + TARGET_CITY_SLUG);
   }
-    throw new Error("Divar city API returned no usable cities.");
-  }
 
   fs.mkdirSync("data", { recursive: true });
   fs.writeFileSync(cachePath, JSON.stringify(cities, null, 2), "utf8");
