@@ -481,7 +481,17 @@ async function readListing(item) {
   const floor = extractFloor(lines);
   const units = extractUnits(lines);
 
-  const publishedAt = item.publishedAt ? new Date(item.publishedAt) : null;
+  let publishedAt = null;
+  if (item.publishedAt != null && item.publishedAt !== "") {
+    const raw = String(item.publishedAt).trim();
+    const numeric = /^\\d+(?:\\.\\d+)?$/.test(raw) ? Number(raw) : null;
+    if (numeric !== null) {
+      const ms = numeric < 1e12 ? numeric * 1000 : numeric;
+      publishedAt = new Date(ms);
+    } else {
+      publishedAt = new Date(raw);
+    }
+  }
   const age = publishedAt && !Number.isNaN(publishedAt.getTime())
     ? Math.max(0, (Date.now() - publishedAt.getTime()) / 3600000)
     : null;
