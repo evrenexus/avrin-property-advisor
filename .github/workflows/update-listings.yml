@@ -50,5 +50,6 @@ jobs:
             echo "No archive changes."
           else
             git commit -m "Refresh Avrin property archive"
+            git pull --rebase origin main
             git push
           fi
