@@ -1,81 +1,60 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Avrin Property Advisor</title>
 <style>
-:root{--bg:#071018;--panel:#101a24;--panel2:#0c151e;--line:#263746;--text:#eef5f8;--muted:#91a4b4;--accent:#46c6a7}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif}.app{min-height:100vh;padding:24px 12px;background:linear-gradient(145deg,#071018,#0d1720 60%,#101b24)}.wrap{max-width:1100px;margin:auto}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.brand{display:flex;gap:11px;align-items:center}.logo{width:44px;height:44px;border:1px solid #3d5c69;border-radius:13px;display:grid;place-items:center;color:var(--accent);font-weight:900}.brand b{font-size:18px}.brand span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.count{color:var(--muted);font-size:12px}.search{background:rgba(16,26,36,.97);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:18px;box-shadow:0 18px 50px #0005}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.budget-only{display:flex;align-items:end;gap:10px;max-width:420px}.budget-only .field{flex:1}.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.field select,.field input{width:100%;height:44px;background:#0a131c;border:1px solid #2b3d4c;border-radius:10px;color:var(--text);padding:0 11px;font-family:inherit;outline:none}.field select:focus,.field input:focus{border-color:var(--accent)}.actions{display:flex;gap:9px;margin-top:12px}.btn{height:44px;border:0;border-radius:10px;padding:0 20px;cursor:pointer;font-family:inherit;font-weight:800}.primary{background:var(--accent);color:#07120f}.secondary{background:#192735;color:#dbe5eb;border:1px solid #304354}.summary{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}.tag{border:1px solid #2d4052;background:#0d151e;color:#b9c8d5;border-radius:20px;padding:7px 10px;font-size:11px}.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.listing{border:1px solid #293b4b;background:#0b141d;border-radius:15px;overflow:hidden}.photo{height:190px;background:#101b25;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.photo .noimg{height:100%;display:grid;place-items:center;color:#617586;font-size:12px}.body{padding:15px}.ltop{display:flex;justify-content:space-between;gap:10px}.ltitle{font-weight:800;line-height:1.7;font-size:14px}.price{color:var(--accent);font-weight:900;white-space:nowrap;font-size:13px}.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.meta span{font-size:10px;color:#aebdca;background:#16212d;border-radius:8px;padding:6px 8px}.source{color:#62778b;font-size:10px;margin-top:10px;line-height:1.9}.ppm{color:#9eb2c2;font-size:11px;margin-top:7px}.age{color:#71879a;font-size:10px;margin-top:6px}.actions{flex-wrap:wrap}.source a{color:#8ca6b8;text-decoration:none}.source a:hover{color:var(--accent)}.notice{background:#15231f;border:1px solid #2e5b50;color:#a9d8cc;padding:14px;border-radius:11px;font-size:12px;line-height:2}.empty{grid-column:1/-1}.foot{text-align:center;color:#596b7d;font-size:10px;margin-top:18px}.loading{text-align:center;padding:45px}.spinner{width:34px;height:34px;border:3px solid #294052;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 15px}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.list{grid-template-columns:1fr}}@media(max-width:500px){.app{padding:15px 9px}.grid{grid-template-columns:1fr}.budget-only{max-width:none}.budget-only .actions{margin-top:0}.search{padding:15px}.head{align-items:flex-start}.photo{height:180px}}
+body{margin:0;background:#071018;color:#eef5f8;font-family:Tahoma,Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px 12px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.brand{font-size:18px;font-weight:bold}.sub{font-size:11px;color:#91a4b4;margin-top:5px}.panel{background:#101a24;border:1px solid #263746;border-radius:16px;padding:18px;margin-bottom:16px}.form{display:flex;gap:10px;align-items:end;max-width:430px}.field{flex:1}.field label{display:block;color:#91a4b4;font-size:11px;margin-bottom:6px}.field input{width:100%;height:44px;box-sizing:border-box;background:#0a131c;color:#fff;border:1px solid #2b3d4c;border-radius:9px;padding:0 10px;font:inherit}.btn{height:44px;border:0;border-radius:9px;padding:0 20px;background:#46c6a7;color:#07120f;font-weight:bold;font-family:inherit;cursor:pointer}.status{text-align:center;padding:35px 10px}.spin{width:30px;height:30px;border:3px solid #294052;border-top-color:#46c6a7;border-radius:50%;animation:s .8s linear infinite;margin:0 auto 12px}@keyframes s{to{transform:rotate(360deg)}}.error{color:#ffb4b4;white-space:pre-wrap;line-height:2}.summary{color:#b9c8d5;font-size:12px;margin-bottom:14px}.list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{background:#0b141d;border:1px solid #293b4b;border-radius:14px;overflow:hidden}.photo{height:190px;background:#101b25}.photo img{width:100%;height:100%;object-fit:cover}.body{padding:14px}.row{display:flex;justify-content:space-between;gap:10px}.title{font-weight:bold;line-height:1.7}.price{color:#46c6a7;font-weight:bold;white-space:nowrap}.meta{color:#aebdca;font-size:11px;line-height:2;margin-top:9px}.link{margin-top:9px;font-size:10px}.link a{color:#8ca6b8}@media(max-width:700px){.list{grid-template-columns:1fr}.form{max-width:none}}
 </style>
 </head>
-<body><main class="app"><div class="wrap">
-<header class="head"><div class="brand"><div class="logo">A</div><div><b>Avrin Property Advisor</b><span>موتور جستجوی املاک Evren Nexus</span></div></div><div class="count" id="count">در حال بارگذاری</div></header>
-<section class="search" id="searchPanel">
-<div class="budget-only">
-<div class="field"><label>بودجه (میلیارد تومان)</label><input id="budget" type="number" min="1" max="999" step=".1" placeholder="مثلاً 10"></div>
-<div class="actions"><button class="btn primary" id="searchBtn">بیاب</button></div>
-</div>
+<body>
+<div class="wrap">
+<header class="head"><div><div class="brand">Avrin Property Advisor</div><div class="sub">موتور جستجوی املاک Evren Nexus</div></div><div id="count"></div></header>
+<section class="panel">
+<div class="form"><div class="field"><label>بودجه (میلیارد تومان)</label><input id="budget" type="number" min="1" max="999" step=".1" placeholder="مثلاً 10"></div><button class="btn" id="search">بیاب</button></div>
 </section>
-<section id="root"><div class="search loading"><div class="spinner"></div>صفحه در حال لود شدن می باشد، لطفا تأمل بفرمایید</div></section>
-<footer class="foot">Evren Nexus · Avrin Property Advisor · منبع داده: Divar</footer>
-</div></main>
+<div id="status" class="panel status"><div class="spin"></div>صفحه در حال لود شدن می باشد، لطفا تأمل بفرمایید</div>
+<div id="results"></div>
+</div>
 <script>
-const $=id=>document.getElementById(id),root=$("root"),count=$("count");
-window.addEventListener("error",e=>{root.innerHTML='<div class="search notice">خطا: '+String(e.message||"خطای JavaScript")+' @ '+String(e.lineno||"")+'</div>'});
-window.addEventListener("unhandledrejection",e=>{root.innerHTML='<div class="search notice">خطا: '+String(e.reason||"خطای ناشناخته")+'</div>'});
-const cities=["تهران","کرج","مشهد","شیراز","اصفهان","تبریز","خوی","کیش","قشم","چابهار"];
-let listings=[];
-function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+"use strict";
+const statusEl=document.getElementById("status"),resultsEl=document.getElementById("results"),countEl=document.getElementById("count"),budgetEl=document.getElementById("budget");
 function fa(n){return String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])}
-function num(v){const n=Number(String(v??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/,/g,""));return Number.isFinite(n)?n:0}
-function price(x){return num(x.price)}
-function area(x){return num(x.area)}
-function rooms(x){return x.rooms===null||x.rooms===undefined?"":num(x.rooms)}
-function priceText(x){const p=price(x);if(!p)return"قیمت توافقی";if(p>=1e9)return fa((p/1e9).toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
-function ppmText(x){const p=num(x.pricePerMeter);if(!p)return"";return fa((p/1e6).toLocaleString("fa-IR",{maximumFractionDigits:1}))+" میلیون تومان / متر"}
-function ageText(x){const h=Number(x.ageHours);if(!Number.isFinite(h)||h<0)return"";if(h<1)return"کمتر از یک ساعت پیش";if(h<24)return fa(Math.floor(h))+" ساعت پیش";return fa(Math.floor(h/24))+" روز پیش"}
-function image(x){if(!Array.isArray(x.images))return"";const u=x.images.find(v=>typeof v==="string"&&/^https?:\/\/s\d+\.divarcdn\.com\/static\/photo\//i.test(v)&&!/widget-icons/i.test(v));return u||""}
-function timestamp(v){if(v===null||v===undefined||v==="")return 0;const s=String(v).trim();if(/^\d+(\.\d+)?$/.test(s)){const n=Number(s);return n<1e12?n*1000:n}const d=Date.parse(s);return Number.isFinite(d)?d:0}
-function recent(x){return !(Number.isFinite(Number(x.ageHours))&&Number(x.ageHours)>336)}
-function matches(x){
- const q=new URLSearchParams(location.search),qb=Number(q.get("budget")),b=Number.isFinite(qb)?qb*1e9:0,lo=b*0.9,hi=b*1.1;
- if(b&& (price(x)<lo||price(x)>hi))return false;
- return recent(x)&&x.sellerType==="personal";
-}
-function sortData(a){
- const mode=$("sort").value;
- return [...a].sort((x,y)=>mode==="cheap"?price(x)-price(y):mode==="area"?area(y)-area(x):mode==="ppm"?num(x.pricePerMeter)-num(y.pricePerMeter):timestamp(y.publishedAt)-timestamp(x.publishedAt));
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function money(n){return n>=1e9?fa((n/1e9).toLocaleString("fa-IR",{maximumFractionDigits:2}))+" میلیارد تومان":fa((n/1e6).toLocaleString("fa-IR",{maximumFractionDigits:0}))+" میلیون تومان"}
+function image(x){return Array.isArray(x.images)?(x.images.find(u=>typeof u==="string"&&/^https?:\/\/s\d+\.divarcdn\.com\/static\/photo\//i.test(u))||""):""}
+function error(msg){statusEl.innerHTML='<div class="error">خطا در بارگذاری آرشیو:\n'+safe(msg)+'</div>'}
+async function load(){
+ try{
+  const ctl=new AbortController();
+  const timer=setTimeout(()=>ctl.abort(),10000);
+  const res=await fetch("./data/listings.json",{cache:"no-store",signal:ctl.signal});
+  clearTimeout(timer);
+  if(!res.ok)throw new Error("HTTP "+res.status);
+  const text=await res.text();
+  if(!text.trim())throw new Error("فایل آرشیو خالی است");
+  let data;
+  try{data=JSON.parse(text)}catch(e){throw new Error("JSON نامعتبر: "+text.slice(0,180))}
+  if(!Array.isArray(data))throw new Error("ساختار listings.json آرایه نیست");
+  const q=new URLSearchParams(location.search),b=Number(q.get("budget"));
+  if(b>=1&&b<=999)budgetEl.value=b;
+  const min=b*900000000,max=b*1100000000;
+  const items=data.filter(x=>x&&x.sellerType==="personal"&&(!Number.isFinite(Number(x.ageHours))||Number(x.ageHours)<=336)&&(!b||((Number(x.price)>=min)&&(Number(x.price)<=max))));
+  countEl.textContent=fa(items.length)+" نتیجه";
+  statusEl.style.display="none";
+  resultsEl.innerHTML='<section class="panel"><div class="summary">'+(b?"بودجه "+fa(b)+" میلیارد تومان · بازه ±۱۰٪":"همه آگهی‌های معتبر")+" · فقط خرید · فروشنده شخصی · حداکثر ۱۴ روز</div><div class="list">'+(items.length?items.map(card).join(""):'<div>در این بازه آگهی منطبق پیدا نشد.</div>')+'</div></section>';
+ }catch(e){
+  error(e.name==="AbortError"?"زمان دریافت آرشیو بیش از ۱۰ ثانیه طول کشید":(e.message||String(e)));
+ }
 }
 function card(x){
- const im=image(x),link=x.sourceUrl||"#",title=x.displayTitle||[x.propertyType,area(x)?fa(area(x))+" متر":"",rooms(x)!==""?fa(rooms(x))+" خوابه":"",x.city].filter(Boolean).join("، ");
- return '<article class="listing">'+(im?'<div class="photo"><img src="'+esc(im)+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class="noimg">تصویر در دسترس نیست</div>\'"></div>':'<div class="photo"><div class="noimg">بدون تصویر</div></div>')+'<div class="body"><div class="ltop"><div class="ltitle">'+esc(title)+'</div><div class="price">'+esc(priceText(x))+'</div></div><div class="meta">'+(x.city?'<span>'+esc(x.city)+'</span>':'')+(area(x)?'<span>'+fa(area(x))+' متر</span>':'')+(rooms(x)!==""?'<span>'+fa(rooms(x))+' اتاق</span>':'')+(x.buildYear?'<span>ساخت '+fa(x.buildYear)+'</span>':'')+(x.floor!==null&&x.floor!==undefined&&x.floor!==""?'<span>طبقه '+esc(x.floor)+'</span>':'')+'</div><div class="source">'+(x.neighborhood?esc(x.neighborhood)+" · ":"")+"Avrin · <a href='"+esc(link)+"' target='_blank' rel='noopener noreferrer'>مشاهده آگهی اصلی</a></div><div class="ppm">'+(ppmText(x)?esc(ppmText(x)):"")+'</div><div class="age">'+(ageText(x)?esc(ageText(x)):"")+'</div></div></article>";
+ const im=image(x);
+ return '<article class="card">'+(im?'<div class="photo"><img src="'+safe(im)+'" loading="lazy"></div>':'')+'<div class="body"><div class="row"><div class="title">'+safe(x.displayTitle||"آگهی ملک")+'</div><div class="price">'+money(Number(x.price)||0)+'</div></div><div class="meta">'+[x.city,x.neighborhood,x.area?x.area+" متر":"",x.rooms!=null?x.rooms+" خوابه":"",x.buildYear?"ساخت "+x.buildYear:"",x.floor?"طبقه "+x.floor:""].filter(Boolean).map(safe).join(" · ")+'</div><div class="link"><a href="'+safe(x.sourceUrl||"#")+'" target="_blank" rel="noopener">مشاهده آگهی اصلی</a></div></div></article>'
 }
-function render(){
- const q=new URLSearchParams(location.search),qb=Number(q.get("budget")),b=Number.isFinite(qb)?qb:0,filtered=listings.filter(matches),res=filtered;
- count.textContent=fa(filtered.length)+" نتیجه";
- root.innerHTML='<div class="search"><div class="summary">'+(b?'<span class="tag">بودجه: '+fa(b.toLocaleString("fa-IR",{maximumFractionDigits:1}))+' میلیارد تومان</span><span class="tag">بازه جستجو: ±۱۰٪</span>':'<span class="tag">بودجه‌ای برای جستجو وارد نشده است</span>')+'<span class="tag">فقط خرید</span><span class="tag">آگهی شخصی</span><span class="tag">حداکثر ۱۴ روز</span></div><div class="list">'+(res.length?res.map(card).join(""):'<div class="notice empty">در بازه ±۱۰٪ این بودجه، آگهی منطبق پیدا نشد.</div>')+'</div></div>';
-}
-function searchBudget(){
- const b=num($("budget").value);
- if(!b||b<1||b>999){$("budget").focus();return}
- location.href="?budget="+encodeURIComponent(b);
-}
-async function init(){
- const q=new URLSearchParams(location.search),qb=Number(q.get("budget"));
- if(qb>=1&&qb<=999)$("budget").value=qb;
- try{
-  const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),10000);
-  const r=await fetch("./data/listings.json?"+Date.now(),{cache:"no-store",signal:ctl.signal});
-  clearTimeout(timer);
-  const raw=await r.text();
-  if(!r.ok)throw Error("HTTP "+r.status+" — "+raw.slice(0,200));
-  try{listings=JSON.parse(raw)}catch(e){throw Error("JSON نامعتبر — "+raw.slice(0,200))}
-  if(!Array.isArray(listings))throw Error("ساختار آرشیو آرایه نیست");
-  render()
- }catch(e){root.innerHTML='<div class="search notice">آرشیو آگهی‌ها در دسترس نیست. لطفاً دوباره تلاش کنید.</div>';count.textContent="خطا"}
-}
-$("searchBtn").onclick=searchBudget;
-$("budget").addEventListener("keydown",e=>{if(e.key==="Enter")searchBudget()});
-init();
+document.getElementById("search").onclick=()=>{const b=Number(budgetEl.value);if(b>=1&&b<=999)location.href="?budget="+encodeURIComponent(b)};
+budgetEl.addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("search").click()});
+load();
 </script>
-</body></html>
+</body>
+</html>
